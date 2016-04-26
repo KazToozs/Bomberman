@@ -1,0 +1,16 @@
+TEMPLATE = app
+CONFIG += console
+CONFIG -= app_bundle
+CONFIG -= qt
+
+LIBS += -lOgreMain -lOIS -lboost_system
+
+SOURCES += main.cpp \
+    gui.cpp
+
+include(deployment.pri)
+qtcAddDeployment()
+
+HEADERS += \
+    gui.h
+
