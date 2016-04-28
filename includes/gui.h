@@ -8,7 +8,8 @@ class Gui {
   Gui();
 
  private:
-  Ogre::Root *root;
+  Ogre::Root *_Root;
+  Ogre::RenderWindow *_Win;
 };
 
 #endif  // GUI_H

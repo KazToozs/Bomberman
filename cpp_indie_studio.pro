@@ -14,3 +14,7 @@ qtcAddDeployment()
 HEADERS += \
     includes/gui.h
 
+INCLUDEPATH += includes
+
+DISTFILES += \
+    Makefile

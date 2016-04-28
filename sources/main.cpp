@@ -1,13 +1,17 @@
-#include <OGRE/Ogre.h>
+/*#include <OGRE/Ogre.h>
 #include <OGRE/OgreRectangle2D.h>
 #include <OGRE/OgreFrameListener.h>
 #include <iostream>
 
 #include <OGRE/OgreStringConverter.h>
+*/
+#include "gui.h"
 
 Ogre::Viewport *viewport = NULL;
 
 //
+
+/*
 class MyFrameListener : public Ogre::FrameListener {
  public:
   bool frameStarted(const Ogre::FrameEvent &evt);
@@ -119,4 +123,8 @@ int main(void) {
   delete root;
 
   return 0;
+}*/
+
+int main() {
+    Gui g;
 }
