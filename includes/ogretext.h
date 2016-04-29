@@ -3,6 +3,8 @@
 
 #include <OGRE/OgrePrerequisites.h>
 #include <OGRE/Overlay/OgreTextAreaOverlayElement.h>
+#include <OGRE/Overlay/OgreOverlay.h>
+#include <OGRE/Overlay/OgreOverlayManager.h>
 #include <OGRE/OgreStringConverter.h>
 
 namespace Ogre {

@@ -2,11 +2,11 @@ NAME	=	cpp_indie_game
 
 SRC	=	sources/main.cpp	\
                 sources/gui.cpp         \
-                source/orgretext.cpp
+                sources/ogretext.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CXXFLAGS =	-I./includes -I/usr/local/includes/OGRE/ -I/usr/local/include/OGRE/Overlay
+CXXFLAGS =	-I./includes -I/usr/local/include/OGRE/ -I/usr/local/include/OGRE/Overlay
 
 CC	=	g++
 
