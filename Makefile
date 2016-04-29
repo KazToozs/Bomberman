@@ -1,28 +1,28 @@
-NAME	=	cpp_indie_game
+NAME        =	cpp_indie_game
 
-SRC	=	sources/main.cpp	\
-                sources/gui.cpp         \
-                sources/ogretext.cpp
+SRC         =	sources/main.cpp	\
 
-OBJ	=	$(SRC:.cpp=.o)
+OBJ         =	$(SRC:.cpp=.o)
 
-CXXFLAGS =	-I./includes -I/usr/local/include/OGRE/ -I/usr/local/include/OGRE/Overlay
+INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include
 
-CC	=	g++
+CPPFLAGS    =	-O3 -ffast-math -lX11 -lXcursor -L./lib/irrlicht/bin -lIrrlicht
 
-LIBS	=	-lOgreMain -lOIS -lboost_system -lpthread
+CC          =	g++
 
-$(NAME)	:	all
+LIBS        =
 
-all:		$(OBJ)
+$(NAME)     :	all
+
+all         :	$(OBJ)
 		$(CC) $(OBJ) -o $(NAME) $(LIBS)
 
-clean	:
+clean       :
 		rm -f $(OBJ)
 
-fclean	:	clean
+fclean      :	clean
 		rm -f $(NAME)
 
-re	:	fclean all
+re          :	fclean all
 
 

@@ -3,20 +3,16 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-LIBS += -lOgreMain -lOIS -lboost_system
+LIBS += -O3 -ffast-math -lX11 -lXcursor -L./lib/irrlicht/bin -lIrrlicht
 
-SOURCES += sources/main.cpp \
-    sources/gui.cpp \
-    sources/ogretext.cpp
+SOURCES += sources/main.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    includes/gui.h \
-    includes/ogretext.h
 
-INCLUDEPATH += includes
+INCLUDEPATH += includes ./lib/irrlicht/include
 
 DISTFILES += \
     Makefile
