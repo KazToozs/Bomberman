@@ -5,36 +5,37 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 15:42:47 2016 maxime liege
-// Last update Thu Apr 28 18:35:18 2016 maxime liege
+// Last update Fri Apr 29 17:01:29 2016 maxime liege
 //
 
 #include "IAButton.hh"
 
-IAButton::IAButton(const NB_IA &id, const std::string &name, Menu *menu)
+IAButton::IAButton(const std::string &name, const NB_IA &id, Menu *menu)
   : id(id), name(name)
 {
+  this->menu = menu;
 }
 
 IAButton::~IAButton()
 {  
 }
 
-void		IAButton::action() const
+void			IAButton::action() const
 {
   
 }
 
-std::string	IAButton::getName() const
+const std::string	&IAButton::getName() const
 {
   return this->name;
 }
 
-bool		IAButton::getActive() const
+bool			IAButton::getActive() const
 {
   return this->isActive;
 }
 
-const bool	IAButton::getId() const
+IAButton::NB_IA		IAButton::getId() const
 {
   return this->id;
 }

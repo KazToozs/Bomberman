@@ -5,7 +5,7 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 18:02:38 2016 maxime liege
-// Last update Thu Apr 28 18:06:23 2016 maxime liege
+// Last update Fri Apr 29 17:01:02 2016 maxime liege
 //
 
 #ifndef EXITBUTTON_H_
@@ -24,7 +24,7 @@ class ExitButton : public IButtons
    ~ExitButton();
 
   virtual void			action() const;
-  virtual const std::string	getName() const;
+  virtual const std::string	&getName() const;
   virtual bool			getActive() const;
 
 private:

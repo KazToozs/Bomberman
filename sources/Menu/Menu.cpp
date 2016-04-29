@@ -5,10 +5,17 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 14:12:56 2016 maxime liege
-// Last update Thu Apr 28 18:23:53 2016 maxime liege
+// Last update Fri Apr 29 15:51:22 2016 maxime liege
 //
 
 #include "Menu.hh"
+
+#include <iostream>
+
+#include "ExitButton.hh"
+#include "PlayerButton.hh"
+#include "OptionButton.hh"
+#include "ContinueButton.hh"
 
 Menu::Menu()
 {
@@ -18,10 +25,10 @@ Menu::Menu()
 
 Menu::~Menu()
 {
-
+  this->clearList();
 }
 
-void	Menu::clearList();
+void	Menu::clearList()
 {
   std::vector<IButtons *>::iterator it;
   
@@ -32,6 +39,18 @@ void	Menu::clearList();
       it++;
     }
   this->buttons.clear();
+}
+
+void	Menu::affList()
+{
+  std::vector<IButtons *>::iterator it;
+  
+  it = buttons.begin();
+  while (it != buttons.end())
+    {
+      std::cout << (*it)->getName() << std::endl;
+      it++;
+    }
 }
 
 void	Menu::pushBackList(IButtons *button)

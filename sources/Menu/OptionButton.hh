@@ -5,7 +5,7 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 14:12:33 2016 maxime liege
-// Last update Thu Apr 28 18:07:10 2016 maxime liege
+// Last update Fri Apr 29 17:00:53 2016 maxime liege
 //
 
 #ifndef OPTIONBUTTON_H_
@@ -22,7 +22,7 @@ public:
   ~OptionButton();
 
   virtual void			action() const;
-  virtual const std::string	getName() const;
+  virtual const std::string	&getName() const;
   virtual bool			getActive() const;
 
 private:

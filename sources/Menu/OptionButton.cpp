@@ -5,7 +5,7 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 14:12:29 2016 maxime liege
-// Last update Thu Apr 28 15:36:50 2016 maxime liege
+// Last update Fri Apr 29 17:00:46 2016 maxime liege
 //
 
 #include "OptionButton.hh"
@@ -21,17 +21,17 @@ OptionButton::~OptionButton()
 
 }
 
-void		OptionButton::action() const
+void			OptionButton::action() const
 {
 
 }
 
-std::string	OptionButton::getName() const
+const std::string	&OptionButton::getName() const
 {
   return this->name;
 }
 
-bool		OptionButton::getActive() const
+bool			OptionButton::getActive() const
 {
   return this->isActive;
 }

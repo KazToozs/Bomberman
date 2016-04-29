@@ -5,13 +5,16 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 14:12:49 2016 maxime liege
-// Last update Thu Apr 28 18:41:31 2016 maxime liege
+// Last update Fri Apr 29 17:02:33 2016 maxime liege
 //
 
 #include "PlayerButton.hh"
 
-PlayerButton::PlayerButton(const std::string &name, const MODE_PLAYER &id, Menu *menu)
-  : name(name), id(id)
+#include "IAButton.hh"
+
+PlayerButton::PlayerButton(const std::string &name, 
+			   const PlayerButton::MODE_PLAYER &id, Menu *menu)
+  : _id(id), _name(name)
 {
   this->menu = menu;
 }
@@ -21,26 +24,26 @@ PlayerButton::~PlayerButton()
 
 }
 
-void		PlayerButton::action() const
+void				PlayerButton::action() const
 {
   this->menu->clearList();
-  this->menu->pushBackList(new IAButton(IAButton::IA_1, "IA1", this->menu));
-  this->menu->pushBackList(new IAButton(IAButton::IA_2, "IA2", this->menu));
-  if (this->id == SOLO)
-    this->menu->pushBackList(new IAButton(IAButton::IA_3, "IA3", this->menu));
+  this->menu->pushBackList(new IAButton("IA1", IAButton::IA_1, this->menu));
+  this->menu->pushBackList(new IAButton("IA2", IAButton::IA_2, this->menu));
+  if (this->_id == SOLO)
+    this->menu->pushBackList(new IAButton("IA3", IAButton::IA_3, this->menu));
 }
 
-bool		PlayerButton::getActive() const
+bool				PlayerButton::getActive() const
 {
   return this->isActive;
 }
 
-std::string	PlayerButton::getName() const
+const std::string		&PlayerButton::getName() const
 {
-  return this->name;
+  return this->_name;
 }
 
-const short	PlayerButton::getId() const
+PlayerButton::MODE_PLAYER	PlayerButton::getId() const
 {
-  return this->id;
+  return this->_id;
 }

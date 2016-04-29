@@ -5,14 +5,15 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 14:20:57 2016 maxime liege
-// Last update Thu Apr 28 18:03:34 2016 maxime liege
+// Last update Fri Apr 29 17:00:25 2016 maxime liege
 //
 
 #ifndef CONTINUEBUTTON_H_
 #define CONTINUEBUTTON_H_
 
-#include "IButtons.hh"
 #include "Menu.hh"
+
+#include <string>
 
 class ContinueButton : public IButtons
 {
@@ -22,7 +23,7 @@ public:
   virtual ~ContinueButton();
 
   virtual void			action() const;
-  virtual const std::string	getName() const;
+  virtual const std::string	&getName() const;
   virtual bool			getActive() const;
 
 private:

@@ -16,7 +16,7 @@ void			ContinueButton::action() const
 
 }
 
-const std::string	ContinueButton::getName() const
+const std::string	&ContinueButton::getName() const
 {
   return this->name;
 }

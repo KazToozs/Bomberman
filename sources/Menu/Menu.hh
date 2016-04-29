@@ -5,19 +5,15 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 14:12:53 2016 maxime liege
-// Last update Thu Apr 28 18:23:08 2016 maxime liege
+// Last update Fri Apr 29 15:35:52 2016 maxime liege
 //
 
 #ifndef MENU_H_
 #define MENU_H_
 
-#include <iostream>
 #include "IButtons.hh"
-#include "Exit.hh"
-#include "SoloButton.hh"
-#include "MultiButton.hh"
-#include "OptionButton.hh"
-#include "ContinueButton.hh"
+
+#include <vector>
 
 class Menu
 {
@@ -27,9 +23,10 @@ public:
   ~Menu();
 
   void	        clearList();
+  void		affList();
   void		pushBackList(IButtons *button);
   
-  typedef enum ID_MENU
+  enum ID_MENU
     {
       MAIN_MENU = 0,
       OPTIONS = 1,
