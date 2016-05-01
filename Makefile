@@ -1,16 +1,17 @@
 NAME        =	cpp_indie_game
 
 SRC         =	sources/main.cpp	\
+		sources/gui.cpp
 
 OBJ         =	$(SRC:.cpp=.o)
 
 INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include
 
-CPPFLAGS    =	-O3 -ffast-math -lX11 -lXcursor -L./lib/irrlicht/bin -lIrrlicht
+CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math 
 
 CC          =	g++
 
-LIBS        =
+LIBS        =	-lIrrlicht -lX11 -lXcursor 
 
 $(NAME)     :	all
 
