@@ -5,11 +5,11 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Fri Apr 29 10:32:01 2016 Jules Palluau
-// Last update Fri Apr 29 17:05:47 2016 Jules Palluau
+// Last update Wed May  4 11:51:44 2016 Matheo MSA
 //
 
-#include "../include/player.hh"
-#include "../include/Ipowerup.hh"
+#include "../include/Player.hh"
+#include "../include/IPowerup.hh"
 
 Player::Player(std::mutex *mutx, std::condition_variable *cond, Map *mp, const int &num)
 {

@@ -5,10 +5,10 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Fri Apr 29 15:29:20 2016 Jules Palluau
-// Last update Fri Apr 29 16:24:29 2016 Jules Palluau
+// Last update Wed May  4 11:51:35 2016 Matheo MSA
 //
 
-#include "../include/bomb.hh"
+#include "../include/Bomb.hh"
 
 Bomb::Bomb(const t_pos &p, const int &rng, const int &t)
 {

@@ -5,12 +5,13 @@
 ** Login   <msa_m@epitech.net>
 **
 ** Started on  Wed Apr 27 17:32:54 2016 Matheo MSA
-** Last update Fri Apr 29 10:25:08 2016 Matheo MSA
+** Last update Wed May 04 11:28:58 2016 Matheo MSA
 */
 
 #ifndef CASE_H_
 #define CASE_H_
 
+#include "../Player/include/Ipowerup.hh"
 
 struct Case {
 
@@ -22,7 +23,8 @@ enum State{
   EXPLODING
 };
 
-  State  state;
+IPowerup *_powerup;
+  State  _state;
 };
 
 #endif

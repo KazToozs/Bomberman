@@ -1,4 +1,7 @@
 #include "Map.hh"
+// #include "../../include/power_bomb.hh"
+// #include "../../include/power_range.hh"
+// #include "../../include/power_speed.hh"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -29,27 +32,41 @@ Map::~Map()
 std::vector<std::vector<Case> > Map::quarter(){
   std::srand(std::time(0));
   std::vector<std::vector<Case> > qMap((_y / 2));
+  size_t nb_power_max = _x / 2;
   Case tmp_case;
   for (size_t i = 0 ; i < (_y / 2) ; i++){
     qMap[i].resize((_x / 2));
     for (size_t j = 0 ; j < (_x / 2); j++){
       if (((i % 2) == 1) && ((j % 2) == 1)){
-        tmp_case.state = Case::UNBREAKABLE;
+        tmp_case._state = Case::UNBREAKABLE;
       }
       else{
         if ((std::rand() % 5) == 0 ) {
-          tmp_case.state = Case::FREE;
+          tmp_case._state = Case::FREE;
         }
         else {
-          tmp_case.state = Case::BREAKABLE;
+          tmp_case._state = Case::BREAKABLE;
+          if ((std::rand() % 3) == 0  && nb_power_max > 0) {
+            if ((std::rand() % 3) == 0){
+              _powerup = new PowerBomb();
+            }
+            if ((std::rand() % 3) == 1){
+              _powerup = new PowerRange();
+            }
+            if ((std::rand() % 3) == 2){
+              _powerup = new PowerSpeed();
+            }
+            nb_power_max--;
+
+          }
         }
       }
       qMap[i][j] = tmp_case;
     }
   }
-  qMap[0][0].state = Case::FREE;
-  qMap[0][1].state = Case::FREE;
-  qMap[1][0].state = Case::FREE;
+  qMap[0][0]._state = Case::FREE;
+  qMap[0][1]._state = Case::FREE;
+  qMap[1][0]._state = Case::FREE;
   return qMap;
 }
 
@@ -114,7 +131,7 @@ void Map::print()
   std::vector<Case>::iterator it_x;
   for (it_y = _map.begin(); it_y != _map.end(); it_y++){
     for (it_x = (*it_y).begin(); it_x != (*it_y).end(); it_x++ ){
-      std::cout << (*it_x).state << " ";
+      std::cout << (*it_x)._state << " ";
     }
     std::cout << std::endl;
   }

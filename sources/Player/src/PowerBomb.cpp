@@ -5,10 +5,10 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Fri Apr 29 13:18:27 2016 Jules Palluau
-// Last update Fri Apr 29 17:03:34 2016 Jules Palluau
+// Last update Wed May  4 11:51:54 2016 Matheo MSA
 //
 
-#include "../include/power_bomb.hh"
+#include "../include/PowerBomb.hh"
 
 PowerBomb::PowerBomb()
 {
