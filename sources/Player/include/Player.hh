@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Thu Apr 28 14:07:45 2016 Jules Palluau
-// Last update Wed May  4 12:07:47 2016 Jules Palluau
+// Last update Wed May  4 13:41:14 2016 Jules Palluau
 //
 
 #ifndef _PLAYER_HH_
@@ -46,6 +46,7 @@ public:
   const Player &operator=(const Player &);
   e_player get_type() const;
   const e_action &get_action() const;
+  void  do_action();
   const std::vector<Bomb *> &get_bombs() const;
   void  check_bombs();
   void  put_bomb();
@@ -59,7 +60,6 @@ public:
   void  set_speed(const float &);
   void  check_powerup();
   const float &get_speed() const;
-  void set_action(const e_action &);
   const size_t  &get_score() const;
   void  set_powerups(IPowerup *);
   void  lock() const;

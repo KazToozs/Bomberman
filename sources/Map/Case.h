@@ -5,7 +5,7 @@
 ** Login   <msa_m@epitech.net>
 **
 ** Started on  Wed Apr 27 17:32:54 2016 Matheo MSA
-** Last update Wed May 04 12:56:27 2016 Matheo MSA
+** Last update Wed May  4 14:11:47 2016 Jules Palluau
 */
 
 #ifndef CASE_H_
@@ -20,6 +20,7 @@ enum State{
   UNBREAKABLE,
   BREAKABLE,
   TAKEN,
+  BOMB,
   EXPLODING
 };
 

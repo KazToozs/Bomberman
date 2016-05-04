@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Tue May  3 17:16:51 2016 Jules Palluau
-// Last update Wed May  4 13:03:48 2016 Matheo MSA
+// Last update Wed May  4 15:35:50 2016 Jules Palluau
 //
 
 #include "../include/Game.hh"
@@ -13,6 +13,7 @@
 #include "../include/Player.hh"
 #include "../include/Bomb.hh"
 #include "../../Map/Map.hh"
+#include <iostream>
 
 Game::Game(const int &nb_ia, const int &nb_real, const int &size)
 {
@@ -20,9 +21,6 @@ Game::Game(const int &nb_ia, const int &nb_real, const int &size)
   this->nb_ia = nb_ia;
   this->nb_real = nb_real;
   this->mtx = new std::mutex();
-  for (int x = 0; x < this->nb_real; x++)
-    this->players.push_back(new Player(this->mtx, this->map, x));
-  //TODO create ia
   this->map = NULL;
   this->th = NULL;
 }
@@ -64,9 +62,20 @@ const Game &Game::operator=(const Game &gm)
 
 void  Game::init()
 {
-  //TODO init map
-  for (size_t x = 0; x < this->players.size(); x++)
+  this->map = new Map(this->size, this->size);
+  for (size_t x = 0; x < this->nb_real; x++)
+  {
+    this->players.push_back(new Player(this->mtx, this->map, x + 1));
     players[x]->init();
+  }
+  this->map->print();
+  players[0]->put_bomb();
+  std::cout << std::endl;
+  sleep(3);
+  players[0]->check_bombs();
+  this->map->print();
+  std::cout << std::endl;
+  //TODO create ia
 }
 
 void  Game::start()

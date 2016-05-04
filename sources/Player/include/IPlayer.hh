@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Thu Apr 28 13:10:27 2016 Jules Palluau
-// Last update Wed May  4 11:27:16 2016 Jules Palluau
+// Last update Wed May  4 13:42:14 2016 Jules Palluau
 //
 
 #ifndef _IPLAYER_HH_
@@ -32,8 +32,10 @@ typedef enum action
 
 typedef struct s_pos
 {
-  float x;
-  float y;
+  int   tx;
+  int   ty;
+  float rx;
+  float ry;
 }         t_pos;
 
 class Bomb;
@@ -58,8 +60,8 @@ public:
   virtual void set_score(const size_t &) = 0;
   virtual void set_maxbombs(const size_t &) = 0;
   virtual void set_rangebomb(const int &) = 0;
-  virtual void set_action(const e_action &) = 0;
   virtual const e_action &get_action() const = 0;
+  virtual void do_action() = 0;
   virtual const size_t  &get_score() const = 0;
   virtual void  set_powerups(IPowerup *) = 0;
   virtual void  lock() const = 0;

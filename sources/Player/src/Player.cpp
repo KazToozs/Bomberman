@@ -5,11 +5,13 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Fri Apr 29 10:32:01 2016 Jules Palluau
-// Last update Wed May  4 12:09:47 2016 Jules Palluau
+// Last update Wed May  4 13:42:30 2016 Jules Palluau
 //
 
 #include "../include/Player.hh"
 #include "../include/IPowerup.hh"
+#include "../../Map/Map.hh"
+#include "../../Map/Case.h"
 
 Player::Player(std::mutex *mutx, Map *mp, const int &num)
 {
@@ -23,6 +25,10 @@ Player::Player(std::mutex *mutx, Map *mp, const int &num)
   this->speed = 0.1;
   this->alive = true;
   this->action = UNKNOWN;
+  this->pos.rx = 0.5;
+  this->pos.ry = 0.5;
+  this->pos.tx = 0;
+  this->pos.ty = 0;
 }
 
 Player::Player(const Player &pl)
@@ -64,18 +70,25 @@ const Player  &Player::operator=(const Player &pl)
 
 void  Player::init()
 {
-  //TODO positionnement dans la map
+  std::vector<std::vector<Case> > &mp = this->map->getMap();
+
+  if ((this->team % 2) == 0)
+  {
+    this->pos.tx += (mp.size() - 1);
+    this->pos.rx += (mp.size() - 1);
+  }
+  if (this->team > 2)
+  {
+    this->pos.ty += (mp.size() - 1);
+    this->pos.ry += (mp.size() - 1);
+  }
+  mp[this->pos.ty][this->pos.tx]._state = Case::TAKEN;
   //TODO keybinding
 }
 
 e_player Player::get_type() const
 {
   return (REAL);
-}
-
-const e_action &Player::get_action() const
-{
-  return (this->action);
 }
 
 const std::vector<Bomb *> &Player::get_bombs() const
@@ -118,8 +131,14 @@ bool  Player::is_alive() const
 
 bool  Player::check_alive()
 {
-  //TODO check life
-  return (true);
+  std::vector<std::vector<Case> > &mp = this->map->getMap();
+
+  if (mp[this->pos.ty][this->pos.tx]._state == Case::EXPLODING)
+  {
+    this->alive = false;
+    return (true);
+  }
+  return (false);
 }
 
 void  Player::set_score(const size_t &scr)
@@ -147,7 +166,12 @@ const float &Player::get_speed() const
   return (this->speed);
 }
 
-void  Player::set_action(const e_action &act)
+const e_action  &Player::get_action() const
+{
+  return (this->action);
+}
+
+void  Player::do_action()
 {
   //TODO with keybind
 }
