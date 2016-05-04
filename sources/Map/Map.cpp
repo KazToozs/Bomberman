@@ -32,8 +32,9 @@ Map::~Map()
 std::vector<std::vector<Case> > Map::quarter(){
   std::srand(std::time(0));
   std::vector<std::vector<Case> > qMap((_y / 2));
-  size_t nb_power_max = _x / 2;
+  size_t nb_power_max = _x / 4;
   Case tmp_case;
+  std::cout << "nb powerup max : " << nb_power_max << std::endl;
   for (size_t i = 0 ; i < (_y / 2) ; i++){
     qMap[i].resize((_x / 2));
     for (size_t j = 0 ; j < (_x / 2); j++){
@@ -47,7 +48,9 @@ std::vector<std::vector<Case> > Map::quarter(){
         }
         else {
           tmp_case._state = Case::BREAKABLE;
-          if ((std::rand() % 3) == 0  && nb_power_max > 0) {
+          if ((std::rand() % 5) == 0  && nb_power_max > 0
+          && (i != 0 && j != 0) && (i != 1 && j != 0)
+          && (i != 1 && j != 0)) {
             if ((std::rand() % 3) == 0){
               tmp_case._powerup = new PowerBomb();
             }
@@ -58,7 +61,6 @@ std::vector<std::vector<Case> > Map::quarter(){
               tmp_case._powerup = new PowerSpeed();
             }
             nb_power_max--;
-
           }
         }
       }
@@ -132,6 +134,16 @@ void Map::print()
   std::vector<Case>::iterator it_x;
   for (it_y = _map.begin(); it_y != _map.end(); it_y++){
     for (it_x = (*it_y).begin(); it_x != (*it_y).end(); it_x++ ){
+      if ((*it_x)._powerup != NULL)
+      {
+        if ((*it_x)._powerup->get_type() == SPEEDUP)
+        std::cout << "S ";
+        if ((*it_x)._powerup->get_type() == RANGEUP)
+        std::cout << "R ";
+        if ((*it_x)._powerup->get_type() == BOMBUP)
+        std::cout << "B ";
+      }
+      else
       std::cout << (*it_x)._state << " ";
     }
     std::cout << std::endl;
