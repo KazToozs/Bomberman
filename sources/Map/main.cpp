@@ -9,11 +9,19 @@
 //
 
 #include "Map.hh"
+#include <iostream>
 
 int	main()
 {
-  Map	map(20, 20);
+  Map map10 (10, 10);
+//  Map map15 (15, 15);
+  Map	map20 (20, 20);
 
-//  map.print();
+ map10.print();
+ std::cout << std::endl;
+//  map15.print();
+//  std::cout << std::endl;
+ map20.print();
+ std::cout << std::endl;
   return 0;
 }
