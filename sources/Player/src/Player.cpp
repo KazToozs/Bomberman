@@ -5,19 +5,17 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Fri Apr 29 10:32:01 2016 Jules Palluau
-// Last update Wed May  4 11:51:44 2016 Matheo MSA
+// Last update Wed May  4 12:09:47 2016 Jules Palluau
 //
 
 #include "../include/Player.hh"
 #include "../include/IPowerup.hh"
 
-Player::Player(std::mutex *mutx, std::condition_variable *cond, Map *mp, const int &num)
+Player::Player(std::mutex *mutx, Map *mp, const int &num)
 {
   this->mtx = mutx;
-  this->cnd = cond;
   this->map = mp;
   this->team = num;
-  this->th = NULL;
   this->score = 0;
   this->p = NULL;
   this->max_bombs = 1;
@@ -29,7 +27,6 @@ Player::Player(std::mutex *mutx, std::condition_variable *cond, Map *mp, const i
 
 Player::Player(const Player &pl)
 {
-  this->th = pl.th;
   this->map = pl.map;
   this->team = pl.team;
   this->score = pl.score;
@@ -40,21 +37,16 @@ Player::Player(const Player &pl)
   this->alive = pl.alive;
   this->key = pl.key;
   this->bombs = pl.bombs;
-  this->cnd = pl.cnd;
   this->mtx = pl.mtx;
   this->action = pl.action;
 }
 
 Player::~Player()
 {
-  if (this->th != NULL)
-    delete this->th;
-//  delete this->key;
 }
 
 const Player  &Player::operator=(const Player &pl)
 {
-  this->th = pl.th;
   this->map = pl.map;
   this->team = pl.team;
   this->score = pl.score;
@@ -65,7 +57,6 @@ const Player  &Player::operator=(const Player &pl)
   this->alive = pl.alive;
   this->key = pl.key;
   this->bombs = pl.bombs;
-  this->cnd = pl.cnd;
   this->mtx = pl.mtx;
   this->action = pl.action;
   return (*this);
@@ -75,12 +66,6 @@ void  Player::init()
 {
   //TODO positionnement dans la map
   //TODO keybinding
-}
-
-void  Player::start()
-{
-//  this->th = new std::thread(player, this);
-  //TODO function thread
 }
 
 e_player Player::get_type() const
@@ -96,6 +81,15 @@ const e_action &Player::get_action() const
 const std::vector<Bomb *> &Player::get_bombs() const
 {
   return (this->bombs);
+}
+
+void  Player::check_bombs()
+{
+  for (size_t x = 0; x < this->bombs.size(); x++)
+  {
+    if (this->bombs[x]->check_bomb(this->map) == true)
+      this->bombs.erase(this->bombs.begin() + x);
+  }
 }
 
 void  Player::put_bomb()
@@ -182,12 +176,6 @@ void  Player::check_powerup()
     delete this->p;
     this->p = NULL;
   }
-}
-
-void  Player::wait() const
-{
-  std::unique_lock<std::mutex> lck(*this->mtx);
-  this->cnd->wait(lck);
 }
 
 void  Player::lock() const

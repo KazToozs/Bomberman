@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Fri Apr 29 15:29:20 2016 Jules Palluau
-// Last update Wed May  4 11:51:35 2016 Matheo MSA
+// Last update Wed May  4 12:09:08 2016 Jules Palluau
 //
 
 #include "../include/Bomb.hh"

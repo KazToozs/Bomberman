@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Thu Apr 28 14:07:45 2016 Jules Palluau
-// Last update Wed May  4 11:57:19 2016 Matheo MSA
+// Last update Wed May  4 12:07:47 2016 Jules Palluau
 //
 
 #ifndef _PLAYER_HH_
@@ -25,7 +25,6 @@ class Player: public IPlayer
 {
 private:
   std::chrono::high_resolution_clock::time_point  t;
-  std::thread                                     *th;
   Map                                             *map;
   int                                             team;
   size_t                                          score;
@@ -37,19 +36,18 @@ private:
   bool                                            alive;
   Keybinds                                        *key;
   std::vector<Bomb *>                             bombs;
-  std::condition_variable                         *cnd;
   std::mutex                                      *mtx;
   e_action                                        action;
 public:
-  Player(std::mutex *, std::condition_variable *, Map *, const int &num);
+  Player(std::mutex *, Map *, const int &num);
   Player(const Player &);
-  virtual ~Player();
-  void  start();
+  ~Player();
   void  init();
   const Player &operator=(const Player &);
   e_player get_type() const;
   const e_action &get_action() const;
   const std::vector<Bomb *> &get_bombs() const;
+  void  check_bombs();
   void  put_bomb();
   void  set_pos(const t_pos &);
   const t_pos &get_pos() const;
@@ -64,7 +62,6 @@ public:
   void set_action(const e_action &);
   const size_t  &get_score() const;
   void  set_powerups(IPowerup *);
-  void  wait() const;
   void  lock() const;
   void  unlock() const;
 };

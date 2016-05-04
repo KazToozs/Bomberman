@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Thu Apr 28 13:10:27 2016 Jules Palluau
-// Last update Fri Apr 29 16:53:58 2016 Jules Palluau
+// Last update Wed May  4 11:27:16 2016 Jules Palluau
 //
 
 #ifndef _IPLAYER_HH_
@@ -45,8 +45,8 @@ public:
   virtual ~IPlayer() {};
   virtual void  init() = 0;
   virtual e_player get_type() const = 0;
-  virtual void  start() = 0;
   virtual const std::vector<Bomb *> &get_bombs() const = 0;
+  virtual void check_bombs() = 0;
   virtual void put_bomb() = 0;
   virtual void set_pos(const t_pos &) = 0;
   virtual const t_pos &get_pos() const = 0;
@@ -62,7 +62,6 @@ public:
   virtual const e_action &get_action() const = 0;
   virtual const size_t  &get_score() const = 0;
   virtual void  set_powerups(IPowerup *) = 0;
-  virtual void  wait() const = 0;
   virtual void  lock() const = 0;
   virtual void  unlock() const = 0;
 };
