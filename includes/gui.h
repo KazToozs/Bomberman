@@ -14,6 +14,7 @@ class Gui {
   bool CreateWindow();
   bool WindowIsOpen();
   bool SetBackground();
+  bool LaunchMap();
   bool Load();
   ~Gui();
 
