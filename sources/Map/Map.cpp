@@ -1,7 +1,7 @@
 #include "Map.hh"
-// #include "../../include/power_bomb.hh"
-// #include "../../include/power_range.hh"
-// #include "../../include/power_speed.hh"
+#include "../Player/include/PowerBomb.hh"
+#include "../Player/include/PowerRange.hh"
+#include "../Player/include/PowerSpeed.hh"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -41,6 +41,7 @@ std::vector<std::vector<Case> > Map::quarter(){
         tmp_case._state = Case::UNBREAKABLE;
       }
       else{
+        tmp_case._powerup = NULL;
         if ((std::rand() % 5) == 0 ) {
           tmp_case._state = Case::FREE;
         }
@@ -48,13 +49,13 @@ std::vector<std::vector<Case> > Map::quarter(){
           tmp_case._state = Case::BREAKABLE;
           if ((std::rand() % 3) == 0  && nb_power_max > 0) {
             if ((std::rand() % 3) == 0){
-              _powerup = new PowerBomb();
+              tmp_case._powerup = new PowerBomb();
             }
             if ((std::rand() % 3) == 1){
-              _powerup = new PowerRange();
+              tmp_case._powerup = new PowerRange();
             }
             if ((std::rand() % 3) == 2){
-              _powerup = new PowerSpeed();
+              tmp_case._powerup = new PowerSpeed();
             }
             nb_power_max--;
 
@@ -135,4 +136,9 @@ void Map::print()
     }
     std::cout << std::endl;
   }
+}
+
+std::vector< std::vector<Case> > &Map::getMap()
+{
+  return (this->_map);
 }

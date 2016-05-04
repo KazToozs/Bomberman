@@ -5,13 +5,14 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Tue May  3 17:16:51 2016 Jules Palluau
-// Last update Wed May  4 12:09:27 2016 Jules Palluau
+// Last update Wed May  4 13:03:48 2016 Matheo MSA
 //
 
 #include "../include/Game.hh"
 #include "../include/IPlayer.hh"
 #include "../include/Player.hh"
 #include "../include/Bomb.hh"
+#include "../../Map/Map.hh"
 
 Game::Game(const int &nb_ia, const int &nb_real, const int &size)
 {

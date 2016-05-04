@@ -21,6 +21,7 @@ public:
    Map &operator=(const Map &);
    ~Map();
    void print(); /* Debug */
+   std::vector< std::vector<Case> > &getMap();
 };
 
 #endif /* !MAP_H_ */

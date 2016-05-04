@@ -5,13 +5,13 @@
 ** Login   <msa_m@epitech.net>
 **
 ** Started on  Wed Apr 27 17:32:54 2016 Matheo MSA
-** Last update Wed May 04 11:28:58 2016 Matheo MSA
+** Last update Wed May 04 12:56:27 2016 Matheo MSA
 */
 
 #ifndef CASE_H_
 #define CASE_H_
 
-#include "../Player/include/Ipowerup.hh"
+#include "../Player/include/IPowerup.hh"
 
 struct Case {
 
