@@ -8,7 +8,8 @@ int main() {
     g.SetBackground();
     g.Load();
     while (g.WindowIsOpen()) {
-        g.SetBackground();
+        g.LaunchMap();
+        //g.SetBackground();
         usleep(30);
     }
 
