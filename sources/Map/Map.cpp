@@ -3,14 +3,20 @@
 #include "../Player/include/PowerRange.hh"
 #include "../Player/include/PowerSpeed.hh"
 #include <iostream>
+#include <ostream>
 #include <cstdlib>
 #include <ctime>
 
 Map::Map(size_t x, size_t y)
 {
-  this->_x = x;
-  this->_y = y;
-  generate();
+  if (x >= 10 || y >= 10)
+  {
+    this->_x = x;
+    this->_y = y;
+    generate();
+  }
+  else
+  std::cerr << "The map must at least (10, 10)" << std::endl;
 }
 
 Map::Map(const Map &other)
@@ -35,20 +41,20 @@ std::vector<std::vector<Case> > Map::quarter(){
   size_t nb_power_max = _x / 4;
   Case tmp_case;
   std::cout << "nb powerup max : " << nb_power_max << std::endl;
-  for (size_t i = 0 ; i < (_y / 2) ; i++){
+  for (size_t i = 0 ; i < (_y / 2) ; i++) {
     qMap[i].resize((_x / 2));
-    for (size_t j = 0 ; j < (_x / 2); j++){
-      if (((i % 2) == 1) && ((j % 2) == 1)){
+    for (size_t j = 0 ; j < (_x / 2); j++) {
+      if (((i % 2) == 1) && ((j % 2) == 1)) {
         tmp_case._state = Case::UNBREAKABLE;
       }
-      else{
+      else {
         tmp_case._powerup = NULL;
         if ((std::rand() % 5) == 0 ) {
           tmp_case._state = Case::FREE;
         }
         else {
           tmp_case._state = Case::BREAKABLE;
-          if ((std::rand() % 5) == 0  && nb_power_max > 0
+          if ((std::rand() % 4) == 0  && nb_power_max > 0
           && (i != 0 && j != 0) && (i != 1 && j != 0)
           && (i != 1 && j != 0)) {
             if ((std::rand() % 3) == 0){
@@ -101,16 +107,30 @@ void Map::fill_quarter(const std::vector<std::vector<Case> > &qMap,
   size_t j_tmp;
   size_t i_tmp;
   j_tmp = 0;
-  for (i = posb_y ; i < pose_y; i++)
-  {
+  for (i = posb_y ; i < pose_y; i++) {
     i_tmp = 0;
-    for (j = posb_x; j < pose_x; j++){
+    for (j = posb_x; j < pose_x; j++) {
       tmpMap[i][j] = qMap[j_tmp][i_tmp];
       i_tmp++;
     }
     j_tmp++;
   }
 }
+
+void Map::add_empty_line(std::vector<std::vector<Case> > &tmpMap,
+  const size_t &posb_y, const size_t &pose_x){
+    for (size_t i = 0; i < pose_x; i++){
+      tmpMap[posb_y][i]._state = Case::FREE;
+    }
+  }
+
+void Map::add_empty_columns(std::vector<std::vector<Case> > &tmpMap,
+       const size_t &posb_x, const size_t &posb_y, const size_t &pose_y){
+         for (size_t i = posb_y; i < pose_y; i++) {
+           tmpMap[i][posb_x]._state = Case::FREE;
+         }
+         return ;
+       }
 
 void Map::generate() {
   std::vector<std::vector<Case> > qMap;
@@ -120,11 +140,23 @@ void Map::generate() {
 
   fill_quarter(qMap, tmpMap, 0, 0, (_x / 2), (_y / 2));
   rotate(qMap, 1);
-  fill_quarter(qMap, tmpMap, (_x / 2), 0, _x, (_y / 2));
-  rotate(qMap, 2);
-  fill_quarter(qMap, tmpMap, 0, (_y / 2), (_x / 2), _y);
-  rotate(qMap, 3);
-  fill_quarter(qMap, tmpMap, (_x / 2), (_y / 2), _x, _y);
+  if (_x % 2 || _y % 2) {
+    add_empty_columns(tmpMap, (_x / 2), 0, (_y / 2));
+    fill_quarter(qMap, tmpMap, ((_x / 2) + 1), 0, _x, ((_y / 2)));
+    rotate(qMap, 2);
+    add_empty_line(tmpMap, (_y / 2), _x);
+    fill_quarter(qMap, tmpMap, 0, (_y / 2) + 1, (_x / 2), _y);
+    rotate(qMap, 3);
+    add_empty_columns(tmpMap, (_x / 2), (_y / 2), _y);
+    fill_quarter(qMap, tmpMap, ((_x / 2) + 1), (_y / 2) + 1, _x, _y);
+  }
+  else{
+    fill_quarter(qMap, tmpMap, (_x / 2), 0, _x, (_y / 2));
+    rotate(qMap, 2);
+    fill_quarter(qMap, tmpMap, 0, (_y / 2), (_x / 2), _y);
+    rotate(qMap, 3);
+    fill_quarter(qMap, tmpMap, (_x / 2), (_y / 2), _x, _y);
+  }
   this->_map = tmpMap;
 }
 
@@ -132,19 +164,33 @@ void Map::print()
 {
   std::vector<std::vector<Case> >::iterator it_y;
   std::vector<Case>::iterator it_x;
+
+  std::string blue = "\033[34m";
+  std::string green = "\033[32m";
+  std::string red= "\033[31m";
+  std::string def = "\033[39m";
   for (it_y = _map.begin(); it_y != _map.end(); it_y++){
     for (it_x = (*it_y).begin(); it_x != (*it_y).end(); it_x++ ){
       if ((*it_x)._powerup != NULL)
       {
         if ((*it_x)._powerup->get_type() == SPEEDUP)
-        std::cout << "S ";
+        std::cout << green << "S " << def;
         if ((*it_x)._powerup->get_type() == RANGEUP)
-        std::cout << "R ";
+        std::cout << green << "R " << def;
         if ((*it_x)._powerup->get_type() == BOMBUP)
-        std::cout << "B ";
+        std::cout << green << "B " << def;
       }
-      else
-      std::cout << (*it_x)._state << " ";
+      else {
+        if ((*it_x)._state == Case::BREAKABLE){
+          std::cout << blue << (*it_x)._state << " " << def;
+        }
+        else if ((*it_x)._state == Case::UNBREAKABLE){
+          std::cout << red <<(*it_x)._state << " " << def;
+        }
+        else{
+          std::cout << (*it_x)._state << " ";
+        }
+      }
     }
     std::cout << std::endl;
   }
