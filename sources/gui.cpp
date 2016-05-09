@@ -152,7 +152,7 @@ bool Gui::SetBackground() {
     _Driver->draw2DImage(_Back, irr::core::position2di(0, 0),
                          irr::core::rect<irr::s32>(0, 0, 1280, 720));
   if (_MainFont)
-    _MainFont->draw(Text, irr::core::rect<irr::s32>(0, 311, 517, 408),
+    _MainFont->draw(Text.c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
                     irr::video::SColor(255, 0, 0, 0));
   _Smgr->drawAll();
   _Guienv->drawAll();
