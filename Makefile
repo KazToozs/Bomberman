@@ -7,11 +7,11 @@ OBJ         =	$(SRC:.cpp=.o)
 
 INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include
 
-CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math 
+CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11
 
 CC          =	g++
 
-LIBS        =	-lIrrlicht -lX11 -lXcursor 
+LIBS        =	-lIrrlicht -lX11 -lXcursor -lpthread
 
 $(NAME)     :	all
 

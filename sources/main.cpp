@@ -1,17 +1,16 @@
 #include "gui.h"
 #include <unistd.h>
+#include <iostream>
 
 int main() {
-    Gui g;
+  Gui g;
 
-    g.CreateWindow();
-    g.SetBackground();
-    g.Load();
-    while (g.WindowIsOpen()) {
-        g.LaunchMap();
-        //g.SetBackground();
-        usleep(30);
-    }
+  g.Start();
+
+  while (g.Alive()) {
+    usleep(1000);
+    std::cout << std::endl;
+  }
 
   return 0;
 }
