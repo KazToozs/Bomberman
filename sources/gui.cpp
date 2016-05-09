@@ -12,6 +12,7 @@ Gui::Gui(int Height, int Width, int Ddp, bool Fullscreen, bool Vsync)
   _Driver = NULL;
   _Back = NULL;
   _MainFont = NULL;
+  Text = "Loool";
   _run = true;
   _mtx = new std::mutex();
 }

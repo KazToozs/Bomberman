@@ -1,0 +1,5 @@
+#! /bin/bash
+
+cd lib/irrlicht/source
+make; make clean; make sharedlib; make clean; sudo make install;
+cd -

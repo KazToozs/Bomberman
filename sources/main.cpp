@@ -9,7 +9,12 @@ int main() {
 
   while (g.Alive()) {
     usleep(1000);
-    std::cout << std::endl;
+    if (g.get_joy_event().Axis[1] < 0.2f)
+        g.SetText("Up !");
+    if (g.get_joy_event().Axis[1] > 0.2f)
+        g.SetText("Down !");
+    if (g.get_joy_event().Axis[1] == 0)
+        g.SetText("Solo");
   }
 
   return 0;
