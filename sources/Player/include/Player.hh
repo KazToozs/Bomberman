@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Thu Apr 28 14:07:45 2016 Jules Palluau
-// Last update Wed May  4 13:41:14 2016 Jules Palluau
+// Last update Mon May  9 14:01:10 2016 Jules Palluau
 //
 
 #ifndef _PLAYER_HH_
@@ -19,11 +19,12 @@
 #include <chrono>
 
 class Map;
-class Keybinds;
+class Gui;
 
 class Player: public IPlayer
 {
 private:
+  Gui                                             *key;
   std::chrono::high_resolution_clock::time_point  t;
   Map                                             *map;
   int                                             team;
@@ -34,10 +35,14 @@ private:
   int                                             range_bomb;
   float                                           speed;
   bool                                            alive;
-  Keybinds                                        *key;
   std::vector<Bomb *>                             bombs;
   std::mutex                                      *mtx;
   e_action                                        action;
+  void  put_bomb();
+  void move_up();
+  void move_down();
+  void move_left();
+  void move_right();
 public:
   Player(std::mutex *, Map *, const int &num);
   Player(const Player &);
@@ -49,7 +54,6 @@ public:
   void  do_action();
   const std::vector<Bomb *> &get_bombs() const;
   void  check_bombs();
-  void  put_bomb();
   void  set_pos(const t_pos &);
   const t_pos &get_pos() const;
   bool  is_alive() const;

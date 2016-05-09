@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Tue May  3 17:16:51 2016 Jules Palluau
-// Last update Wed May  4 15:35:50 2016 Jules Palluau
+// Last update Mon May  9 13:58:00 2016 Jules Palluau
 //
 
 #include "../include/Game.hh"
@@ -17,6 +17,7 @@
 
 Game::Game(const int &nb_ia, const int &nb_real, const int &size)
 {
+//  this->keybind = key;
   this->size = size;
   this->nb_ia = nb_ia;
   this->nb_real = nb_real;
@@ -27,6 +28,7 @@ Game::Game(const int &nb_ia, const int &nb_real, const int &size)
 
 Game::Game(const Game &gm)
 {
+  this->keybind = gm.keybind;
   this->size = gm.size;
   this->nb_ia = gm.nb_ia;
   this->nb_real = gm.nb_real;
@@ -57,6 +59,7 @@ const Game &Game::operator=(const Game &gm)
   this->mtx = gm.mtx;
   this->th = gm.th;
   this->players = gm.players;
+  this->keybind = gm.keybind;
   return (*this);
 }
 

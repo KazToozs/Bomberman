@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Fri Apr 29 10:32:01 2016 Jules Palluau
-// Last update Wed May  4 13:42:30 2016 Jules Palluau
+// Last update Mon May  9 13:59:19 2016 Jules Palluau
 //
 
 #include "../include/Player.hh"
@@ -15,20 +15,19 @@
 
 Player::Player(std::mutex *mutx, Map *mp, const int &num)
 {
+  //this->key = keybind;
   this->mtx = mutx;
   this->map = mp;
   this->team = num;
   this->score = 0;
   this->p = NULL;
   this->max_bombs = 1;
-  this->range_bomb = 3;
+  this->range_bomb = 5;
   this->speed = 0.1;
   this->alive = true;
   this->action = UNKNOWN;
-  this->pos.rx = 0.5;
-  this->pos.ry = 0.5;
-  this->pos.tx = 0;
-  this->pos.ty = 0;
+  this->pos.x = 0.5;
+  this->pos.y = 0.5;
 }
 
 Player::Player(const Player &pl)
@@ -73,17 +72,10 @@ void  Player::init()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
 
   if ((this->team % 2) == 0)
-  {
-    this->pos.tx += (mp.size() - 1);
-    this->pos.rx += (mp.size() - 1);
-  }
+    this->pos.x += (mp.size() - 1);
   if (this->team > 2)
-  {
-    this->pos.ty += (mp.size() - 1);
-    this->pos.ry += (mp.size() - 1);
-  }
-  mp[this->pos.ty][this->pos.tx]._state = Case::TAKEN;
-  //TODO keybinding
+    this->pos.y += (mp.size() - 1);
+  mp[(int)this->pos.y][(int)this->pos.x]._state = Case::TAKEN;
 }
 
 e_player Player::get_type() const
@@ -133,7 +125,7 @@ bool  Player::check_alive()
 {
   std::vector<std::vector<Case> > &mp = this->map->getMap();
 
-  if (mp[this->pos.ty][this->pos.tx]._state == Case::EXPLODING)
+  if (mp[(int)this->pos.y][(int)this->pos.x]._state == Case::EXPLODING)
   {
     this->alive = false;
     return (true);
@@ -169,6 +161,94 @@ const float &Player::get_speed() const
 const e_action  &Player::get_action() const
 {
   return (this->action);
+}
+
+void  Player::move_up()
+{
+  std::vector<std::vector<Case> > &mp = this->map->getMap();
+  float   tmp;
+
+  if ((this->pos.y - this->speed) >= 0)
+  {
+    tmp = this->pos.y - this->speed;
+    if (static_cast<int>(this->pos.y) != static_cast<int>(tmp))
+      {
+        if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
+        {
+          mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+          this->pos.y = tmp;
+          mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+        }
+      }
+    else
+      this->pos.y = tmp;
+  }
+}
+
+void  Player::move_down()
+{
+  std::vector<std::vector<Case> > &mp = this->map->getMap();
+  float   tmp;
+
+  if ((this->pos.y + this->speed) < mp.size())
+  {
+    tmp = this->pos.y + this->speed;
+    if (static_cast<int>(this->pos.y) != static_cast<int>(tmp))
+      {
+        if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
+        {
+          mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+          this->pos.y = tmp;
+          mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+        }
+      }
+    else
+      this->pos.y = tmp;
+  }
+}
+
+void  Player::move_left()
+{
+  std::vector<std::vector<Case> > &mp = this->map->getMap();
+  float   tmp;
+
+  if ((this->pos.x - this->speed) >= 0)
+  {
+    tmp = this->pos.x - this->speed;
+    if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
+      {
+        if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
+        {
+          mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::FREE;
+          this->pos.x = tmp;
+          mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
+        }
+      }
+    else
+      this->pos.x = tmp;
+  }
+}
+
+void  Player::move_right()
+{
+  std::vector<std::vector<Case> > &mp = this->map->getMap();
+  float   tmp;
+
+  if ((this->pos.x + this->speed) < mp.size())
+  {
+    tmp = this->pos.x + this->speed;
+    if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
+      {
+        if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
+        {
+          mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::FREE;
+          this->pos.x = tmp;
+          mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
+        }
+      }
+    else
+      this->pos.x = tmp;
+  }
 }
 
 void  Player::do_action()

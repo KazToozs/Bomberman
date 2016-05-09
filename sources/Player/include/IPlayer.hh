@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Thu Apr 28 13:10:27 2016 Jules Palluau
-// Last update Wed May  4 13:42:14 2016 Jules Palluau
+// Last update Mon May  9 14:01:13 2016 Jules Palluau
 //
 
 #ifndef _IPLAYER_HH_
@@ -32,16 +32,20 @@ typedef enum action
 
 typedef struct s_pos
 {
-  int   tx;
-  int   ty;
-  float rx;
-  float ry;
+  float x;
+  float y;
 }         t_pos;
 
 class Bomb;
 class IPowerup;
 
 class IPlayer {
+private:
+  virtual void put_bomb() = 0;
+  virtual void move_up() = 0;
+  virtual void move_down() = 0;
+  virtual void move_left() = 0;
+  virtual void move_right() = 0;
 public:
   IPlayer() {};
   virtual ~IPlayer() {};
@@ -49,7 +53,6 @@ public:
   virtual e_player get_type() const = 0;
   virtual const std::vector<Bomb *> &get_bombs() const = 0;
   virtual void check_bombs() = 0;
-  virtual void put_bomb() = 0;
   virtual void set_pos(const t_pos &) = 0;
   virtual const t_pos &get_pos() const = 0;
   virtual void  set_speed(const float &) = 0;

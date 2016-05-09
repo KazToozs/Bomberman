@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Tue May  3 16:49:18 2016 Jules Palluau
-// Last update Wed May  4 11:51:37 2016 Jules Palluau
+// Last update Mon May  9 13:59:28 2016 Jules Palluau
 //
 
 #ifndef _GAME_HH_
@@ -18,10 +18,12 @@
 class IPlayer;
 class Bomb;
 class Map;
+class Gui;
 
 class Game
 {
 private:
+  Gui                     *keybind;
   int                     nb_ia;
   int                     nb_real;
   int                     size;
@@ -30,7 +32,7 @@ private:
   std::thread             *th;
   std::mutex              *mtx;
 public:
-  Game(const int &nb_ia, const int &nb_real, const int &size = 10);
+  Game(const int &nb_ia, const int &nb_real, const int &size);
   ~Game();
   Game(const Game &);
   const Game &operator=(const Game &);
