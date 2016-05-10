@@ -72,12 +72,12 @@ void  Game::init()
     players[x]->init();
   }
   this->map->print();
-  players[0]->put_bomb();
-  std::cout << std::endl;
-  sleep(3);
-  players[0]->check_bombs();
-  this->map->print();
-  std::cout << std::endl;
+  // players[0]->put_bomb();
+  // std::cout << std::endl;
+  // sleep(3);
+  // players[0]->check_bombs();
+  // this->map->print();
+  // std::cout << std::endl;
   //TODO create ia
 }
 

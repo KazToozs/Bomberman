@@ -5,7 +5,7 @@
 ** Login   <msa_m@epitech.net>
 **
 ** Started on  Wed Apr 27 17:32:54 2016 Matheo MSA
-** Last update Wed May  4 14:11:47 2016 Jules Palluau
+** Last update Mon May 09 22:39:18 2016 toozs-_c
 */
 
 #ifndef CASE_H_
@@ -14,15 +14,14 @@
 #include "../Player/include/IPowerup.hh"
 
 struct Case {
-
-enum State{
-  FREE,
-  UNBREAKABLE,
-  BREAKABLE,
-  TAKEN,
-  BOMB,
-  EXPLODING
-};
+  enum State{
+    FREE,         /* 0 */
+    UNBREAKABLE,  /* 1 */
+    BREAKABLE,    /* 2 */
+    TAKEN,        /* 3 */
+    BOMB,         /* 4 */
+    EXPLODING     /* 5 */
+  };
 
 IPowerup *_powerup;
   State  _state;

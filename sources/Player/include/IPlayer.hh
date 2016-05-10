@@ -16,7 +16,7 @@
 
 typedef enum player
 {
-  AI,
+  IA,
   REAL
 }e_player;
 
