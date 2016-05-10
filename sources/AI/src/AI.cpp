@@ -75,9 +75,9 @@ void  AI::init()
   //TODO keybinding
 }
 
-e_player AI::get_type() const
+IPlayer::e_player AI::get_type() const
 {
-  return (IA);
+  return (IPlayer::IA);
 }
 
 const std::vector<Bomb *> &AI::get_bombs() const

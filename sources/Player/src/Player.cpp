@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Fri Apr 29 10:32:01 2016 Jules Palluau
-// Last update Mon May  9 13:59:19 2016 Jules Palluau
+// Last update Tue May 10 10:49:07 2016 Jules Palluau
 //
 
 #include "../include/Player.hh"
@@ -13,10 +13,9 @@
 #include "../../Map/Map.hh"
 #include "../../Map/Case.h"
 
-Player::Player(std::mutex *mutx, Map *mp, const int &num)
+Player::Player(Map *mp, const int &num)
 {
   //this->key = keybind;
-  this->mtx = mutx;
   this->map = mp;
   this->team = num;
   this->score = 0;
@@ -42,7 +41,6 @@ Player::Player(const Player &pl)
   this->alive = pl.alive;
   this->key = pl.key;
   this->bombs = pl.bombs;
-  this->mtx = pl.mtx;
   this->action = pl.action;
 }
 
@@ -62,7 +60,6 @@ const Player  &Player::operator=(const Player &pl)
   this->alive = pl.alive;
   this->key = pl.key;
   this->bombs = pl.bombs;
-  this->mtx = pl.mtx;
   this->action = pl.action;
   return (*this);
 }
@@ -78,9 +75,9 @@ void  Player::init()
   mp[(int)this->pos.y][(int)this->pos.x]._state = Case::TAKEN;
 }
 
-e_player Player::get_type() const
+IPlayer::e_player Player::get_type() const
 {
-  return (REAL);
+  return (IPlayer::REAL);
 }
 
 const std::vector<Bomb *> &Player::get_bombs() const
@@ -128,9 +125,9 @@ bool  Player::check_alive()
   if (mp[(int)this->pos.y][(int)this->pos.x]._state == Case::EXPLODING)
   {
     this->alive = false;
-    return (true);
+    return (false);
   }
-  return (false);
+  return (true);
 }
 
 void  Player::set_score(const size_t &scr)
@@ -280,14 +277,4 @@ void  Player::check_powerup()
     delete this->p;
     this->p = NULL;
   }
-}
-
-void  Player::lock() const
-{
-  this->mtx->lock();
-}
-
-void  Player::unlock() const
-{
-  this->mtx->unlock();
 }

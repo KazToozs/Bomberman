@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Thu Apr 28 13:10:27 2016 Jules Palluau
-// Last update Mon May  9 14:01:13 2016 Jules Palluau
+// Last update Tue May 10 10:48:23 2016 Jules Palluau
 //
 
 #ifndef _IPLAYER_HH_
@@ -14,11 +14,7 @@
 #include <unistd.h>
 #include <vector>
 
-typedef enum player
-{
-  IA,
-  REAL
-}e_player;
+
 
 typedef enum action
 {
@@ -47,6 +43,12 @@ private:
   virtual void move_left() = 0;
   virtual void move_right() = 0;
 public:
+  typedef enum player
+  {
+    AI,
+    REAL
+  }e_player;
+
   IPlayer() {};
   virtual ~IPlayer() {};
   virtual void  init() = 0;
@@ -67,8 +69,6 @@ public:
   virtual void do_action() = 0;
   virtual const size_t  &get_score() const = 0;
   virtual void  set_powerups(IPowerup *) = 0;
-  virtual void  lock() const = 0;
-  virtual void  unlock() const = 0;
 };
 
 #endif /*!_IPLAYER_HH_*/

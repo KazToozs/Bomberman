@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Tue May  3 17:16:51 2016 Jules Palluau
-// Last update Mon May  9 13:58:00 2016 Jules Palluau
+// Last update Tue May 10 10:46:45 2016 Jules Palluau
 //
 
 #include "../include/Game.hh"
@@ -13,7 +13,10 @@
 #include "../include/Player.hh"
 #include "../include/Bomb.hh"
 #include "../../Map/Map.hh"
+#include "../../AI/include/AI.hh"
 #include <iostream>
+
+class AI;
 
 Game::Game(const int &nb_ia, const int &nb_real, const int &size)
 {
@@ -68,22 +71,33 @@ void  Game::init()
   this->map = new Map(this->size, this->size);
   for (size_t x = 0; x < this->nb_real; x++)
   {
-    this->players.push_back(new Player(this->mtx, this->map, x + 1));
+    this->players.push_back(new Player(this->map, x + 1));
     players[x]->init();
   }
-  this->map->print();
-  // players[0]->put_bomb();
-  // std::cout << std::endl;
-  // sleep(3);
-  // players[0]->check_bombs();
-  // this->map->print();
-  // std::cout << std::endl;
+  for (size_t x = 0; x < this->nb_ia; x++)
+  {
+    this->players.push_back(new AI(this->map, (x + this->nb_real + 1)));
+    players[x + this->nb_real]->init();
+  }
   //TODO create ia
 }
 
 void  Game::start()
 {
-  //TODO loop function with init thread
+  while (this->check_finish() == false)
+  {
+    this->mtx->lock();
+    for (size_t x = 0; x < this->players.size(); x++)
+    {
+      if (this->players[x]->is_alive() == true)
+      {
+        this->players[x]->check_bombs();
+        if (this->players[x]->check_alive() == true)
+          this->players[x]->do_action();
+      }
+    }
+    this->mtx->unlock();
+  }
 }
 
 void  Game::lock() const

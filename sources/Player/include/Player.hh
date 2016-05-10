@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Thu Apr 28 14:07:45 2016 Jules Palluau
-// Last update Mon May  9 14:01:10 2016 Jules Palluau
+// Last update Mon May  9 16:04:14 2016 Jules Palluau
 //
 
 #ifndef _PLAYER_HH_
@@ -36,7 +36,6 @@ private:
   float                                           speed;
   bool                                            alive;
   std::vector<Bomb *>                             bombs;
-  std::mutex                                      *mtx;
   e_action                                        action;
   void  put_bomb();
   void move_up();
@@ -44,7 +43,7 @@ private:
   void move_left();
   void move_right();
 public:
-  Player(std::mutex *, Map *, const int &num);
+  Player(Map *, const int &num);
   Player(const Player &);
   ~Player();
   void  init();
@@ -66,8 +65,6 @@ public:
   const float &get_speed() const;
   const size_t  &get_score() const;
   void  set_powerups(IPowerup *);
-  void  lock() const;
-  void  unlock() const;
 };
 
 #endif /*!_PLAYER_HH_*/
