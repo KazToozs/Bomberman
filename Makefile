@@ -11,7 +11,7 @@ CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11
 
 CC          =	g++
 
-LIBS        =	-lIrrlicht -lX11 -lXcursor -lpthread
+LIBS        =	-lX11 -lXcursor -lpthread -L/lib/irrlicht/bin -lIrrlicht
 
 $(NAME)     :	all
 

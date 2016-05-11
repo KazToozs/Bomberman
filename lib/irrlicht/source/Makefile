@@ -102,7 +102,7 @@ sharedlib_osx: LDFLAGS += -L/usr/X11R6/lib$(LIBSELECT) -lGL -lXxf86vm
 #sharedlib_osx: LDFLAGS += -framework cocoa -framework carbon -framework opengl -framework IOKit
 
 #Windows specific options
-IRRLICHT_DLL := ../../bin/Win32-gcc/Irrlicht.dll
+IRRLICHT_DLL := ../bin/Win32-gcc/Irrlicht.dll
 sharedlib_win32 staticlib_win32: SYSTEM = Win32-gcc
 sharedlib_win32: LDFLAGS += -lgdi32 -lopengl32 -ld3dx9d -lwinmm -Wl,--add-stdcall-alias
 #choose either -DIRR_COMPILE_WITH_DX9_DEV_PACK or -DNO_IRR_COMPILE_WITH_DIRECT3D_9_ depending if you need dx9

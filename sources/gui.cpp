@@ -108,16 +108,27 @@ bool Gui::Load() {
   _Back_game = _Driver->getTexture("Ressources/backgame.jpg");
   _MainFont = _Guienv->getFont("Ressources/mainfont.png");
 
-  irr::scene::IMesh *cube = _Smgr->getMesh("Ressources/block.obj");
-  irr::scene::IMesh *bb8 = _Smgr->getMesh("Ressources/bb8.obj");
+  irr::scene::IMesh *cube = _Smgr->getMesh("Ressources/Models/Latios/state1.obj");
+  irr::scene::IMesh *cube1 = _Smgr->getMesh("Ressources/Models/Latios/state2.obj");
+  irr::scene::IMesh *cube2 = _Smgr->getMesh("Ressources/Models/Latios/state3.obj");
   if (!cube) exit(0);
   for (int i = 0; i < 1; i++) {
     for (int y = 0; y < 1; y++) {
-      irr::scene::ISceneNode *bb8Node = _Smgr->addMeshSceneNode(bb8);
-      bb8Node->setPosition(irr::core::vector3df(2 * y, 2 * i, 0));
-      bb8Node->setScale(irr::core::vector3df(0.1, 0.1, 0.1));
-      bb8Node->setRotation(irr::core::vector3df(90, 0, 0));
-      bb8Node->setName("CubeNode");
+        irr::scene::ISceneNode *bb8Node = _Smgr->addMeshSceneNode(cube);
+        bb8Node->setPosition(irr::core::vector3df(2 * y, 2 * i, 0));
+        bb8Node->setScale(irr::core::vector3df(0.1, 0.1, 0.1));
+        bb8Node->setRotation(irr::core::vector3df(90, 0, 0));
+        bb8Node->setName("state1");
+        bb8Node = _Smgr->addMeshSceneNode(cube1);
+        bb8Node->setPosition(irr::core::vector3df(2 * y, 2 * i, 0));
+        bb8Node->setScale(irr::core::vector3df(0.1, 0.1, 0.1));
+        bb8Node->setRotation(irr::core::vector3df(90, 0, 0));
+        bb8Node->setName("state2");
+        bb8Node = _Smgr->addMeshSceneNode(cube2);
+        bb8Node->setPosition(irr::core::vector3df(2 * y, 2 * i, 0));
+        bb8Node->setScale(irr::core::vector3df(0.1, 0.1, 0.1));
+        bb8Node->setRotation(irr::core::vector3df(90, 0, 0));
+        bb8Node->setName("state3");
     }
   }
 
@@ -145,8 +156,9 @@ bool Gui::LaunchMap() {
   return (true);
 }
 
-
 bool Gui::SetBackground() {
+    static int state = 0;
+
   _mtx->lock();
   _Driver->beginScene(true, true, irr::video::SColor(255, 255, 255, 255));
   if (_Back)
@@ -155,6 +167,51 @@ bool Gui::SetBackground() {
   if (_MainFont)
     _MainFont->draw(Text.c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
                     irr::video::SColor(255, 0, 0, 0));
+  if (state < 20) {
+      irr::scene::ISceneNode *node = _Smgr->getSceneNodeFromName("state1");
+      node->setRotation(irr::core::vector3df(this->get_joy_event().Axis[0],
+                                             this->get_joy_event().Axis[1], 0));
+      node->setVisible(true);
+      node = _Smgr->getSceneNodeFromName("state2");
+      node->setRotation(irr::core::vector3df(this->get_joy_event().Axis[0],
+                                             this->get_joy_event().Axis[1], 0));
+      node->setVisible(false);
+      node = _Smgr->getSceneNodeFromName("state3");
+      node->setRotation(irr::core::vector3df(this->get_joy_event().Axis[0],
+                                             this->get_joy_event().Axis[1], 0));
+      node->setVisible(false);
+  }
+  else if (state < 40) {
+      irr::scene::ISceneNode *node = _Smgr->getSceneNodeFromName("state1");
+      node->setRotation(irr::core::vector3df(this->get_joy_event().Axis[0],
+                                             this->get_joy_event().Axis[1], 0));
+      node->setVisible(false);
+      node = _Smgr->getSceneNodeFromName("state2");
+      node->setRotation(irr::core::vector3df(this->get_joy_event().Axis[0],
+                                             this->get_joy_event().Axis[1], 0));
+      node->setVisible(true);
+      node = _Smgr->getSceneNodeFromName("state3");
+      node->setRotation(irr::core::vector3df(this->get_joy_event().Axis[0],
+                                             this->get_joy_event().Axis[1], 0));
+      node->setVisible(false);
+  }
+  else if (state < 60) {
+      irr::scene::ISceneNode *node = _Smgr->getSceneNodeFromName("state1");
+      node->setRotation(irr::core::vector3df(this->get_joy_event().Axis[0],
+                                             this->get_joy_event().Axis[1], 0));
+      node->setVisible(false);
+      node = _Smgr->getSceneNodeFromName("state2");
+      node->setRotation(irr::core::vector3df(this->get_joy_event().Axis[0],
+                                             this->get_joy_event().Axis[1], 0));
+      node->setVisible(false);
+      node = _Smgr->getSceneNodeFromName("state3");
+      node->setRotation(irr::core::vector3df(this->get_joy_event().Axis[0],
+                                             this->get_joy_event().Axis[1], 0));
+      node->setVisible(true);
+  }
+  if (state == 60)
+      state = 0;
+  state++;
   _Smgr->drawAll();
   _Guienv->drawAll();
   _Driver->endScene();
@@ -166,7 +223,7 @@ void Gui::StartLoop() {
   this->Load();
   while (WindowIsOpen()) {
     SetBackground();
-    usleep(50);
+    usleep(1000);
   }
   _mtx->lock();
   if (_Device) {
