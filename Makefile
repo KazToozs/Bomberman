@@ -12,7 +12,7 @@ CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11
 
 CPP          =	g++
 
-LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht
+LIBS        =	-lX11 -lXcursor -lpthread -Llib/irrlicht/bin -lIrrlicht
 
 $(NAME)     :	all
 
