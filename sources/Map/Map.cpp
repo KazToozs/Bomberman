@@ -63,12 +63,15 @@ std::vector<std::vector<Case> > Map::quarter(){
           && (i != 0 && j != 0) && (i != 1 && j != 0)
           && (i != 1 && j != 0)) {
             if ((std::rand() % 3) == 0){
+              std::cout << "Bombe " << "i: " << i << " j: " << j <<std::endl;
               tmp_case._powerup = new PowerBomb();
             }
             if ((std::rand() % 3) == 1){
+              std::cout << "RANGE: " << "i: " << i << " j: " << j <<std::endl;
               tmp_case._powerup = new PowerRange();
             }
             if ((std::rand() % 3) == 2){
+              std::cout << "SPEED: " << "i: " << i << " j: " << j <<std::endl;
               tmp_case._powerup = new PowerSpeed();
             }
             nb_power_max--;
@@ -103,6 +106,26 @@ void Map::rotate(std::vector<std::vector<Case> > &qMap, size_t nb_rot){
     qMap = tmpMap;
   }
 }
+
+void Map::symmetry(std::vector<std::vector<Case> > &qMap){
+  std::vector<std::vector<Case> > tmpMap = qMap;
+  size_t y_len;
+  size_t x_len;
+  size_t tmp_x;
+
+  y_len = qMap.size();
+  x_len = qMap[y_len - 1].size();
+  for (size_t y = 0; y < y_len; y++){
+    x_len = qMap[y].size();
+    for (size_t x = 0; x < x_len; x++){
+      tmp_x = (y_len - 1) - x;
+      tmpMap[y][x] = qMap[y][tmp_x];
+    }
+  }
+  qMap = tmpMap;
+}
+
+
 
 void Map::fill_quarter(const std::vector<std::vector<Case> > &qMap,
   std::vector<std::vector<Case> > &tmpMap,
@@ -144,11 +167,14 @@ void Map::generate() {
   qMap = quarter();
 
   fill_quarter(qMap, tmpMap, 0, 0, (_x / 2), (_y / 2));
-  rotate(qMap, 1);
+  symmetry(qMap);
   if (_x % 2 || _y % 2) {
     add_empty_columns(tmpMap, (_x / 2), 0, (_y / 2));
     fill_quarter(qMap, tmpMap, ((_x / 2) + 1), 0, _x, ((_y / 2)));
-    rotate(qMap, 2);
+    rotate(qMap, 3);
+    symmetry(qMap);
+    rotate(qMap, 3);
+    symmetry(qMap);
     add_empty_line(tmpMap, (_y / 2), _x);
     fill_quarter(qMap, tmpMap, 0, (_y / 2) + 1, (_x / 2), _y);
     rotate(qMap, 3);
@@ -159,6 +185,8 @@ void Map::generate() {
     fill_quarter(qMap, tmpMap, (_x / 2), 0, _x, (_y / 2));
     rotate(qMap, 2);
     fill_quarter(qMap, tmpMap, 0, (_y / 2), (_x / 2), _y);
+    rotate(qMap, 3);
+    symmetry(qMap);
     rotate(qMap, 3);
     fill_quarter(qMap, tmpMap, (_x / 2), (_y / 2), _x, _y);
   }
