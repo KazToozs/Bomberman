@@ -8,8 +8,8 @@
 // Last update Wed May 11 13:12:35 2016 pallua_j
 //
 
-#include "../include/Bomb.hh"
-#include "../../Map/Map.hh"
+#include "Bomb.hh"
+#include "Map.hh"
 
 Bomb::Bomb(const t_pos &p, const int &rng, const int &t)
 {

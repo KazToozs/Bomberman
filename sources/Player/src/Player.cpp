@@ -8,11 +8,11 @@
 // Last update Wed May 11 15:05:37 2016 pallua_j
 //
 
-#include "../include/Player.hh"
-#include "../include/IPowerup.hh"
-#include "../../Map/Map.hh"
-#include "../../Map/Case.h"
-#include "../include/Keybind.hh"
+#include "Player.hh"
+#include "IPowerup.hh"
+#include "Map.hh"
+#include "Case.h"
+#include "Keybind.hh"
 
 Player::Player(Map *mp, const int &num, Keybind *keybind)
 {

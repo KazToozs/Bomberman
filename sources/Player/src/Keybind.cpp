@@ -8,7 +8,7 @@
 // Last update Wed May 11 14:46:08 2016 pallua_j
 //
 
-#include "../include/Keybind.hh"
+#include "Keybind.hh"
 
 Keybind::Keybind()
 {

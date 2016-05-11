@@ -2,7 +2,11 @@ NAME        =	cpp_indie_game
 
 SRC         =	sources/main.cpp	\
 		sources/Gui/Gui.cpp	\
-		sources/Gui/ControlEventReceiver.cpp
+		sources/Gui/ControlEventReceiver.cpp \
+		sources/Player/src/PowerBomb.cpp \
+		sources/Player/src/PowerRange.cpp \
+		sources/Player/src/PowerSpeed.cpp \
+		sources/Map/Map.cpp
 
 OBJ         =	$(SRC:.cpp=.o)
 

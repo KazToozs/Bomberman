@@ -8,7 +8,7 @@
 // Last update Wed May  4 11:52:11 2016 Matheo MSA
 //
 
-#include "../include/PowerSpeed.hh"
+#include "PowerSpeed.hh"
 
 PowerSpeed::PowerSpeed()
 {

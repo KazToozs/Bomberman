@@ -8,7 +8,7 @@
 // Last update Wed May  4 11:52:04 2016 Matheo MSA
 //
 
-#include "../include/PowerRange.hh"
+#include "PowerRange.hh"
 
 PowerRange::PowerRange()
 {

@@ -8,12 +8,12 @@
 // Last update Tue May 10 10:46:45 2016 Jules Palluau
 //
 
-#include "../include/Game.hh"
-#include "../include/IPlayer.hh"
-#include "../include/Player.hh"
-#include "../include/Bomb.hh"
-#include "../../Map/Map.hh"
-#include "../../AI/include/AI.hh"
+#include "Game.hh"
+#include "IPlayer.hh"
+#include "Player.hh"
+#include "Bomb.hh"
+#include "Map.hh"
+#include "AI.hh"
 #include <iostream>
 
 class AI;

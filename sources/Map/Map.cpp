@@ -1,7 +1,7 @@
 #include "Map.hh"
-#include "../Player/include/PowerBomb.hh"
-#include "../Player/include/PowerRange.hh"
-#include "../Player/include/PowerSpeed.hh"
+#include "PowerBomb.hh"
+#include "PowerRange.hh"
+#include "PowerSpeed.hh"
 #include <iostream>
 #include <ostream>
 #include <cstdlib>
@@ -28,6 +28,11 @@ Map &Map::operator=(const Map &other)
 {
   this->_map = other._map;
   return *this;
+}
+
+std::vector<Case> &Map::operator[](const int &i)
+{
+    return (this->_map[i]);
 }
 
 Map::~Map()

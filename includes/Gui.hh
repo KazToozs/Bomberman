@@ -5,6 +5,7 @@
 #include <vector>
 #include <thread>
 #include <mutex>
+#include "Map.hh"
 #include "ControlEventReceiver.hh"
 
 #ifdef _IRR_WINDOWS_
@@ -30,7 +31,9 @@ class Gui {
   bool WindowIsOpen();
   void Load();
   void LoadModels();
+  void LoadMaps();
 
+  void ActualiseMaps();
   void MovePlayer(int);
   bool DrawScene();
   void StartLoop();
@@ -41,7 +44,8 @@ class Gui {
   irr::gui::IGUIEnvironment* _Guienv;
   irr::gui::IGUIFont* _MainFont;
   std::vector<std::vector<irr::scene::ISceneNode *>> _PlayerModels;
-  std::vector<std::vector<int>> _Maps;
+  std::vector<std::vector<irr::scene::ISceneNode *>> _MapsModels;
+  std::vector<irr::scene::IMesh *> _BlockModels;
 
   ControlEventReceiver _Event;
   std::thread* _Th;
@@ -52,6 +56,7 @@ class Gui {
   bool _isFullscreen;
   bool _VSync;
   bool _Run;
+  Map *_Map;
 };
 
 #endif  // GUI_H

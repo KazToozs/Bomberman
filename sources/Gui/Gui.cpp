@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <unistd.h>
+#include "Case.h"
 
 Gui::Gui(int Height, int Width, int Ddp, bool Fullscreen, bool Vsync)
     : _Height(Height),
@@ -14,6 +15,7 @@ Gui::Gui(int Height, int Width, int Ddp, bool Fullscreen, bool Vsync)
   _MainFont = NULL;
   _Run = true;
   _Mtx = new std::mutex();
+  _Map = new Map(10, 10);
 }
 
 /*Public !!!*/
@@ -116,27 +118,24 @@ bool Gui::WindowIsOpen() {
 void Gui::LoadModels() {
   _PlayerModels.resize(4);
   for (int i = 0; i < 4; i++) {
-      std::stringstream ss;
-      ss << "Ressources/Models/Latios";
-      if (i)
-          ss << i;
+    std::stringstream ss;
+    ss << "Ressources/Models/Latios";
+    if (i) ss << i;
     _PlayerModels[i].resize(3);
     irr::scene::IMesh* state =
         _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
     _PlayerModels[i][0] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][0]->setVisible(false);
-    _PlayerModels[i][0]->setScale(irr::core::vector3df(0.02f,0.02f,0.02f));
+    _PlayerModels[i][0]->setScale(irr::core::vector3df(0.02f, 0.02f, 0.02f));
 
-    state =
-        _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
+    state = _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
     _PlayerModels[i][1] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][1]->setVisible(false);
-    _PlayerModels[i][1]->setScale(irr::core::vector3df(0.02f,0.02f,0.02f));
-    state =
-        _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
+    _PlayerModels[i][1]->setScale(irr::core::vector3df(0.02f, 0.02f, 0.02f));
+    state = _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
     _PlayerModels[i][2] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][2]->setVisible(false);
-    _PlayerModels[i][2]->setScale(irr::core::vector3df(0.02f,0.02f,0.02f));
+    _PlayerModels[i][2]->setScale(irr::core::vector3df(0.02f, 0.02f, 0.02f));
   }
 }
 
@@ -149,24 +148,50 @@ void Gui::Load() {
   CamNode->setPosition(irr::core::vector3df(0, -10, 30));
   CamNode->setTarget(irr::core::vector3df(0, 0, 0));
   LoadModels();
+  LoadMaps();
   _Mtx->unlock();
 }
 
 void Gui::MovePlayer(int id) {
-    static float x, y, z = 0.0f;
-    if (id == 0) {
-        x += 0.1f;
-        y += 0.1f;
-        z += 0.01f;
-    }
-    for (int i = 0; i < 3; i++) {
-        _PlayerModels[id][i]->setPosition(irr::core::vector3df(id * 2, id * 2,0));
-        _PlayerModels[id][i]->setRotation(irr::core::vector3df(x, y, z));
-        _PlayerModels[id][i]->setVisible(true);
-    }
+  static float x, y, z = 0.0f;
+  if (id == 0) {
+    x += 0.1f;
+    y += 0.1f;
+    z += 0.01f;
+  }
+  for (int i = 0; i < 3; i++) {
+    _PlayerModels[id][i]->setPosition(irr::core::vector3df(id * 2, id * 2, 0));
+    _PlayerModels[id][i]->setRotation(irr::core::vector3df(x, y, z));
+    _PlayerModels[id][i]->setVisible(true);
+  }
 }
 
+void Gui::LoadMaps() {
+  _BlockModels.resize(6);
+  _BlockModels[Case::FREE] = NULL;
+  _BlockModels[Case::UNBREAKABLE] =
+      _Smgr->getMesh("Ressources/Models/Unbreak.obj");
+  _BlockModels[Case::BREAKABLE] =
+      _Smgr->getMesh("Ressources/Models/Breakable.obj");
+  _BlockModels[Case::TAKEN] = _Smgr->getMesh("Ressources/Models/Taken.obj");
+  _BlockModels[Case::BOMB] = _Smgr->getMesh("Ressources/Models/Bomb.obj");
+  _BlockModels[Case::EXPLODING] =
+      _Smgr->getMesh("Ressources/Models/Exploding.obj");
 
+  _MapsModels.resize(_Map->getMap().size());
+  for (int y = 0; y < _Map->getMap().size(); y++) {
+      _MapsModels[y].resize((*_Map)[0].size());
+    for (int x = 0; x < (*_Map)[0].size(); x++) {
+        _MapsModels[y][x] = NULL;
+    }
+  }
+}
+
+void Gui::ActualiseMaps() {
+    for (int y = 0; y < _Map->getMap().size(); y++) {
+
+    }
+}
 
 bool Gui::DrawScene() {
   _Mtx->lock();
@@ -174,7 +199,7 @@ bool Gui::DrawScene() {
   /*Start Scene*/
 
   for (int i = 0; i < 4; i++) {
-      MovePlayer(i);
+    MovePlayer(i);
   }
 
   /*End Scene*/

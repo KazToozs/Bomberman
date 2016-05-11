@@ -8,7 +8,7 @@
 // Last update Wed May  4 11:51:54 2016 Matheo MSA
 //
 
-#include "../include/PowerBomb.hh"
+#include "PowerBomb.hh"
 
 PowerBomb::PowerBomb()
 {
