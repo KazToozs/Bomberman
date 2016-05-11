@@ -1,7 +1,7 @@
 NAME        =	cpp_indie_game
 
 SRC         =	sources/main.cpp	\
-		sources/gui.cpp
+		sources/Gui/gui.cpp
 
 OBJ         =	$(SRC:.cpp=.o)
 
@@ -9,14 +9,14 @@ INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include
 
 CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11
 
-CC          =	g++
+CPP          =	g++
 
-LIBS        =	-lX11 -lXcursor -lpthread -L/lib/irrlicht/bin -lIrrlicht
+LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht
 
 $(NAME)     :	all
 
 all         :	$(OBJ)
-		$(CC) $(OBJ) -o $(NAME) $(LIBS)
+		$(CPP) $(LIBS) $(OBJ) -o $(NAME)
 
 clean       :
 		rm -f $(OBJ)
