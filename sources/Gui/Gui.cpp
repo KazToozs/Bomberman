@@ -2,7 +2,6 @@
 #include <iostream>
 #include <sstream>
 #include <unistd.h>
-#include "Case.h"
 
 Gui::Gui(int Height, int Width, int Ddp, bool Fullscreen, bool Vsync)
     : _Height(Height),
@@ -126,16 +125,16 @@ void Gui::LoadModels() {
         _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
     _PlayerModels[i][0] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][0]->setVisible(false);
-    _PlayerModels[i][0]->setScale(irr::core::vector3df(0.02f, 0.02f, 0.02f));
+    _PlayerModels[i][0]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
 
     state = _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
     _PlayerModels[i][1] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][1]->setVisible(false);
-    _PlayerModels[i][1]->setScale(irr::core::vector3df(0.02f, 0.02f, 0.02f));
+    _PlayerModels[i][1]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
     state = _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
     _PlayerModels[i][2] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][2]->setVisible(false);
-    _PlayerModels[i][2]->setScale(irr::core::vector3df(0.02f, 0.02f, 0.02f));
+    _PlayerModels[i][2]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
   }
 }
 
@@ -145,7 +144,7 @@ void Gui::Load() {
   irr::scene::ILightSceneNode* LightNode =
       _Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, 200),
                                irr::video::SColor(255, 128, 128, 128), 50.0f);
-  CamNode->setPosition(irr::core::vector3df(0, -10, 30));
+  CamNode->setPosition(irr::core::vector3df(0, -10, 10));
   CamNode->setTarget(irr::core::vector3df(0, 0, 0));
   LoadModels();
   LoadMaps();
@@ -160,7 +159,8 @@ void Gui::MovePlayer(int id) {
     z += 0.01f;
   }
   for (int i = 0; i < 3; i++) {
-    _PlayerModels[id][i]->setPosition(irr::core::vector3df(id * 2, id * 2, 0));
+    _PlayerModels[id][i]->setPosition(
+        irr::core::vector3df(-id * 2, -id * 2, 0));
     _PlayerModels[id][i]->setRotation(irr::core::vector3df(x, y, z));
     _PlayerModels[id][i]->setVisible(true);
   }
@@ -170,34 +170,54 @@ void Gui::LoadMaps() {
   _BlockModels.resize(6);
   _BlockModels[Case::FREE] = NULL;
   _BlockModels[Case::UNBREAKABLE] =
-      _Smgr->getMesh("Ressources/Models/Unbreak.obj");
+      _Smgr->getMesh("Ressources/Models/Block/unbreak/Unbreak.obj");
   _BlockModels[Case::BREAKABLE] =
-      _Smgr->getMesh("Ressources/Models/Breakable.obj");
-  _BlockModels[Case::TAKEN] = _Smgr->getMesh("Ressources/Models/Taken.obj");
-  _BlockModels[Case::BOMB] = _Smgr->getMesh("Ressources/Models/Bomb.obj");
+      _Smgr->getMesh("Ressources/Models/Block/breakable/Breakable.obj");
+  _BlockModels[Case::TAKEN] =
+      _Smgr->getMesh("Ressources/Models/Block/Taken.obj");
+  _BlockModels[Case::BOMB] = _Smgr->getMesh("Ressources/Models/Block/Bomb.obj");
   _BlockModels[Case::EXPLODING] =
-      _Smgr->getMesh("Ressources/Models/Exploding.obj");
+      _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
 
   _MapsModels.resize(_Map->getMap().size());
   for (int y = 0; y < _Map->getMap().size(); y++) {
-      _MapsModels[y].resize((*_Map)[0].size());
+    _MapsModels[y].resize((*_Map)[0].size());
     for (int x = 0; x < (*_Map)[0].size(); x++) {
-        _MapsModels[y][x] = NULL;
+      _MapsModels[y][x] = NULL;
     }
   }
 }
 
 void Gui::ActualiseMaps() {
-    for (int y = 0; y < _Map->getMap().size(); y++) {
-
+  for (int y = 0; y < _Map->getMap().size(); y++) {
+    for (int x = 0; x < _Map->getMap().size(); x++) {
+      if (_MapsModels[y][x] == NULL) {
+        UpdateBlock(x, y, (*_Map)[y][x], _MapsModels[y][x]);
+      }
     }
+  }
+}
+
+void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
+  if (old) delete old;
+  if (type._state == Case::FREE) {
+    old = NULL;
+    return;
+  }
+  irr::scene::IMesh* mesh = _BlockModels[type._state];
+  if (!mesh) return;
+  irr::scene::ISceneNode* new_block = _Smgr->addMeshSceneNode(mesh);
+  old = new_block;
+  old->setPosition(irr::core::vector3df(-(x * 2), -(y * 2), 0));
+  old->setRotation(irr::core::vector3df(90, 0, 0));
+  old->setScale(irr::core::vector3df(0.002f, 0.002f, 0.002f));
 }
 
 bool Gui::DrawScene() {
   _Mtx->lock();
   _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
   /*Start Scene*/
-
+  ActualiseMaps();
   for (int i = 0; i < 4; i++) {
     MovePlayer(i);
   }

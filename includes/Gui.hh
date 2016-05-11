@@ -7,6 +7,7 @@
 #include <mutex>
 #include "Map.hh"
 #include "ControlEventReceiver.hh"
+#include "Case.h"
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -34,6 +35,7 @@ class Gui {
   void LoadMaps();
 
   void ActualiseMaps();
+  void UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old);
   void MovePlayer(int);
   bool DrawScene();
   void StartLoop();
@@ -43,9 +45,9 @@ class Gui {
   irr::scene::ISceneManager* _Smgr;
   irr::gui::IGUIEnvironment* _Guienv;
   irr::gui::IGUIFont* _MainFont;
-  std::vector<std::vector<irr::scene::ISceneNode *>> _PlayerModels;
-  std::vector<std::vector<irr::scene::ISceneNode *>> _MapsModels;
-  std::vector<irr::scene::IMesh *> _BlockModels;
+  std::vector<std::vector<irr::scene::ISceneNode*>> _PlayerModels;
+  std::vector<std::vector<irr::scene::ISceneNode*>> _MapsModels;
+  std::vector<irr::scene::IMesh*> _BlockModels;
 
   ControlEventReceiver _Event;
   std::thread* _Th;
@@ -56,7 +58,7 @@ class Gui {
   bool _isFullscreen;
   bool _VSync;
   bool _Run;
-  Map *_Map;
+  Map* _Map;
 };
 
 #endif  // GUI_H
