@@ -73,20 +73,18 @@ class Gui {
   void StartLoop();
   bool CreateWindow();
   bool SetBackground();
-  bool LaunchMap();
+  bool DrawScene();
   bool Load();
   bool WindowIsOpen();
+  void InitJoystick();
 
   irr::IrrlichtDevice* _Device;
   irr::video::IVideoDriver* _Driver;
-  irr::video::ITexture* _Back;
-  irr::video::ITexture* _Back_game;
   irr::scene::ISceneManager* _Smgr;
   irr::gui::IGUIEnvironment* _Guienv;
   irr::gui::IGUIFont* _MainFont;
 
-  std::string Text;
-  MyEventReceiver _event;
+  MyEventReceiver _Event;
   std::thread* _th;
   std::mutex* _mtx;
   int _Height;

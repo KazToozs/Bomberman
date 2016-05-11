@@ -1,7 +1,8 @@
 NAME        =	cpp_indie_game
 
 SRC         =	sources/main.cpp	\
-		sources/Gui/gui.cpp
+		sources/Gui/Gui.cpp	\
+		sources/Gui/ControlEventReceiver.cpp
 
 OBJ         =	$(SRC:.cpp=.o)
 

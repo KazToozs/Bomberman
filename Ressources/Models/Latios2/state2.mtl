@@ -12,8 +12,8 @@ newmtl Material__10
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka ../../Textures/Latios1/pm0380_00_Mouth1.png
-	map_Kd ../../Textures/Latios1/pm0380_00_Mouth1.png
+	map_Ka ../../Textures/Latios3/pm0380_00_Mouth1.png
+	map_Kd ../../Textures/Latios3/pm0380_00_Mouth1.png
 
 newmtl Material__11
 	Ns 10.0000
@@ -26,8 +26,8 @@ newmtl Material__11
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka ../../Textures/Latios1/pm0380_00_Body1.png
-	map_Kd ../../Textures/Latios1/pm0380_00_Body1.png
+	map_Ka ../../Textures/Latios3/pm0380_00_Body1.png
+	map_Kd ../../Textures/Latios3/pm0380_00_Body1.png
 
 newmtl Material__13
 	Ns 10.0000
@@ -40,5 +40,5 @@ newmtl Material__13
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka ../../Textures/Latios1/pm0380_00_Eye1.png
-	map_Kd ../../Textures/Latios1/pm0380_00_Eye1.png
+	map_Ka ../../Textures/Latios3/pm0380_00_Eye1.png
+	map_Kd ../../Textures/Latios3/pm0380_00_Eye1.png

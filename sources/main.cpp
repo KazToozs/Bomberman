@@ -1,4 +1,4 @@
-#include "gui.h"
+#include "Gui.hh"
 #include <unistd.h>
 #include <iostream>
 
@@ -8,13 +8,7 @@ int main() {
   g.Start();
 
   while (g.Alive()) {
-    usleep(1000);
-    if (g.get_joy_event().Axis[1] < 0.2f)
-        g.SetText("Up !");
-    if (g.get_joy_event().Axis[1] > 0.2f)
-        g.SetText("Down !");
-    if (g.get_joy_event().Axis[1] == 0)
-        g.SetText("Solo");
+    usleep(10);
   }
 
   return 0;
