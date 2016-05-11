@@ -5,26 +5,29 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Thu Apr 28 14:07:45 2016 Jules Palluau
-// Last update Mon May  9 16:04:14 2016 Jules Palluau
+// Last update Wed May 11 15:00:41 2016 pallua_j
 //
 
 #ifndef _PLAYER_HH_
 # define _PLAYER_HH_
 
-#include <thread>
 #include "IPlayer.hh"
 #include "Bomb.hh"
 #include <mutex>
 #include <condition_variable>
 #include <chrono>
+#include <map>
 
 class Map;
 class Gui;
+class Keybind;
 
 class Player: public IPlayer
 {
+  typedef void (Player::*ptr)();
 private:
-  Gui                                             *key;
+  std::map<e_action, ptr>                         act_func;
+  Keybind                                         *key;
   std::chrono::high_resolution_clock::time_point  t;
   Map                                             *map;
   int                                             team;
@@ -43,7 +46,7 @@ private:
   void move_left();
   void move_right();
 public:
-  Player(Map *, const int &num);
+  Player(Map *, const int &num, Keybind *);
   Player(const Player &);
   ~Player();
   void  init();

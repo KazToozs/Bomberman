@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Tue May 10 10:27:51 2016 Jules Palluau
-// Last update Tue May 10 11:23:22 2016 Jules Palluau
+// Last update Wed May 11 14:44:49 2016 pallua_j
 //
 
 #ifndef _KEYBIND_HH_
@@ -27,7 +27,7 @@ public:
   const Keybind &operator=(const Keybind &);
   void  init(const std::string &);
   void  override();
-  const e_action  &get_action(const int &, const int &);
+  const e_action  &get_action(const int &);
 };
 
 #endif /*!_KEYBIND_HH_*/

@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Tue May 10 10:32:14 2016 Jules Palluau
-// Last update Tue May 10 11:23:36 2016 Jules Palluau
+// Last update Wed May 11 14:46:08 2016 pallua_j
 //
 
 #include "../include/Keybind.hh"
@@ -53,10 +53,12 @@ void  Keybind::override()
   //TODO Liege
 }
 
-const e_action  &Keybind::get_action(const int &key, const int &player)
+const e_action  &Keybind::get_action(const int &player)
 {
+  return (bind1[0x26]);
+  /*
   if (player == 1)
     return (this->bind1[key]);
   else
-    return (this->bind2[key]);
+    return (this->bind2[key]);*/
 }

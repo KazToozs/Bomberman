@@ -5,17 +5,23 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Fri Apr 29 10:32:01 2016 Jules Palluau
-// Last update Tue May 10 10:49:07 2016 Jules Palluau
+// Last update Wed May 11 15:05:37 2016 pallua_j
 //
 
 #include "../include/Player.hh"
 #include "../include/IPowerup.hh"
 #include "../../Map/Map.hh"
 #include "../../Map/Case.h"
+#include "../include/Keybind.hh"
 
-Player::Player(Map *mp, const int &num)
+Player::Player(Map *mp, const int &num, Keybind *keybind)
 {
-  //this->key = keybind;
+  act_func[UP] = &Player::move_up;
+  act_func[DOWN] = &Player::move_down;
+  act_func[LEFT] = &Player::move_left;
+  act_func[RIGHT] = &Player::move_right;
+  act_func[BOMB] = &Player::put_bomb;
+  this->key = keybind;
   this->map = mp;
   this->team = num;
   this->score = 0;
@@ -31,6 +37,7 @@ Player::Player(Map *mp, const int &num)
 
 Player::Player(const Player &pl)
 {
+  this->act_func = pl.act_func;
   this->map = pl.map;
   this->team = pl.team;
   this->score = pl.score;
@@ -50,6 +57,7 @@ Player::~Player()
 
 const Player  &Player::operator=(const Player &pl)
 {
+  this->act_func = pl.act_func;
   this->map = pl.map;
   this->team = pl.team;
   this->score = pl.score;
@@ -250,7 +258,11 @@ void  Player::move_right()
 
 void  Player::do_action()
 {
-  //TODO with keybind
+  e_action bind;
+
+  bind = key->get_action(this->team);
+  if (bind != UNKNOWN)
+    (this->*act_func[bind])();
 }
 
 const size_t &  Player::get_score() const
