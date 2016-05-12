@@ -84,6 +84,8 @@ void  Game::init()
 
 void  Game::start()
 {
+  int i = 0; /* delete this */
+
   while (this->check_finish() == false)
   {
     this->mtx->lock();
@@ -96,7 +98,12 @@ void  Game::start()
           this->players[x]->do_action();
       }
     }
+    i++;
+    std::cout << "---- Turn: " << i << std::endl;
+    std::cout << "----- AFTER -----" << std::endl;
+    this->map->print();
     this->mtx->unlock();
+    sleep(1);
   }
 }
 

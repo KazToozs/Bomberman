@@ -1,8 +1,16 @@
 #ifndef AI_H_
 #define AI_H_
 
-#include "IPlayer.hh"
-#include "Bomb.hh"
+#include <map>
+#include "../../Player/include/IPlayer.hh"
+#include "../../Player/include/Bomb.hh"
+#include "../../Map/Case.h"
+extern "C" {
+# include "lua.h"
+# include "lauxlib.h"
+# include "lualib.h"
+}
+#include "../LuaBridge/LuaBridge.h"
 
 class Keybinds;
 
@@ -21,6 +29,9 @@ class AI : public IPlayer
   Keybinds                                        *key;
   std::vector<Bomb *>                             bombs;
   e_action                                        action;
+
+  typedef void                  (AI::*act_func)(void);
+  std::map<e_action, act_func>  actions;
 
  public:
    AI(Map *, const int &num);
@@ -56,6 +67,8 @@ private:
    void                       move_down();
    void                       move_left();
    void                       move_right();
+
+   void                       pass_values(lua_State *, std::vector<std::vector<Case>>&);
 };
 
 #endif /* !AI_H_ */

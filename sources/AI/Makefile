@@ -1,10 +1,15 @@
 
 SRC	=	./test/main.cpp			\
-		../../Player/src/Game.cpp	\
-		../../Map/Map.cpp		\
-		../../Player/src/Player.cpp
+		./src/AI.cpp			\
+		../Player/src/Game.cpp		\
+		../Map/Map.cpp			\
+		../Player/src/Player.cpp	\
+		../Player/src/PowerBomb.cpp	\
+		../Player/src/PowerRange.cpp	\
+		../Player/src/PowerSpeed.cpp	\
+		../Player/src/Bomb.cpp		\
 
-INC	=	-I/usr/incldue/lua5.1
+CXXFLAGS=	-I/usr/include/lua5.1 -I../../includes -I../Player/include -std=c++11 
 
 COMP	=	$(SRC:.cpp=.o)
 
@@ -12,14 +17,14 @@ LIB	=	-llua5.1
 
 FLAGS	=	-W -W -Wextra
 
-NAME	=	test
+NAME	=	lua_test
 
-CC	=	g++
+CXX	=	g++
 
 all: $(NAME)
 
 $(NAME): $(COMP)
-	$(CC) -o $(NAME) $(SRC) $(FLAGS) $(LIB) -std=c++11
+	$(CXX) -o $(NAME) $(COMP) $(CXXFLAGS) $(LIB)
 
 clean:
 	rm -f $(COMP)

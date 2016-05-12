@@ -198,10 +198,17 @@ void Map::print()
   std::vector<std::vector<Case> >::iterator it_y;
   std::vector<Case>::iterator it_x;
 
-  std::string blue = "\033[34m";
-  std::string green = "\033[32m";
-  std::string red= "\033[31m";
-  std::string def = "\033[39m";
+  std::string blue = "\033[34m\033[44m";
+  std::string bold = "\033[1m";
+  std::string dim = "\033[90m\033[100m";
+  std::string black = "\033[30m\033[40m";
+  std::string light = "\033[37m\033[47m";
+  std::string green = "\033[42m";
+  std::string cyan = "\033[96m\033[106m";
+  std::string red= "\033[31m\033[41m";
+  std::string yellow = "\033[93m\033[103m";
+  std::string magenta = "\033[95m\033[105m";
+  std::string def = "\033[39m\033[0m";
   for (it_y = _map.begin(); it_y != _map.end(); it_y++){
     for (it_x = (*it_y).begin(); it_x != (*it_y).end(); it_x++ ){
       if ((*it_x)._powerup != NULL)
@@ -215,13 +222,22 @@ void Map::print()
       }
       else {
         if ((*it_x)._state == Case::BREAKABLE){
-          std::cout << blue << (*it_x)._state << " " << def;
+          std::cout << light << (*it_x)._state << " " << def;
         }
         else if ((*it_x)._state == Case::UNBREAKABLE){
+          std::cout << magenta <<(*it_x)._state << " " << def;
+        }
+        else if ((*it_x)._state == Case::EXPLODING){
+          std::cout << yellow <<(*it_x)._state << " " << def;
+        }
+        else if ((*it_x)._state == Case::TAKEN){
+          std::cout << cyan <<(*it_x)._state << " " << def;
+        }
+        else if ((*it_x)._state == Case::BOMB){
           std::cout << red <<(*it_x)._state << " " << def;
         }
         else{
-          std::cout << (*it_x)._state << " ";
+          std::cout << black << (*it_x)._state << " " << def;
         }
       }
     }

@@ -1,13 +1,8 @@
 #include "../include/AI.hh"
 #include "../../Player/include/IPowerup.hh"
-#include "../../Map/Map.hh"
-#include "../../Map/Case.h"
-#include "../LuaBridge/LuaBridge.h"
-extern "C" {
-# include "lua.h"
-# include "lauxlib.h"
-# include "lualib.h"
-}
+#include "Map.hh"
+#include "Case.h"
+#include <iostream>
 
 AI::AI(Map *mp, const int &num)
 {
@@ -22,6 +17,13 @@ AI::AI(Map *mp, const int &num)
   this->action = UNKNOWN;
   this->pos.x = 0.5;
   this->pos.y = 0.5;
+
+  this->actions[UNKNOWN] = NULL;
+  this->actions[UP] = &AI::move_up;
+  this->actions[DOWN] = &AI::move_down;
+  this->actions[LEFT] = &AI::move_left;
+  this->actions[RIGHT] = &AI::move_right;
+  this->actions[BOMB] = &AI::put_bomb;
 }
 
 AI::AI(const AI &pl)
@@ -37,6 +39,13 @@ AI::AI(const AI &pl)
   this->key = pl.key;
   this->bombs = pl.bombs;
   this->action = pl.action;
+
+  this->actions[UNKNOWN] = NULL;
+  this->actions[UP] = &AI::move_up;
+  this->actions[DOWN] = &AI::move_down;
+  this->actions[LEFT] = &AI::move_left;
+  this->actions[RIGHT] = &AI::move_right;
+  this->actions[BOMB] = &AI::put_bomb;
 }
 
 AI::~AI()
@@ -77,7 +86,7 @@ void  AI::init()
 
 IPlayer::e_player AI::get_type() const
 {
-  return (IPlayer::IA);
+  return (IPlayer::AI);
 }
 
 const std::vector<Bomb *> &AI::get_bombs() const
@@ -125,9 +134,9 @@ bool  AI::check_alive()
   if (mp[this->pos.y][this->pos.x]._state == Case::EXPLODING)
   {
     this->alive = false;
-    return (true);
+    return (false);
   }
-  return (false);
+  return (true);
 }
 
 void  AI::set_score(const size_t &scr)
@@ -160,12 +169,55 @@ const e_action  &AI::get_action() const
   return (this->action);
 }
 
-void  AI::do_action()
+void                AI::pass_values(lua_State *L, std::vector<std::vector<Case>> &map)
 {
-  lua_State *L = lua_open();
+  /* Pass map sizes */
+  lua_pushnumber(L, map.size());
+  lua_setglobal(L, "map_y");
+  lua_pushnumber(L, map[0].size());
+  lua_setglobal(L, "map_x");
 
+  /* Pass positions */
+  lua_pushnumber(L, static_cast<int>(this->pos.x));
+  lua_setglobal(L, "pos_x");
+  lua_pushnumber(L, static_cast<int>(this->pos.y));
+  lua_setglobal(L, "pos_y");
 
-  //TODO with keybind
+  /* make a table with the map valeus */
+  lua_newtable(L);
+  int newTable = lua_gettop(L);
+  int index = 1;
+  for (int y = 0; y < map.size(); y++)
+  {
+    for (int x = 0; x < map[y].size(); x++)
+    {
+      lua_pushnumber(L, map[y][x]._state);
+      lua_rawseti(L, -2, index);
+      ++index;
+    }
+  }
+  lua_setglobal(L, "map");
+}
+
+void                                AI::do_action()
+{
+  lua_State* L = luaL_newstate();
+  luaL_openlibs(L);
+  int r = luaL_loadfile(L, "luascript.lua");
+  pass_values(L, this->map->getMap());
+  if (r == 0)
+  {
+    r = lua_pcall(L, 0, 0, 0);
+  }
+  luabridge::LuaRef a = luabridge::getGlobal(L, "actionChoice");
+  e_action action = static_cast<e_action>(a.cast<int>());
+  std::cout << "action: " << action << std::endl;
+  if (action != UNKNOWN)
+  {
+    (this->*actions[action])();
+  }
+  // lua_close(L);
+  //TODO do an action with what the script returns, then close the luascript cleanly
 }
 
 const size_t &  AI::get_score() const
