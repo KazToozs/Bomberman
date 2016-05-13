@@ -14,6 +14,7 @@ private:
       std::vector<std::vector<Case> > &tmpMap,
       const size_t &posb_x, const size_t &posb_y,
       const size_t &pose_x, const size_t &pose_y);
+   void free_qMap(std::vector<std::vector<Case> > &);
    void symmetry(std::vector<std::vector<Case> > &);
    void rotate(std::vector<std::vector<Case> > &, size_t nb_rot);
    void add_empty_line(std::vector<std::vector<Case> > &tmpMap,

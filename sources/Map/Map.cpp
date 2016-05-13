@@ -9,14 +9,14 @@
 
 Map::Map(size_t x, size_t y)
 {
-  if (x >= 10 || y >= 10)
-  {
+  if (x >= 10 || y >= 10) {
     this->_x = x;
     this->_y = y;
     generate();
   }
-  else
-  std::cerr << "The map must at least (10, 10)" << std::endl;
+  else {
+    std::cerr << "The map must at least (10, 10)" << std::endl;
+  }
 }
 
 Map::Map(const Map &other)
@@ -37,10 +37,20 @@ std::vector<Case> &Map::operator[](const int &i)
 
 Map::~Map()
 {
+  std::vector<std::vector<Case> >::iterator it_y;
+  std::vector<Case>::iterator it_x;
+  for (it_y = _map.begin(); it_y != _map.end(); it_y++){
+    for (it_x = (*it_y).begin(); it_x != (*it_y).end(); it_x++ ){
+      if ((*it_x)._powerup != NULL){
+        delete ((*it_x)._powerup);
+      }
 
+    }
+  }
 }
 
-std::vector<std::vector<Case> > Map::quarter(){
+std::vector<std::vector<Case> > Map::quarter()
+{
   std::srand(std::time(0));
   std::vector<std::vector<Case> > qMap((_y / 2));
   size_t nb_power_max = _x / 4;
@@ -49,11 +59,11 @@ std::vector<std::vector<Case> > Map::quarter(){
   for (size_t i = 0 ; i < (_y / 2) ; i++) {
     qMap[i].resize((_x / 2));
     for (size_t j = 0 ; j < (_x / 2); j++) {
+      tmp_case._powerup = NULL;
       if (((i % 2) == 1) && ((j % 2) == 1)) {
         tmp_case._state = Case::UNBREAKABLE;
       }
       else {
-        tmp_case._powerup = NULL;
         if ((std::rand() % 5) == 0 ) {
           tmp_case._state = Case::FREE;
         }
@@ -62,15 +72,15 @@ std::vector<std::vector<Case> > Map::quarter(){
           if ((std::rand() % 4) == 0  && nb_power_max > 0
           && (i != 0 && j != 0) && (i != 1 && j != 0)
           && (i != 1 && j != 0)) {
-            if ((std::rand() % 3) == 0){
+            if ((std::rand() % 3 && tmp_case._powerup == NULL) == 0){
               std::cout << "Bombe " << "i: " << i << " j: " << j <<std::endl;
               tmp_case._powerup = new PowerBomb();
             }
-            if ((std::rand() % 3) == 1){
+            if ((std::rand() % 3) == 1 && tmp_case._powerup == NULL){
               std::cout << "RANGE: " << "i: " << i << " j: " << j <<std::endl;
               tmp_case._powerup = new PowerRange();
             }
-            if ((std::rand() % 3) == 2){
+            if ((std::rand() % 3) == 2 && tmp_case._powerup == NULL){
               std::cout << "SPEED: " << "i: " << i << " j: " << j <<std::endl;
               tmp_case._powerup = new PowerSpeed();
             }
@@ -139,6 +149,17 @@ void Map::fill_quarter(const std::vector<std::vector<Case> > &qMap,
     i_tmp = 0;
     for (j = posb_x; j < pose_x; j++) {
       tmpMap[i][j] = qMap[j_tmp][i_tmp];
+      if (qMap[j_tmp][i_tmp]._powerup){
+        if (qMap[j_tmp][i_tmp]._powerup->get_type() == SPEEDUP){
+          tmpMap[i][j]._powerup = new PowerSpeed();
+        }
+        if (qMap[j_tmp][i_tmp]._powerup->get_type() == RANGEUP){
+          tmpMap[i][j]._powerup = new PowerRange();
+        }
+        if (qMap[j_tmp][i_tmp]._powerup->get_type() == BOMBUP){
+          tmpMap[i][j]._powerup = new PowerBomb();
+        }
+      }
       i_tmp++;
     }
     j_tmp++;
@@ -159,6 +180,24 @@ void Map::add_empty_columns(std::vector<std::vector<Case> > &tmpMap,
          }
          return ;
        }
+
+void Map::free_qMap(std::vector<std::vector<Case> > &qMap){
+  std::vector<std::vector<Case> >::iterator it_y;
+  std::vector<Case>::iterator it_x;
+  for (it_y = qMap.begin(); it_y != qMap.end(); it_y++){
+    for (it_x = (*it_y).begin(); it_x != (*it_y).end(); it_x++ ){
+      if ((*it_x)._powerup != NULL){
+        if ((*it_x)._powerup->get_type() == SPEEDUP)
+        std::cout << "SPEED" << std::endl;
+        if ((*it_x)._powerup->get_type() == RANGEUP)
+        std::cout << "RANGE" << std::endl;
+        if ((*it_x)._powerup->get_type() == BOMBUP)
+        std::cout << "BOMB" << std::endl;
+          delete ((*it_x)._powerup);
+        }
+      }
+    }
+  }
 
 void Map::generate() {
   std::vector<std::vector<Case> > qMap;
@@ -191,6 +230,7 @@ void Map::generate() {
     fill_quarter(qMap, tmpMap, (_x / 2), (_y / 2), _x, _y);
   }
   this->_map = tmpMap;
+  free_qMap(qMap);
 }
 
 void Map::print()
