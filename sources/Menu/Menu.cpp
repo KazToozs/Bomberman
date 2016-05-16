@@ -66,6 +66,10 @@ void Menu::Action() {
   _Mtx->unlock();
 }
 
+void Menu::StartGame() {
+    this->id_menu = GAME;
+}
+
 void Menu::pushBackList(IButtons *button) { this->buttons.push_back(button); }
 
 const Menu::ID_MENU &Menu::getId() const { return this->id_menu; }

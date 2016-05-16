@@ -28,6 +28,7 @@ void			IAButton::action() const
   
   game = new Game(id, multi ? 2 : 1, 20);
   this->menu->gui->LoadGame(game);
+  this->menu->StartGame();
 }
 
 const std::string	&IAButton::getName() const

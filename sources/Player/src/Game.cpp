@@ -18,9 +18,8 @@
 
 class AI;
 
-Game::Game(const int &nb_ia, const int &nb_real, const int &size)
-{
-//  this->keybind = key;
+Game::Game(const int &nb_ia, const int &nb_real, const int &size) {
+  //  this->keybind = key;
   this->size = size;
   this->nb_ia = nb_ia;
   this->nb_real = nb_real;
@@ -29,8 +28,7 @@ Game::Game(const int &nb_ia, const int &nb_real, const int &size)
   this->th = NULL;
 }
 
-Game::Game(const Game &gm)
-{
+Game::Game(const Game &gm) {
   this->keybind = gm.keybind;
   this->size = gm.size;
   this->nb_ia = gm.nb_ia;
@@ -42,18 +40,14 @@ Game::Game(const Game &gm)
   this->players = gm.players;
 }
 
-Game::~Game()
-{
+Game::~Game() {
   delete this->mtx;
-  if (this->map != NULL)
-    delete this->map;
-  if (this->th != NULL)
-    delete this->th;
+  if (this->map != NULL) delete this->map;
+  if (this->th != NULL) delete this->th;
   this->players.clear();
 }
 
-const Game &Game::operator=(const Game &gm)
-{
+const Game &Game::operator=(const Game &gm) {
   this->size = gm.size;
   this->nb_ia = gm.nb_ia;
   this->nb_real = gm.nb_real;
@@ -66,16 +60,14 @@ const Game &Game::operator=(const Game &gm)
   return (*this);
 }
 
-void  Game::init()
-{
+void Game::init() {
   std::cout << "géty" << std::endl;
   this->map = new Map(this->size, this->size);
-std::cout << "fag" << std::endl;
-  // for (size_t x = 0; x < this->nb_real; x++)
-  // {
-  //   this->players.push_back(new Player(this->map, x + 1));
-  //   players[x]->init();
-  // }
+  std::cout << "fag" << std::endl;
+  for (size_t x = 0; x < this->nb_real; x++) {
+    this->players.push_back(new Player(this->map, x + 1));
+    players[x]->init();
+  }
   for (size_t x = 0; x < this->nb_ia; x++)
   {
     this->players.push_back(new AI(this->map, (x + this->nb_real + 1)));
@@ -90,20 +82,16 @@ std::cout << "fag" << std::endl;
   //   playerTable[i + 1] = innerTable;
   // }
   // luabridge::setGlobal(L, playerTable, "playerTable");
-  //TODO create ia
+  // TODO create ia
 }
 
-void  Game::start()
-{
+void Game::start() {
   int i = 0; /* delete this */
 
-  while (this->check_finish() == false)
-  {
+  while (this->check_finish() == false) {
     this->mtx->lock();
-    for (size_t x = 0; x < this->players.size(); x++)
-    {
-      if (this->players[x]->is_alive() == true)
-      {
+    for (size_t x = 0; x < this->players.size(); x++) {
+      if (this->players[x]->is_alive() == true) {
         this->players[x]->check_bombs();
         if (this->players[x]->check_alive() == true)
           this->players[x]->do_action();
@@ -118,76 +106,50 @@ void  Game::start()
   }
 }
 
-void  Game::lock() const
-{
-  this->mtx->lock();
-}
+void Game::lock() const { this->mtx->lock(); }
 
-void  Game::unlock() const
-{
-  this->mtx->unlock();
-}
+void Game::unlock() const { this->mtx->unlock(); }
 
-bool  Game::check_finish()
-{
+bool Game::check_finish() {
   int cpt;
 
   cpt = 0;
-  for (size_t x = 0; x < this->players.size(); x++)
-  {
-    if (players[x]->check_alive() == false)
-      cpt++;
-    if (cpt == (this->nb_ia + this->nb_real) - 1)
-      return (true);
+  for (size_t x = 0; x < this->players.size(); x++) {
+    if (players[x]->check_alive() == false) cpt++;
+    if (cpt == (this->nb_ia + this->nb_real) - 1) return (true);
   }
   return (false);
 }
 
-const IPlayer *Game::who_alive() const
-{
-  for (size_t x = 0; x < this->players.size(); x++)
-  {
-      if (players[x]->is_alive() == true)
-        return (this->players[x]);
+const IPlayer *Game::who_alive() const {
+  for (size_t x = 0; x < this->players.size(); x++) {
+    if (players[x]->is_alive() == true) return (this->players[x]);
   }
   return (NULL);
 }
 
-const std::vector<IPlayer *>  &Game::get_players() const
-{
+const std::vector<IPlayer *> &Game::get_players() const {
   return (this->players);
 }
 
-void  Game::check_bombs()
-{
+void Game::check_bombs() {
   for (size_t x = 0; x < this->players.size(); x++)
     this->players[x]->check_bombs();
 }
 
-std::vector<Bomb *> Game::get_bombs() const
-{
+std::vector<Bomb *> Game::get_bombs() const {
   std::vector<Bomb *> ret;
   std::vector<Bomb *> tmp;
 
-  for (size_t x = 0; x < this->players.size() ; x++)
-  {
+  for (size_t x = 0; x < this->players.size(); x++) {
     tmp = this->players[x]->get_bombs();
     ret.insert(ret.end(), tmp.begin(), tmp.end());
   }
   return (ret);
 }
 
-Map   *Game::get_map() const
-{
-  return (this->map);
-}
+Map *Game::get_map() const { return (this->map); }
 
-void  Game::set_map(Map *mp)
-{
-  this->map = mp;
-}
+void Game::set_map(Map *mp) { this->map = mp; }
 
-void  Game::set_players(const std::vector<IPlayer *> &pl)
-{
-  this->players = pl;
-}
+void Game::set_players(const std::vector<IPlayer *> &pl) { this->players = pl; }

@@ -30,8 +30,8 @@ Player::Player(Map *mp, const int &num)
   this->speed = 0.1;
   this->alive = true;
   this->action = UNKNOWN;
-  this->pos.x = 0.5;
-  this->pos.y = 0.5;
+  this->pos.x = 0.0;
+  this->pos.y = 0.0;
 }
 
 Player::Player(const Player &pl)

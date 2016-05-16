@@ -28,6 +28,7 @@ class Menu {
   void GoUp();
   void GoDown();
   void Action();
+  void StartGame();
   enum ID_MENU {
     MAIN_MENU = 0,
     OPTIONS = 1,

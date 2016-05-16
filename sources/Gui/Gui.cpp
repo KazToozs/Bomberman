@@ -27,9 +27,17 @@ bool Gui::Start(Menu* menu) {
 }
 
 void Gui::LoadGame(Game* game) {
+  std::cout << "I'm here : " << game << std::endl;
   _Game = game;
   _Game->init();
   _Map = game->get_map();
+  _MapsModels.resize(_Map->getMap().size());
+  for (int y = 0; y < _Map->getMap().size(); y++) {
+    _MapsModels[y].resize((*_Map)[0].size());
+    for (int x = 0; x < (*_Map)[0].size(); x++) {
+      _MapsModels[y][x] = NULL;
+    }
+  }
 }
 
 bool Gui::Alive() const {
@@ -155,7 +163,7 @@ void Gui::Load() {
   irr::scene::ILightSceneNode* LightNode =
       _Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
                                irr::video::SColor(255, 128, 128, 128), 50.0f);
-  CamNode->setPosition(irr::core::vector3df(0, -20, -20));
+  CamNode->setPosition(irr::core::vector3df(0, -5, -10));
   CamNode->setTarget(irr::core::vector3df(0, 0, 0));
   _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
@@ -169,7 +177,7 @@ void Gui::MovePlayer(int id) {
   for (int i = 0; i < players.size(); i++) {
     _PlayerModels[id][i]->setPosition(irr::core::vector3df(
         players[i]->get_pos().x * 2, players[i]->get_pos().y * 2, 0));
-    _PlayerModels[id][i]->setRotation(irr::core::vector3df(0, 180, 0));
+    _PlayerModels[id][i]->setRotation(irr::core::vector3df(90, 0, 0));
     _PlayerModels[id][i]->setVisible(true);
   }
 }
@@ -190,14 +198,6 @@ void Gui::LoadMaps() {
   _BlockModels[Case::NOPE] =
       _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
   if (_Map == NULL) return;
-
-  _MapsModels.resize(_Map->getMap().size());
-  for (int y = 0; y < _Map->getMap().size(); y++) {
-    _MapsModels[y].resize((*_Map)[0].size());
-    for (int x = 0; x < (*_Map)[0].size(); x++) {
-      _MapsModels[y][x] = NULL;
-    }
-  }
 }
 
 void Gui::ActualiseMaps() {
@@ -258,8 +258,7 @@ void Gui::DrawMenu() {
     _Driver->draw2DImage(_Back, irr::core::position2di(0, 0),
                          irr::core::rect<irr::s32>(0, 0, 1280, 720));
   if (_MainFont)
-    _MainFont->draw(button.c_str(),
-                    irr::core::rect<irr::s32>(0, 311, 517, 408),
+    _MainFont->draw(button.c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
                     irr::video::SColor(255, 0, 0, 0), false, true);
 
   /*End Menu*/
