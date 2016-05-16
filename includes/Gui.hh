@@ -8,6 +8,9 @@
 #include "Map.hh"
 #include "ControlEventReceiver.hh"
 #include "Case.h"
+#include "Game.hh"
+#include "IPlayer.hh"
+#include "Menu.hh"
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -19,7 +22,8 @@ class Gui {
   Gui(int Height = 720, int Width = 1280, int Ddp = 32, bool Fullscreen = false,
       bool Vsync = true);
 
-  bool Start();
+  bool Start(Menu *menu);
+  void LoadGame(Game *game);
   bool Alive() const;
   const irr::SEvent::SJoystickEvent& get_joy_event() const;
   const std::vector<irr::SEvent::SKeyInput>& get_key_event() const;
@@ -33,11 +37,13 @@ class Gui {
   void Load();
   void LoadModels();
   void LoadMaps();
+  int check_keys();
 
   void ActualiseMaps();
   void UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old);
   void MovePlayer(int);
   bool DrawScene();
+  void DrawMenu();
   void StartLoop();
 
   irr::IrrlichtDevice* _Device;
@@ -45,8 +51,10 @@ class Gui {
   irr::scene::ISceneManager* _Smgr;
   irr::gui::IGUIEnvironment* _Guienv;
   irr::gui::IGUIFont* _MainFont;
+  irr::video::ITexture* _Back;
   std::vector<std::vector<irr::scene::ISceneNode*>> _PlayerModels;
   std::vector<std::vector<irr::scene::ISceneNode*>> _MapsModels;
+  irr::scene::ISceneNode* _BaseModels;
   std::vector<irr::scene::IMesh*> _BlockModels;
 
   ControlEventReceiver _Event;
@@ -58,7 +66,9 @@ class Gui {
   bool _isFullscreen;
   bool _VSync;
   bool _Run;
+  Game* _Game;
   Map* _Map;
+  Menu* _Menu;
 };
 
 #endif  // GUI_H

@@ -14,14 +14,22 @@ Gui::Gui(int Height, int Width, int Ddp, bool Fullscreen, bool Vsync)
   _MainFont = NULL;
   _Run = true;
   _Mtx = new std::mutex();
-  _Map = new Map(10, 10);
+  _Game = NULL;
+  _Map = NULL;
 }
 
 /*Public !!!*/
 
-bool Gui::Start() {
+bool Gui::Start(Menu* menu) {
+  _Menu = menu;
   _Th = new std::thread([&] { StartLoop(); });
   if (_Th->joinable()) return (true);
+}
+
+void Gui::LoadGame(Game* game) {
+  _Game = game;
+  _Game->init();
+  _Map = game->get_map();
 }
 
 bool Gui::Alive() const {
@@ -126,15 +134,18 @@ void Gui::LoadModels() {
     _PlayerModels[i][0] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][0]->setVisible(false);
     _PlayerModels[i][0]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
+    _PlayerModels[i][0]->setRotation(irr::core::vector3df(90, 0, 0));
 
     state = _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
     _PlayerModels[i][1] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][1]->setVisible(false);
     _PlayerModels[i][1]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
+    _PlayerModels[i][1]->setRotation(irr::core::vector3df(90, 0, 0));
     state = _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
     _PlayerModels[i][2] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][2]->setVisible(false);
     _PlayerModels[i][2]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
+    _PlayerModels[i][2]->setRotation(irr::core::vector3df(90, 0, 0));
   }
 }
 
@@ -142,42 +153,43 @@ void Gui::Load() {
   _Mtx->lock();
   irr::scene::ICameraSceneNode* CamNode = _Smgr->addCameraSceneNode();
   irr::scene::ILightSceneNode* LightNode =
-      _Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, 200),
+      _Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
                                irr::video::SColor(255, 128, 128, 128), 50.0f);
-  CamNode->setPosition(irr::core::vector3df(0, -10, 10));
+  CamNode->setPosition(irr::core::vector3df(0, -20, -20));
   CamNode->setTarget(irr::core::vector3df(0, 0, 0));
+  _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
+  _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
   LoadModels();
   LoadMaps();
   _Mtx->unlock();
 }
 
 void Gui::MovePlayer(int id) {
-  static float x, y, z = 0.0f;
-  if (id == 0) {
-    x += 0.1f;
-    y += 0.1f;
-    z += 0.01f;
-  }
-  for (int i = 0; i < 3; i++) {
-    _PlayerModels[id][i]->setPosition(
-        irr::core::vector3df(-id * 2, -id * 2, 0));
-    _PlayerModels[id][i]->setRotation(irr::core::vector3df(x, y, z));
+  std::vector<IPlayer*> players = _Game->get_players();
+  for (int i = 0; i < players.size(); i++) {
+    _PlayerModels[id][i]->setPosition(irr::core::vector3df(
+        players[i]->get_pos().x * 2, players[i]->get_pos().y * 2, 0));
+    _PlayerModels[id][i]->setRotation(irr::core::vector3df(0, 180, 0));
     _PlayerModels[id][i]->setVisible(true);
   }
 }
 
 void Gui::LoadMaps() {
-  _BlockModels.resize(6);
+  _BaseModels = NULL;
+  _BlockModels.resize(7);
   _BlockModels[Case::FREE] = NULL;
   _BlockModels[Case::UNBREAKABLE] =
       _Smgr->getMesh("Ressources/Models/Block/unbreak/Unbreak.obj");
   _BlockModels[Case::BREAKABLE] =
       _Smgr->getMesh("Ressources/Models/Block/breakable/Breakable.obj");
-  _BlockModels[Case::TAKEN] =
-      _Smgr->getMesh("Ressources/Models/Block/Taken.obj");
+  _BlockModels[Case::TAKEN] = NULL;
+  _Smgr->getMesh("Ressources/Models/Block/Taken.obj");
   _BlockModels[Case::BOMB] = _Smgr->getMesh("Ressources/Models/Block/Bomb.obj");
   _BlockModels[Case::EXPLODING] =
       _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
+  _BlockModels[Case::NOPE] =
+      _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
+  if (_Map == NULL) return;
 
   _MapsModels.resize(_Map->getMap().size());
   for (int y = 0; y < _Map->getMap().size(); y++) {
@@ -208,15 +220,20 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
   if (!mesh) return;
   irr::scene::ISceneNode* new_block = _Smgr->addMeshSceneNode(mesh);
   old = new_block;
-  old->setPosition(irr::core::vector3df(-(x * 2), -(y * 2), 0));
-  old->setRotation(irr::core::vector3df(90, 0, 0));
+  old->setPosition(irr::core::vector3df(x * 2, y * 2, 0));
+  old->setRotation(irr::core::vector3df(180, 0, 0));
   old->setScale(irr::core::vector3df(0.002f, 0.002f, 0.002f));
 }
 
 bool Gui::DrawScene() {
+  Case c;
+
+  c._state = Case::NOPE;
+  c._powerup = NULL;
   _Mtx->lock();
   _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
   /*Start Scene*/
+  if (!_BaseModels) UpdateBlock(-2, 5, c, _BaseModels);
   ActualiseMaps();
   for (int i = 0; i < 4; i++) {
     MovePlayer(i);
@@ -230,11 +247,36 @@ bool Gui::DrawScene() {
   return (true);
 }
 
+void Gui::DrawMenu() {
+  const std::string button = _Menu->getButtonName();
+
+  _Mtx->lock();
+  _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
+  /*Start Menu*/
+
+  if (_Back)
+    _Driver->draw2DImage(_Back, irr::core::position2di(0, 0),
+                         irr::core::rect<irr::s32>(0, 0, 1280, 720));
+  if (_MainFont)
+    _MainFont->draw(button.c_str(),
+                    irr::core::rect<irr::s32>(0, 311, 517, 408),
+                    irr::video::SColor(255, 0, 0, 0), false, true);
+
+  /*End Menu*/
+  _Smgr->drawAll();
+  _Guienv->drawAll();
+  _Driver->endScene();
+  _Mtx->unlock();
+}
+
 void Gui::StartLoop() {
   if (!CreateWindow()) return;
   this->Load();
   while (WindowIsOpen()) {
-    DrawScene();
+    if (_Menu->getId() == Menu::GAME)
+      DrawScene();
+    else
+      DrawMenu();
   }
   _Mtx->lock();
   if (_Device) {

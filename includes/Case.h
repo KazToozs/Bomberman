@@ -14,17 +14,18 @@
 #include "IPowerup.hh"
 
 struct Case {
-  enum State{
-    FREE,         /* 0 */
-    UNBREAKABLE,  /* 1 */
-    BREAKABLE,    /* 2 */
-    TAKEN,        /* 3 */
-    BOMB,         /* 4 */
-    EXPLODING     /* 5 */
+  enum State {
+    FREE,        /* 0 */
+    UNBREAKABLE, /* 1 */
+    BREAKABLE,   /* 2 */
+    TAKEN,       /* 3 */
+    BOMB,        /* 4 */
+    EXPLODING,   /* 5 */
+    NOPE
   };
 
- IPowerup *_powerup;
-  State  _state;
+  IPowerup *_powerup;
+  State _state;
 };
 
 #endif

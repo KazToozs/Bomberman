@@ -1,9 +1,9 @@
 //
 // Menu.cpp for  in /home/liege_m/rendu/cpp_indie_studio/sources/Menu
-// 
+//
 // Made by maxime liege
 // Login   <liege_m@epitech.net>
-// 
+//
 // Started on  Thu Apr 28 14:12:56 2016 maxime liege
 // Last update Fri Apr 29 15:51:22 2016 maxime liege
 //
@@ -17,49 +17,68 @@
 #include "OptionButton.hh"
 #include "ContinueButton.hh"
 
-Menu::Menu()
-{
+Menu::Menu() {
   this->id_menu = MAIN_MENU;
+  this->_pos = 0;
+  this->_Mtx = new std::mutex();
   createMainMenu();
 }
 
-Menu::~Menu()
-{
-  this->clearList();
-}
+Menu::~Menu() { this->clearList(); }
 
-void	Menu::clearList()
-{
+void Menu::clearList() {
   std::vector<IButtons *>::iterator it;
-  
+
   it = buttons.begin();
-  while (it != buttons.end())
-    {
-      delete(*it);
-      it++;
-    }
+  while (it != buttons.end()) {
+    delete (*it);
+    it++;
+  }
   this->buttons.clear();
+  this->_pos = 0;
 }
 
-void	Menu::affList()
-{
+void Menu::affList() {
   std::vector<IButtons *>::iterator it;
-  
+
   it = buttons.begin();
-  while (it != buttons.end())
-    {
-      std::cout << (*it)->getName() << std::endl;
-      it++;
-    }
+  while (it != buttons.end()) {
+    std::cout << (*it)->getName() << std::endl;
+    it++;
+  }
 }
 
-void	Menu::pushBackList(IButtons *button)
-{
-  this->buttons.push_back(button);
+void Menu::GoUp() {
+  _Mtx->lock();
+  this->_pos = (_pos - 1 < 0) ? 0 : _pos - 1;
+  _Mtx->unlock();
+}
+void Menu::GoDown() {
+  _Mtx->lock();
+  this->_pos = (_pos + 1 < buttons.size()) ? _pos + 1 : buttons.size() - 1;
+  _Mtx->unlock();
+}
+void Menu::Action() {
+  _Mtx->lock();
+  this->buttons[_pos]->action();
+  _Mtx->unlock();
 }
 
-void	Menu::createMainMenu()
-{
+void Menu::pushBackList(IButtons *button) { this->buttons.push_back(button); }
+
+const Menu::ID_MENU &Menu::getId() const { return this->id_menu; }
+
+const IButtons *Menu::getCurrentButton() const { return this->buttons[_pos]; }
+
+const std::string Menu::getButtonName() const {
+  std::string name;
+  _Mtx->lock();
+  name = this->buttons[_pos]->getName();
+  _Mtx->unlock();
+  return (name);
+}
+
+void Menu::createMainMenu() {
   this->buttons.push_back(new ContinueButton(this));
   this->buttons.push_back(new PlayerButton("Solo", PlayerButton::SOLO, this));
   this->buttons.push_back(new PlayerButton("Multi", PlayerButton::MULTI, this));

@@ -18,13 +18,13 @@
 
 typedef enum action
 {
-  UNKNOWN,
-  UP,
-  DOWN,
-  LEFT,
-  RIGHT,
-  BOMB
-}e_action;
+  UNKNOWN,  /* 0 */
+  UP,       /* 1 */
+  DOWN,     /* 2 */
+  LEFT,     /* 3 */
+  RIGHT,    /* 4 */
+  BOMB      /* 5 */
+}            e_action;
 
 typedef struct s_pos
 {

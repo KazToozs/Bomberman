@@ -46,7 +46,7 @@ private:
   void move_left();
   void move_right();
 public:
-  Player(Map *, const int &num, Keybind *);
+  Player(Map *, const int &num);
   Player(const Player &);
   ~Player();
   void  init();

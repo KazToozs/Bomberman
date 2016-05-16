@@ -16,7 +16,14 @@ SOURCES += sources/main.cpp \
     sources/Player/src/Player.cpp \
     sources/Player/src/PowerBomb.cpp \
     sources/Player/src/PowerRange.cpp \
-    sources/Player/src/PowerSpeed.cpp
+    sources/Player/src/PowerSpeed.cpp \
+    sources/Menu/ConfirmButton.cpp \
+    sources/Menu/ContinueButton.cpp \
+    sources/Menu/ExitButton.cpp \
+    sources/Menu/IAButton.cpp \
+    sources/Menu/Menu.cpp \
+    sources/Menu/OptionButton.cpp \
+    sources/Menu/PlayerButton.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -34,7 +41,16 @@ HEADERS += \
     includes/Player.hh \
     includes/PowerBomb.hh \
     includes/PowerRange.hh \
-    includes/PowerSpeed.hh
+    includes/PowerSpeed.hh \
+    includes/AI.hh \
+    includes/ConfirmButton.hh \
+    includes/ContinueButton.hh \
+    includes/ExitButton.hh \
+    includes/IAButton.hh \
+    includes/IButtons.hh \
+    includes/Menu.hh \
+    includes/OptionButton.hh \
+    includes/PlayerButton.hh
 
 INCLUDEPATH += includes ./lib/irrlicht/include
 

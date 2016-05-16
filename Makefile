@@ -6,21 +6,32 @@ SRC         =	sources/main.cpp	\
 		sources/Player/src/PowerBomb.cpp \
 		sources/Player/src/PowerRange.cpp \
 		sources/Player/src/PowerSpeed.cpp \
+		sources/Player/src/Game.cpp \
+		sources/Player/src/Player.cpp \
+		sources/Player/src/Keybind.cpp \
+		sources/Player/src/Bomb.cpp \
+		sources/Menu/ConfirmButton.cpp \
+		sources/Menu/ContinueButton.cpp \
+		sources/Menu/ExitButton.cpp \
+		sources/Menu/IAButton.cpp \
+		sources/Menu/Menu.cpp \
+		sources/Menu/OptionButton.cpp \
+		sources/Menu/PlayerButton.cpp \
 		sources/Map/Map.cpp
 
 OBJ         =	$(SRC:.cpp=.o)
 
 INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include
 
-CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11
+CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11 -g -g3
 
 CPP          =	g++
 
 LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht
 
-$(NAME)     :	all
+all:	$(NAME)
 
-all         :	$(OBJ)
+$(NAME)	    :	$(OBJ)
 		$(CPP) $(OBJ) -o $(NAME) $(LIBS)
 
 clean       :
