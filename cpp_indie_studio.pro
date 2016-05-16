@@ -23,7 +23,10 @@ SOURCES += sources/main.cpp \
     sources/Menu/IAButton.cpp \
     sources/Menu/Menu.cpp \
     sources/Menu/OptionButton.cpp \
-    sources/Menu/PlayerButton.cpp
+    sources/Menu/PlayerButton.cpp \
+    sources/AI/src/AI.cpp \
+    sources/AI/test/main.cpp \
+    sources/Map/main.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -50,9 +53,24 @@ HEADERS += \
     includes/IButtons.hh \
     includes/Menu.hh \
     includes/OptionButton.hh \
-    includes/PlayerButton.hh
+    includes/PlayerButton.hh \
+    includes/LuaBridge/detail/CFunctions.h \
+    includes/LuaBridge/detail/ClassInfo.h \
+    includes/LuaBridge/detail/Constructor.h \
+    includes/LuaBridge/detail/dump.h \
+    includes/LuaBridge/detail/FuncTraits.h \
+    includes/LuaBridge/detail/Iterator.h \
+    includes/LuaBridge/detail/LuaException.h \
+    includes/LuaBridge/detail/LuaHelpers.h \
+    includes/LuaBridge/detail/LuaRef.h \
+    includes/LuaBridge/detail/Namespace.h \
+    includes/LuaBridge/detail/Stack.h \
+    includes/LuaBridge/detail/TypeList.h \
+    includes/LuaBridge/detail/TypeTraits.h \
+    includes/LuaBridge/detail/Userdata.h
 
 INCLUDEPATH += includes ./lib/irrlicht/include
 
 DISTFILES += \
-    Makefile
+    Makefile \
+    includes/LuaBridge/detail/Stack.h~

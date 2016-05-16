@@ -4,22 +4,24 @@
 #include "Menu.hh"
 
 int check_keys(Gui &g) {
-    if (g.get_key_event()[irr::KEY_UP].PressedDown) {
-        while (g.get_key_event()[irr::KEY_UP].PressedDown)
-            usleep(20);
-        return (1);
-    }
-    if (g.get_key_event()[irr::KEY_DOWN].PressedDown) {
-        while (g.get_key_event()[irr::KEY_DOWN].PressedDown)
-            usleep(20);
-        return (2);
-    }
-    if (g.get_key_event()[irr::KEY_RETURN].PressedDown) {
-        while (g.get_key_event()[irr::KEY_RETURN].PressedDown)
-            usleep(20);
-        return (3);
-    }
-    return (0);
+  static int ret = 0;
+  if (g.get_key_event()[irr::KEY_UP].PressedDown) {
+    if (ret == 1) usleep(100000);
+    ret = 1;
+    if (g.get_key_event()[irr::KEY_UP].PressedDown) return (1);
+  }
+  if (g.get_key_event()[irr::KEY_DOWN].PressedDown) {
+    if (ret == 2) usleep(100000);
+    ret = 2;
+    if (g.get_key_event()[irr::KEY_DOWN].PressedDown) return (2);
+  }
+  if (g.get_key_event()[irr::KEY_RETURN].PressedDown) {
+    if (ret == 3) usleep(100000);
+    ret = 3;
+    if (g.get_key_event()[irr::KEY_RETURN].PressedDown) return (3);
+  }
+  ret = 0;
+  return (0);
 }
 
 int main() {
