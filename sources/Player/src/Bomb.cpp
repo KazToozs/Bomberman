@@ -66,41 +66,45 @@ void        Bomb::do_explosion(std::vector<std::vector<Case> > &mp) const
   mp[(int)this->pos.y][(int)this->pos.x]._state = Case::EXPLODING;
   for (int x = 0; x <= this->range && breaked == false; x++)
   {
-    if (((size_t)this->pos.x + x) < mp.size() && mp[(int)this->pos.y][(int)this->pos.x + x]._state != Case::UNBREAKABLE)
+    if (((size_t)this->pos.x + x) < mp.size())
     {
       if (mp[(int)this->pos.y][(int)this->pos.x + x]._state == Case::BREAKABLE || mp[(int)this->pos.y][(int)this->pos.x + x]._state == Case::UNBREAKABLE)
         breaked = true;
-      mp[(int)this->pos.y][(int)this->pos.x + x]._state = Case::EXPLODING;
+      if (mp[(int)this->pos.y][(int)this->pos.x + x]._state != Case::UNBREAKABLE)
+        mp[(int)this->pos.y][(int)this->pos.x + x]._state = Case::EXPLODING;
     }
   }
   breaked = false;
   for (int x = 0; x <= this->range && breaked == false; x++)
   {
-    if (((int)this->pos.x - x) >= 0 && mp[(int)this->pos.y][(int)this->pos.x - x]._state != Case::UNBREAKABLE)
+    if (((int)this->pos.x - x) >= 0)
     {
       if (mp[(int)this->pos.y][(int)this->pos.x - x]._state == Case::BREAKABLE || mp[(int)this->pos.y][(int)this->pos.x - x]._state == Case::UNBREAKABLE)
         breaked = true;
-      mp[(int)this->pos.y][(int)this->pos.x - x]._state = Case::EXPLODING;
+      if (mp[(int)this->pos.y][(int)this->pos.x - x]._state != Case::UNBREAKABLE)
+        mp[(int)this->pos.y][(int)this->pos.x - x]._state = Case::EXPLODING;
     }
   }
   breaked = false;
   for (int y = 0; y <= this->range && breaked == false; y++)
   {
-    if (((size_t)this->pos.y + y) < mp.size() && mp[(int)this->pos.y + y][(int)this->pos.x]._state != Case::UNBREAKABLE)
+    if (((size_t)this->pos.y + y) < mp.size())
     {
       if (mp[(int)this->pos.y + y][(int)this->pos.x]._state == Case::BREAKABLE || mp[(int)this->pos.y + y][(int)this->pos.x]._state == Case::UNBREAKABLE)
         breaked = true;
-      mp[(int)this->pos.y + y][(int)this->pos.x]._state = Case::EXPLODING;
+      if ( mp[(int)this->pos.y + y][(int)this->pos.x]._state != Case::UNBREAKABLE)
+        mp[(int)this->pos.y + y][(int)this->pos.x]._state = Case::EXPLODING;
     }
   }
   breaked = false;
   for (int y = 0; y <= this->range && breaked == false; y++)
   {
-    if (((int)this->pos.y - y) >= 0 && mp[(int)this->pos.y - y][(int)this->pos.x]._state != Case::UNBREAKABLE)
+    if (((int)this->pos.y - y) >= 0)
     {
       if (mp[(int)this->pos.y - y][(int)this->pos.x]._state == Case::BREAKABLE || mp[(int)this->pos.y - y][(int)this->pos.x]._state == Case::UNBREAKABLE)
         breaked = true;
-      mp[(int)this->pos.y - y][(int)this->pos.x]._state = Case::EXPLODING;
+      if (mp[(int)this->pos.y - y][(int)this->pos.x]._state != Case::UNBREAKABLE)
+        mp[(int)this->pos.y - y][(int)this->pos.x]._state = Case::EXPLODING;
     }
   }
 }

@@ -68,17 +68,28 @@ const Game &Game::operator=(const Game &gm)
 
 void  Game::init()
 {
+  std::cout << "géty" << std::endl;
   this->map = new Map(this->size, this->size);
-  for (size_t x = 0; x < this->nb_real; x++)
-  {
-    this->players.push_back(new Player(this->map, x + 1));
-    players[x]->init();
-  }
+std::cout << "fag" << std::endl;
+  // for (size_t x = 0; x < this->nb_real; x++)
+  // {
+  //   this->players.push_back(new Player(this->map, x + 1));
+  //   players[x]->init();
+  // }
   for (size_t x = 0; x < this->nb_ia; x++)
   {
     this->players.push_back(new AI(this->map, (x + this->nb_real + 1)));
     players[x + this->nb_real]->init();
   }
+  // luabridge::LuaRef playerTable = luabridge::newTable(L);
+  // for(size_t i = 0; i < this->players.size(); ++i)
+  // {
+  //   luabridge::LuaRef innerTable = luabridge::newTable(L);
+  //   innerTable[1] = this->players[i].get_pos().x;
+  //   innerTable[2] = this->players[i].get_pos().y;
+  //   playerTable[i + 1] = innerTable;
+  // }
+  // luabridge::setGlobal(L, playerTable, "playerTable");
   //TODO create ia
 }
 
@@ -103,7 +114,7 @@ void  Game::start()
     std::cout << "----- AFTER -----" << std::endl;
     this->map->print();
     this->mtx->unlock();
-    sleep(1);
+    sleep(0.2);
   }
 }
 

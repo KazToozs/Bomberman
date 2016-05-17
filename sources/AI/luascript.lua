@@ -1,10 +1,10 @@
 
-print("yolo")
+-- print("yolo")
 algoMod = require("algo")
 
-algoMod.helloWorld()
+player = {x = pos_x, y = pos_y}
 
--- algoMod.printMap()
--- enemies = algoMod.findEnemies()
+newMap = algoMod.makeMap(map, map_x, map_y)
 
-actionChoice = 5
+actionChoice = algoMod.getAction()
+io.write("Final choice: ", actionChoice, "\n-----------\n")

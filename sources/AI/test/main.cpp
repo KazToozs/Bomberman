@@ -72,7 +72,12 @@ int             main()
   Game          *game;
 
   game = new Game(4, 0, 20);
+  std::cout << "lol" << std::endl;
+  
   game->init();
+  std::cout << "lol" << std::endl;
+
   game->get_map()->print();
+  std::cout << "lol" << std::endl;
   game->start();
 }

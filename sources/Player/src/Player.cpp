@@ -180,9 +180,19 @@ void  Player::move_up()
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-          this->pos.y = tmp;
-          mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          {
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
+            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
+              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+            this->pos.y = tmp;
+          }
+          else
+          {
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+            this->pos.y = tmp;
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+          }
         }
       }
     else
@@ -202,9 +212,19 @@ void  Player::move_down()
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-          this->pos.y = tmp;
-          mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          {
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
+            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
+              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+            this->pos.y = tmp;
+          }
+          else
+          {
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+            this->pos.y = tmp;
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+          }
         }
       }
     else
@@ -224,9 +244,19 @@ void  Player::move_left()
       {
         if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
         {
-          mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::FREE;
-          this->pos.x = tmp;
-          mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
+          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          {
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
+            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
+              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+            this->pos.y = tmp;
+          }
+          else
+          {
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+            this->pos.y = tmp;
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+          }
         }
       }
     else
@@ -246,9 +276,19 @@ void  Player::move_right()
       {
         if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
         {
-          mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::FREE;
-          this->pos.x = tmp;
-          mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
+          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          {
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
+            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
+              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+            this->pos.y = tmp;
+          }
+          else
+          {
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+            this->pos.y = tmp;
+            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+          }
         }
       }
     else
@@ -258,11 +298,11 @@ void  Player::move_right()
 
 void  Player::do_action()
 {
-  e_action bind;
-
-  bind = key->get_action(this->team);
-  if (bind != UNKNOWN)
-    (this->*act_func[bind])();
+  // e_action bind;
+  //
+  // // bind = key->get_action(this->team);
+  // if (bind != UNKNOWN)
+  //   (this->*act_func[bind])();
 }
 
 const size_t &  Player::get_score() const

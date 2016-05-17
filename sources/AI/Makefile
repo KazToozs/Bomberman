@@ -9,7 +9,7 @@ SRC	=	./test/main.cpp			\
 		../Player/src/PowerSpeed.cpp	\
 		../Player/src/Bomb.cpp		\
 
-CXXFLAGS=	-I/usr/include/lua5.1 -I../../includes -I../Player/include -std=c++11 
+CXXFLAGS=	-g -g3 -I/usr/include/lua5.1 -I../../includes -I../Player/include -I./LuaBridge -std=c++11 
 
 COMP	=	$(SRC:.cpp=.o)
 
