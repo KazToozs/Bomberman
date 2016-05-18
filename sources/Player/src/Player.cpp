@@ -14,14 +14,13 @@
 #include "Case.h"
 #include "Keybind.hh"
 
-Player::Player(Map *mp, const int &num, Keybind *keybind)
+Player::Player(Map *mp, const int &num)
 {
   act_func[UP] = &Player::move_up;
   act_func[DOWN] = &Player::move_down;
   act_func[LEFT] = &Player::move_left;
   act_func[RIGHT] = &Player::move_right;
   act_func[BOMB] = &Player::put_bomb;
-  this->key = keybind;
   this->map = mp;
   this->team = num;
   this->score = 0;

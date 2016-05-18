@@ -2,9 +2,9 @@
 #define AI_H_
 
 #include <map>
-#include "../../Player/include/IPlayer.hh"
-#include "../../Player/include/Bomb.hh"
-#include "../../Map/Case.h"
+#include "IPlayer.hh"
+#include "Bomb.hh"
+#include "Case.h"
 extern "C" {
 # include "lua.h"
 # include "lauxlib.h"

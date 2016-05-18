@@ -258,7 +258,7 @@ void  AI::move_up()
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          if (mp[this->pos.y][this->pos.x]._state == Case::BOMB)
           {
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
             if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
@@ -290,7 +290,7 @@ void  AI::move_down()
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          if (mp[this->pos.y][this->pos.x]._state == Case::BOMB)
           {
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
             if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
@@ -322,11 +322,11 @@ void  AI::move_left()
       {
         if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          if (mp[this->pos.y][this->pos.x]._state == Case::BOMB)
           {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+            mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::BOMB;
+            if (static_cast<int>(tmp) != static_cast<int>(this->pos.x))
+              mp[this->pos.y][static_cast<int>(tmp)]._state = Case::TAKEN;
             this->pos.y = tmp;
           }
           else
@@ -354,11 +354,11 @@ void  AI::move_right()
       {
         if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          if (mp[this->pos.y][this->pos.x]._state == Case::BOMB)
           {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+            mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::BOMB;
+            if (static_cast<int>(tmp) != static_cast<int>(this->pos.x))
+              mp[this->pos.y][static_cast<int>(tmp)]._state = Case::TAKEN;
             this->pos.y = tmp;
           }
           else
