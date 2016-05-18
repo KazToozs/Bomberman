@@ -5,7 +5,7 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 15:43:04 2016 maxime liege
-// Last update Fri Apr 29 17:01:22 2016 maxime liege
+// Last update Wed May 18 14:10:30 2016 maxime liege
 //
 
 #ifndef IABUTTON_H_
@@ -24,7 +24,7 @@ class IAButton : public IButtons
     IA_3 = 3
   };
 
-  IAButton(const std::string &name, const NB_IA &id, Menu *menu);
+  IAButton(const std::string &name, const NB_IA &id, Menu *menu, bool multi);
   virtual ~IAButton();
 
   virtual void			action() const;
@@ -38,6 +38,7 @@ private:
   const std::string	name;
   bool			isActive;
   Menu			*menu;
+  bool			multi;
 };
 
 #endif /* !IABUTTON_H_ */

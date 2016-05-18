@@ -5,7 +5,7 @@
 // Login   <liege_m@epitech.net>
 //
 // Started on  Thu Apr 28 14:12:56 2016 maxime liege
-// Last update Fri Apr 29 15:51:22 2016 maxime liege
+// Last update Wed May 18 13:35:38 2016 maxime liege
 //
 
 #include "Menu.hh"
@@ -17,10 +17,12 @@
 #include "OptionButton.hh"
 #include "ContinueButton.hh"
 
-Menu::Menu() {
+Menu::Menu(Gui *gui) 
+{
   this->id_menu = MAIN_MENU;
   this->_pos = 0;
   this->_Mtx = new std::mutex();
+  this->gui = gui;
   createMainMenu();
 }
 

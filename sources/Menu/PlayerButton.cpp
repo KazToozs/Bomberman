@@ -5,7 +5,7 @@
 // Login   <liege_m@epitech.net>
 // 
 // Started on  Thu Apr 28 14:12:49 2016 maxime liege
-// Last update Fri Apr 29 17:02:33 2016 maxime liege
+// Last update Wed May 18 13:29:47 2016 maxime liege
 //
 
 #include "PlayerButton.hh"
@@ -27,10 +27,13 @@ PlayerButton::~PlayerButton()
 void				PlayerButton::action() const
 {
   this->menu->clearList();
-  this->menu->pushBackList(new IAButton("IA1", IAButton::IA_1, this->menu));
-  this->menu->pushBackList(new IAButton("IA2", IAButton::IA_2, this->menu));
+  this->menu->pushBackList(new IAButton("IA1", IAButton::IA_1, this->menu, 
+					true));
+  this->menu->pushBackList(new IAButton("IA2", IAButton::IA_2, this->menu,
+					true));
   if (this->_id == SOLO)
-    this->menu->pushBackList(new IAButton("IA3", IAButton::IA_3, this->menu));
+    this->menu->pushBackList(new IAButton("IA3", IAButton::IA_3, this->menu,
+					  false));
 }
 
 bool				PlayerButton::getActive() const

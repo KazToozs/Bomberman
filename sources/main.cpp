@@ -26,7 +26,7 @@ int check_keys(Gui &g) {
 
 int main() {
   Gui g;
-  Menu *menu = new Menu();
+  Menu *menu = new Menu(&g);
   int key;
   g.Start(menu);
 

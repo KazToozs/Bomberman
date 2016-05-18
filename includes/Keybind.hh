@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Tue May 10 10:27:51 2016 Jules Palluau
-// Last update Wed May 11 14:44:49 2016 pallua_j
+// Last update Wed May 18 13:02:24 2016 maxime liege
 //
 
 #ifndef _KEYBIND_HH_
@@ -20,6 +20,24 @@ class Keybind
 private:
   std::map<int, e_action>  bind1;
   std::map<int, e_action>  bind2;
+
+  typedef struct s_keys
+  {
+    e_action	 key;
+    std::string	 cmd;
+  }		 t_keys;
+
+  t_keys	keys_tab[6] =
+    {
+      {UP, "MOVE_UP"},
+      {LEFT, "MOVE_LEFT"},
+      {DOWN, "MOVE_DOWN"},
+      {RIGHT, "MOVE_RIGHT"},
+      {BOMB, "BOMB"},
+      {UNKNOWN, "0"}
+    };
+
+  void parseKey(std::string &str, const int &player);
 public:
   Keybind();
   Keybind(const Keybind &);

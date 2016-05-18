@@ -1,1 +1,0 @@
-g++ -o test ./main.cpp ../../Player/src/Game.cpp ../../Map/Map.cpp ../../Player/src/Player.cpp ../../Player/src/PowerBomb.cpp ../../Player/src/PowerRange.cpp ../../Player/src/PowerSpeed.cpp ../../Player/src/Bomb.cpp -I/usr/include/lua5.1 -llua5.1 -llualib -std=c++11

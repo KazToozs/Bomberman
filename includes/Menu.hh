@@ -5,20 +5,21 @@
 // Login   <liege_m@epitech.net>
 //
 // Started on  Thu Apr 28 14:12:53 2016 maxime liege
-// Last update Fri Apr 29 15:35:52 2016 maxime liege
+// Last update Wed May 18 14:11:57 2016 maxime liege
 //
 
 #ifndef MENU_H_
 #define MENU_H_
 
 #include "IButtons.hh"
+#include "Gui.hh"
 
 #include <mutex>
 #include <vector>
 
 class Menu {
  public:
-  Menu();
+  Menu(Gui *gui);
   ~Menu();
 
   void clearList();
@@ -37,7 +38,8 @@ class Menu {
   const ID_MENU &getId() const;
   const IButtons *getCurrentButton() const;
   const std::string getButtonName() const;
-
+  
+  Gui *gui;
  private:
   std::mutex* _Mtx;
   std::vector<IButtons *> buttons;

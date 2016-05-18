@@ -17,6 +17,8 @@
 #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
 #endif
 
+class Menu;
+
 class Gui {
  public:
   Gui(int Height = 720, int Width = 1280, int Ddp = 32, bool Fullscreen = false,
