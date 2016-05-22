@@ -29,7 +29,7 @@ CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11 -g3
 
 CPP         =	g++
 
-LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht -llua5.1 ./lib/irrKlang-64bit-1.5.0/bin/linux-gcc-64/libIrrKlang.so
+LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht -llua5.1 ./lib/irrKlang/bin/linux-gcc-64/libIrrKlang.so
 
 all:		$(NAME)
 

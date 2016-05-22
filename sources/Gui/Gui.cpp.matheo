@@ -15,6 +15,7 @@ Gui::Gui(int Height, int Width, int Ddp, bool Fullscreen, bool Vsync)
   _Run = true;
   _Mtx = new std::mutex();
   _Game = NULL;
+  _Splash = NULL;
   _Map = NULL;
   _Sound = NULL;
   _SoundTutu = NULL;
@@ -61,7 +62,9 @@ const std::vector<irr::SEvent::SKeyInput>& Gui::get_key_event() const {
   return (_Event.get_key_event());
 }
 
-Gui::~Gui() { _Th->join(); }
+Gui::~Gui() {
+  _Th->join();
+}
 
 /*Private !*/
 
@@ -166,20 +169,19 @@ void Gui::Load() {
   irr::scene::ILightSceneNode* LightNode =
       _Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
                                irr::video::SColor(255, 128, 128, 128), 50.0f);
-  CamNode->setPosition(irr::core::vector3df(20, 5, -25));
-  CamNode->setTarget(irr::core::vector3df(20, 15, 0));
+  CamNode->setPosition(irr::core::vector3df(0, -5, -10));
   _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
+  CamNode->setTarget(irr::core::vector3df(0, 0, 0));
   _Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
   _Sound->setSoundVolume(0.2);
-  _Sound->addSoundSourceFromFile("Ressources/Sounds/Tutturuu.mp3",
-                                 irrklang::ESM_AUTO_DETECT, true);
-  _Sound->addSoundSourceFromFile("Ressources/Sounds/MenuTheme.mp3",
-                                 irrklang::ESM_AUTO_DETECT, true);
-  _SoundTutu = _Sound->play2D(
-      _Sound->getSoundSource("Ressources/Sounds/Tutturuu.mp3"), false, true);
-  _SoundMain = _Sound->play2D(
-      _Sound->getSoundSource("Ressources/Sounds/MenuTheme.mp3"), true, true);
+  _Sound->addSoundSourceFromFile("Ressources/Sounds/Tutturuu.mp3", irrklang::ESM_AUTO_DETECT, true);
+  _Sound->addSoundSourceFromFile("Ressources/Sounds/MenuTheme.mp3", irrklang::ESM_AUTO_DETECT, true);
+//std::cout << true << " : "<< _Sound->loadPlugins("./lib/irrKlang/bin/linux-gcc-64/") <<std::endl;
+  _SoundTutu = _Sound->play2D(_Sound->getSoundSource("Ressources/Sounds/Tutturuu.mp3"), false, true);
+  _SoundMain = _Sound->play2D(_Sound->getSoundSource("Ressources/Sounds/MenuTheme.mp3"), true, true);
+//  _SoundTutu = _Sound->play2D("Ressources/Sounds/Tutturuu.mp3", false, true);
+//  _SoundMain = _Sound->play2D("Ressources/Sounds/MenuTheme.mp3", false, true);
   LoadModels();
   LoadMaps();
   _Mtx->unlock();
@@ -190,47 +192,41 @@ void Gui::MovePlayer(int id) {
   for (int i = 0; i < players.size(); i++) {
     _PlayerModels[id][i]->setPosition(irr::core::vector3df(
         players[i]->get_pos().x * 2, players[i]->get_pos().y * 2, 0));
-    _PlayerModels[id][i]->setRotation(irr::core::vector3df(180, 0, 0));
+    _PlayerModels[id][i]->setRotation(irr::core::vector3df(90, 0, 0));
     _PlayerModels[id][i]->setVisible(true);
   }
 }
 
 void Gui::LoadMaps() {
   _BaseModels = NULL;
-  _BlockModels.resize(11);
+  _BlockModels.resize(7);
   _BlockModels[Case::FREE] = NULL;
   _BlockModels[Case::UNBREAKABLE] =
       _Smgr->getMesh("Ressources/Models/Block/unbreak/Unbreak.obj");
   _BlockModels[Case::BREAKABLE] =
       _Smgr->getMesh("Ressources/Models/Block/breakable/Breakable.obj");
-  _BlockModels[Case::BOMB] =
-      _Smgr->getMesh("Ressources/Models/Original_bomb/original_bomb.obj");
-  _BlockModels[Case::B_BOMB] =
-      _Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
+  _BlockModels[Case::TAKEN] = NULL;
+  _Smgr->getMesh("Ressources/Models/Block/Taken.obj");
+  _BlockModels[Case::BOMB] = _Smgr->getMesh("Ressources/Models/Block/Bomb.obj");
   _BlockModels[Case::EXPLODING] =
       _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
   _BlockModels[Case::NOPE] =
       _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
-  _BlockModels[Case::POWERUP_BOMB] =
-      _Smgr->getMesh("Ressources/Models/Powerup_Bomb/powerup_bomb.obj");
-  _BlockModels[Case::POWERUP_RANGE] =
-      _Smgr->getMesh("Ressources/Models/Powerup_Range/powerup_range.obj");
-  _BlockModels[Case::POWERUP_SPEED] =
-      _Smgr->getMesh("Ressources/Models/Powerup_Speed/powerup_speed.obj");
+  if (_Map == NULL) return;
 }
 
 void Gui::ActualiseMaps() {
   for (int y = 0; y < _Map->getMap().size(); y++) {
     for (int x = 0; x < _Map->getMap().size(); x++) {
-      UpdateBlock(x, y, (*_Map)[y][x], _MapsModels[y][x]);
+      if (_MapsModels[y][x] == NULL) {
+        UpdateBlock(x, y, (*_Map)[y][x], _MapsModels[y][x]);
+      }
     }
   }
 }
 
 void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
-  if (old) {
-    _Smgr->addToDeletionQueue(old);
-  }
+  if (old) delete old;
   if (type._state == Case::FREE) {
     old = NULL;
     return;
@@ -241,7 +237,7 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
   old = new_block;
   old->setPosition(irr::core::vector3df(x * 2, y * 2, 0));
   old->setRotation(irr::core::vector3df(180, 0, 0));
-  old->setScale(irr::core::vector3df(0.0025f, 0.0025f, 0.0025f));
+  old->setScale(irr::core::vector3df(0.002f, 0.002f, 0.002f));
 }
 
 bool Gui::DrawScene() {
@@ -306,34 +302,38 @@ void Gui::StartLoop() {
   bool is_game_music = false;
 
   if (!CreateWindow()) return;
-  if (!(_Sound = irrklang::createIrrKlangDevice())) {
-    std::cerr << "Could not startup engine" << std::endl;
+  if (!(_Sound = irrklang::createIrrKlangDevice()))
+  {
+    printf("Could not startup engine\n");
     exit(-1);
   }
   this->Load();
   usleep(5000);
+//  _SoundTutu->setVolume(0.3);
   _SoundTutu->setIsPaused(false);
+//    _Sound->play2D("Ressources/Sounds/MenuTheme.mp3");
   while (WindowIsOpen()) {
-    if (!_SoundTutu->isFinished() && !is_game_music) {
+    if (!_SoundTutu->isFinished() && !is_game_music)
+    {
       DrawSplash();
       usleep(10000);
-    } else {
+    }
+    else {
       if (!is_game_music) {
         is_game_music = true;
-        //      _SoundMain->setVolume(0.5);
+  //      _SoundMain->setVolume(0.5);
         _SoundMain->setIsPaused(false);
       }
-      if (_Menu->getId() == Menu::GAME)
-        DrawScene();
-      else
-        DrawMenu();
+    if (_Menu->getId() == Menu::GAME)
+      DrawScene();
+    else
+      DrawMenu();
     }
   }
   _Mtx->lock();
-  if (_Smgr) _Smgr->drop();
-  if (_Guienv) _Guienv->drop();
-  if (_MainFont) _MainFont->drop();
-  if (_Device) _Device->drop();
+  if (_Device) {
+    _Device->drop();
+  }
   _Device = NULL;
   _Mtx->unlock();
 }

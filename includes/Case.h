@@ -15,13 +15,17 @@
 
 struct Case {
   enum State {
-    FREE,        /* 0 */
-    UNBREAKABLE, /* 1 */
-    BREAKABLE,   /* 2 */
-    TAKEN,       /* 3 */
-    BOMB,        /* 4 */
-    EXPLODING,   /* 5 */
-    NOPE
+    FREE,
+    UNBREAKABLE,
+    BREAKABLE,
+    TAKEN,
+    BOMB,
+    B_BOMB,
+    EXPLODING,
+    NOPE,
+    POWERUP_BOMB,
+    POWERUP_RANGE,
+    POWERUP_SPEED
   };
 
   IPowerup *_powerup;
