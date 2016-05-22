@@ -23,15 +23,15 @@ SRC         =	sources/main.cpp	\
 
 OBJ         =	$(SRC:.cpp=.o)
 
-INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include -I./includes/LuaBridge -I/usr/include/lua5.1
+INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include -I./includes/LuaBridge -I/usr/include/lua5.1 -I./lib/irrKlang/include
 
-CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11 -g -g3
+CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11 -g3
 
-CPP          =	g++
+CPP         =	g++
 
-LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht -llua5.1
+LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht -llua5.1 ./lib/irrKlang-64bit-1.5.0/bin/linux-gcc-64/libIrrKlang.so
 
-all:	$(NAME)
+all:		$(NAME)
 
 $(NAME)	    :	$(OBJ)
 		$(CPP) $(OBJ) -o $(NAME) $(LIBS)

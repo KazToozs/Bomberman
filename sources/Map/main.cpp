@@ -15,9 +15,12 @@
 int	main()
 {
   Game  *m;
-  //Map map10 (10, 10);
-//  Map map15 (15, 15);
-//  Map	map20 (20, 20);
+// Map map10 (10, 10);
+// map10.print();
+// Map map15 (15, 15);
+// map15.print();
+// Map	map20 (20, 20);
+// map20.print();
 m = new Game(0, 4, 20);
 m->init();
 // map10.print();

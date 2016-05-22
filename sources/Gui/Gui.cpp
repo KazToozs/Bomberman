@@ -15,7 +15,11 @@ Gui::Gui(int Height, int Width, int Ddp, bool Fullscreen, bool Vsync)
   _Run = true;
   _Mtx = new std::mutex();
   _Game = NULL;
+  _Splash = NULL;
   _Map = NULL;
+  _Sound = NULL;
+  _SoundTutu = NULL;
+  _SoundMain = NULL;
 }
 
 /*Public !!!*/
@@ -58,7 +62,9 @@ const std::vector<irr::SEvent::SKeyInput>& Gui::get_key_event() const {
   return (_Event.get_key_event());
 }
 
-Gui::~Gui() { _Th->join(); }
+Gui::~Gui() {
+  _Th->join();
+}
 
 /*Private !*/
 
@@ -164,9 +170,18 @@ void Gui::Load() {
       _Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
                                irr::video::SColor(255, 128, 128, 128), 50.0f);
   CamNode->setPosition(irr::core::vector3df(0, -5, -10));
-  CamNode->setTarget(irr::core::vector3df(0, 0, 0));
   _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
+  CamNode->setTarget(irr::core::vector3df(0, 0, 0));
+  _Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
+  _Sound->setSoundVolume(0.2);
+  _Sound->addSoundSourceFromFile("Ressources/Sounds/Tutturuu.mp3", irrklang::ESM_AUTO_DETECT, true);
+  _Sound->addSoundSourceFromFile("Ressources/Sounds/MenuTheme.mp3", irrklang::ESM_AUTO_DETECT, true);
+//std::cout << true << " : "<< _Sound->loadPlugins("./lib/irrKlang/bin/linux-gcc-64/") <<std::endl;
+  _SoundTutu = _Sound->play2D(_Sound->getSoundSource("Ressources/Sounds/Tutturuu.mp3"), false, true);
+  _SoundMain = _Sound->play2D(_Sound->getSoundSource("Ressources/Sounds/MenuTheme.mp3"), true, true);
+//  _SoundTutu = _Sound->play2D("Ressources/Sounds/Tutturuu.mp3", false, true);
+//  _SoundMain = _Sound->play2D("Ressources/Sounds/MenuTheme.mp3", false, true);
   LoadModels();
   LoadMaps();
   _Mtx->unlock();
@@ -268,14 +283,52 @@ void Gui::DrawMenu() {
   _Mtx->unlock();
 }
 
+void Gui::DrawSplash() {
+  _Mtx->lock();
+  _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
+  /*Start Menu*/
+
+  if (_Back)
+    _Driver->draw2DImage(_Splash, irr::core::position2di(0, 0),
+                         irr::core::rect<irr::s32>(0, 0, 1280, 720));
+  /*End Menu*/
+  _Smgr->drawAll();
+  _Guienv->drawAll();
+  _Driver->endScene();
+  _Mtx->unlock();
+}
+
 void Gui::StartLoop() {
+  bool is_game_music = false;
+
   if (!CreateWindow()) return;
+  if (!(_Sound = irrklang::createIrrKlangDevice()))
+  {
+    printf("Could not startup engine\n");
+    exit(-1);
+  }
   this->Load();
+  usleep(5000);
+//  _SoundTutu->setVolume(0.3);
+  _SoundTutu->setIsPaused(false);
+//    _Sound->play2D("Ressources/Sounds/MenuTheme.mp3");
   while (WindowIsOpen()) {
+    if (!_SoundTutu->isFinished() && !is_game_music)
+    {
+      DrawSplash();
+      usleep(10000);
+    }
+    else {
+      if (!is_game_music) {
+        is_game_music = true;
+  //      _SoundMain->setVolume(0.5);
+        _SoundMain->setIsPaused(false);
+      }
     if (_Menu->getId() == Menu::GAME)
       DrawScene();
     else
       DrawMenu();
+    }
   }
   _Mtx->lock();
   if (_Device) {
