@@ -166,8 +166,8 @@ void Gui::Load() {
   irr::scene::ILightSceneNode* LightNode =
       _Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
                                irr::video::SColor(255, 128, 128, 128), 50.0f);
-  CamNode->setPosition(irr::core::vector3df(20, 5, -25));
-  CamNode->setTarget(irr::core::vector3df(20, 15, 0));
+  CamNode->setPosition(irr::core::vector3df(20, 4, -26));
+  CamNode->setTarget(irr::core::vector3df(20, 14, 0));
   _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
   _Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
@@ -205,18 +205,18 @@ void Gui::LoadMaps() {
       _Smgr->getMesh("Ressources/Models/Block/breakable/Breakable.obj");
   _BlockModels[Case::BOMB] =
       _Smgr->getMesh("Ressources/Models/Original_bomb/original_bomb.obj");
-  _BlockModels[Case::B_BOMB] =
-      _Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
-  _BlockModels[Case::EXPLODING] =
-      _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
-  _BlockModels[Case::NOPE] =
-      _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
-  _BlockModels[Case::POWERUP_BOMB] =
-      _Smgr->getMesh("Ressources/Models/Powerup_Bomb/powerup_bomb.obj");
-  _BlockModels[Case::POWERUP_RANGE] =
-      _Smgr->getMesh("Ressources/Models/Powerup_Range/powerup_range.obj");
-  _BlockModels[Case::POWERUP_SPEED] =
-      _Smgr->getMesh("Ressources/Models/Powerup_Speed/powerup_speed.obj");
+  _BlockModels[Case::B_BOMB] = NULL;
+//      _Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
+  _BlockModels[Case::EXPLODING] = NULL;
+//      _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
+  _BlockModels[Case::NOPE] = NULL;
+//      _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
+  _BlockModels[Case::POWERUP_BOMB] = NULL;
+//      _Smgr->getMesh("Ressources/Models/Powerup_Bomb/powerup_bomb.obj");
+  _BlockModels[Case::POWERUP_RANGE] = NULL;
+//      _Smgr->getMesh("Ressources/Models/Powerup_Range/powerup_range.obj");
+  _BlockModels[Case::POWERUP_SPEED] = NULL;
+//      _Smgr->getMesh("Ressources/Models/Powerup_Speed/powerup_speed.obj");
 }
 
 void Gui::ActualiseMaps() {
@@ -228,20 +228,62 @@ void Gui::ActualiseMaps() {
 }
 
 void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
+  irr::scene::IMesh* mesh = NULL;
   if (old) {
     _Smgr->addToDeletionQueue(old);
   }
   if (type._state == Case::FREE) {
-    old = NULL;
-    return;
-  }
-  irr::scene::IMesh* mesh = _BlockModels[type._state];
+    if (!type._powerup) {
+      old = NULL;
+      return;
+    } else {
+      switch (type._powerup->get_type()) {
+        case SPEEDUP:
+          mesh = _BlockModels[Case::POWERUP_SPEED];
+          break;
+        case RANGEUP:
+          mesh = _BlockModels[Case::POWERUP_RANGE];
+          break;
+        case BOMBUP:
+          mesh = _BlockModels[Case::POWERUP_BOMB];
+          break;
+      }
+    }
+  } else
+    mesh = _BlockModels[type._state];
   if (!mesh) return;
   irr::scene::ISceneNode* new_block = _Smgr->addMeshSceneNode(mesh);
   old = new_block;
   old->setPosition(irr::core::vector3df(x * 2, y * 2, 0));
-  old->setRotation(irr::core::vector3df(180, 0, 0));
-  old->setScale(irr::core::vector3df(0.0025f, 0.0025f, 0.0025f));
+  old->setRotation(irr::core::vector3df(0, 0, 0));
+  if (type._state != Case::BOMB)
+    old->setScale(irr::core::vector3df(0.003f, 0.003f, 0.003f));
+  else
+    old->setScale(irr::core::vector3df(0.10f, 0.10f, 0.10f));
+}
+
+void Gui::PutWall() {
+  Case c;
+  irr::scene::ISceneNode* elem = NULL;
+
+  c._state = Case::BOMB;
+  c._powerup = NULL;
+  for (int i = 0; i < 22; i++) {
+    UpdateBlock(-1 + i, -1, c, elem);
+    elem = NULL;
+  }
+  for (int i = 0; i < 22; i++) {
+    UpdateBlock(-1 + i, 20, c, elem);
+    elem = NULL;
+  }
+  for (int i = 0; i < 20; i++) {
+    UpdateBlock(-1, i, c, elem);
+    elem = NULL;
+  }
+  for (int i = 0; i < 20; i++) {
+    UpdateBlock(20, i, c, elem);
+    elem = NULL;
+  }
 }
 
 bool Gui::DrawScene() {
@@ -252,7 +294,7 @@ bool Gui::DrawScene() {
   _Mtx->lock();
   _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
   /*Start Scene*/
-  if (!_BaseModels) UpdateBlock(-2, 5, c, _BaseModels);
+  if (!_BaseModels) UpdateBlock(0, 0, c, _BaseModels);
   ActualiseMaps();
   for (int i = 0; i < 4; i++) {
     MovePlayer(i);
@@ -281,7 +323,7 @@ void Gui::DrawMenu() {
                     irr::video::SColor(255, 0, 0, 0), false, true);
 
   /*End Menu*/
-  _Smgr->drawAll();
+  //_Smgr->drawAll();
   _Guienv->drawAll();
   _Driver->endScene();
   _Mtx->unlock();
@@ -296,7 +338,7 @@ void Gui::DrawSplash() {
     _Driver->draw2DImage(_Splash, irr::core::position2di(0, 0),
                          irr::core::rect<irr::s32>(0, 0, 1280, 720));
   /*End Menu*/
-  _Smgr->drawAll();
+  //_Smgr->drawAll();
   _Guienv->drawAll();
   _Driver->endScene();
   _Mtx->unlock();
@@ -313,6 +355,7 @@ void Gui::StartLoop() {
   this->Load();
   usleep(5000);
   _SoundTutu->setIsPaused(false);
+  PutWall();
   while (WindowIsOpen()) {
     if (!_SoundTutu->isFinished() && !is_game_music) {
       DrawSplash();

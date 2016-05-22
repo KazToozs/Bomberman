@@ -52,6 +52,7 @@ class Gui {
   void ActualiseMaps();
   void UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old);
   void MovePlayer(int);
+  void PutWall();
   bool DrawScene();
   void DrawMenu();
   void DrawSplash();
