@@ -31,6 +31,7 @@ int main() {
   g.Start(menu);
 
   while (g.Alive()) {
+      std::cout << "LLOOOOOLL" << std::endl;
     key = check_keys(g);
     switch (key) {
       case 1:

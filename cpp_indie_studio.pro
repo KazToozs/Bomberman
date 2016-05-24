@@ -55,7 +55,7 @@ HEADERS += \
     includes/OptionButton.hh \
     includes/PlayerButton.hh \
 
-INCLUDEPATH += includes ./lib/irrlicht/include ./include/LuaBridge/detail ./lib/irrKlang/include
+INCLUDEPATH += includes ./lib/irrlicht/include ./include/LuaBridge/detail ./lib/SFML/include
 
 DISTFILES += \
     Makefile \

@@ -114,8 +114,8 @@ e_action  Keybind::get_action(const int &player)
     for (size_t x = 0; x < keys.size(); x++)
     {
        // usleep(200000);
-        if (bind1[x])
-            std::cout << std::boolalpha << "test: " << bind1[x] << " presse: " << keys[x].PressedDown << std::endl;
+        //if (bind1[x])
+        //    std::cout << std::boolalpha << "test: " << bind1[x] << " presse: " << keys[x].PressedDown << std::endl;
         if (bind1[x] != UNKNOWN && keys[x].PressedDown)
             return (bind1[keys[x].Key]);
     }

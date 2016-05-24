@@ -17,9 +17,6 @@ Gui::Gui(int Height, int Width, int Ddp, bool Fullscreen, bool Vsync)
   _Mtx = new std::mutex();
   _Game = NULL;
   _Map = NULL;
-  _Sound = NULL;
-  _SoundTutu = NULL;
-  _SoundMain = NULL;
 }
 
 /*Public !!!*/
@@ -173,15 +170,8 @@ void Gui::Load() {
   _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
   _Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
-  _Sound->setSoundVolume(0.2);
-  _Sound->addSoundSourceFromFile("Ressources/Sounds/Tutturuu.mp3",
-                                 irrklang::ESM_AUTO_DETECT, true);
-  _Sound->addSoundSourceFromFile("Ressources/Sounds/MenuTheme.mp3",
-                                 irrklang::ESM_AUTO_DETECT, true);
-  _SoundTutu = _Sound->play2D(
-      _Sound->getSoundSource("Ressources/Sounds/Tutturuu.mp3"), false, true);
-  _SoundMain = _Sound->play2D(
-      _Sound->getSoundSource("Ressources/Sounds/MenuTheme.mp3"), true, true);
+  _BufferTuturu.loadFromFile("Ressources/Sounds/Tutturuu.wav");
+  _BufferMainSound.loadFromFile("Ressources/Sounds/MenuTheme.wav");
   LoadModels();
   LoadMaps();
   _Mtx->unlock();
@@ -208,17 +198,17 @@ void Gui::LoadMaps() {
   _BlockModels[Case::BOMB] =
       _Smgr->getMesh("Ressources/Models/Original_bomb/original_bomb.obj");
   _BlockModels[Case::B_BOMB] = NULL;
-//      _Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
+  //      _Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
   _BlockModels[Case::EXPLODING] = NULL;
-//      _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
+  //      _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
   _BlockModels[Case::NOPE] = NULL;
-//      _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
+  //      _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
   _BlockModels[Case::POWERUP_BOMB] = NULL;
-//      _Smgr->getMesh("Ressources/Models/Powerup_Bomb/powerup_bomb.obj");
+  //      _Smgr->getMesh("Ressources/Models/Powerup_Bomb/powerup_bomb.obj");
   _BlockModels[Case::POWERUP_RANGE] = NULL;
-//      _Smgr->getMesh("Ressources/Models/Powerup_Range/powerup_range.obj");
+  //      _Smgr->getMesh("Ressources/Models/Powerup_Range/powerup_range.obj");
   _BlockModels[Case::POWERUP_SPEED] = NULL;
-//      _Smgr->getMesh("Ressources/Models/Powerup_Speed/powerup_speed.obj");
+  //      _Smgr->getMesh("Ressources/Models/Powerup_Speed/powerup_speed.obj");
 }
 
 void Gui::ActualiseMaps() {
@@ -347,26 +337,23 @@ void Gui::DrawSplash() {
 }
 
 void Gui::StartLoop() {
-  bool is_game_music = false;
+  bool is_game_sound = false;
 
   if (!CreateWindow()) return;
-  if (!(_Sound = irrklang::createIrrKlangDevice())) {
-    std::cerr << "Could not startup engine" << std::endl;
-    exit(-1);
-  }
   this->Load();
   usleep(5000);
-  _SoundTutu->setIsPaused(false);
   PutWall();
+  _Sound.setBuffer(_BufferTuturu);
+  _Sound.play();
   while (WindowIsOpen()) {
-    if (!_SoundTutu->isFinished() && !is_game_music) {
+    if (_Sound.getStatus() == sf::Sound::Playing && !is_game_sound)
       DrawSplash();
-      usleep(10000);
-    } else {
-      if (!is_game_music) {
-        is_game_music = true;
-        //      _SoundMain->setVolume(0.5);
-        _SoundMain->setIsPaused(false);
+    else {
+      if (!is_game_sound) {
+          is_game_sound = true;
+          _Sound.setBuffer(_BufferMainSound);
+          _Sound.setLoop(true);
+          _Sound.play();
       }
       if (_Menu->getId() == Menu::GAME)
         DrawScene();

@@ -2,7 +2,7 @@
 #define GUI_H
 
 #include <irrlicht.h>
-#include <irrKlang.h>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include <thread>
 #include <mutex>
@@ -15,14 +15,7 @@
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
-#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
-#endif
-
-#if defined(WIN32)
-#include <conio.h>
-#else
-#include "conio.h"
 #endif
 
 class Menu;
@@ -69,11 +62,11 @@ class Gui {
   std::vector<std::vector<irr::scene::ISceneNode*>> _MapsModels;
   irr::scene::ISceneNode* _BaseModels;
   std::vector<irr::scene::IMesh*> _BlockModels;
+  sf::SoundBuffer _BufferTuturu;
+  sf::SoundBuffer _BufferMainSound;
+  sf::Sound _Sound;
 
   ControlEventReceiver _Event;
-  irrklang::ISoundEngine* _Sound;
-  irrklang::ISound* _SoundTutu;
-  irrklang::ISound* _SoundMain;
   std::thread* _Th;
   std::mutex* _Mtx;
   int _Height;

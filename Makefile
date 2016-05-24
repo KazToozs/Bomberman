@@ -20,16 +20,20 @@ SRC         =	sources/main.cpp	\
 		sources/Map/Map.cpp 		\
 		sources/AI/src/AI.cpp
 
+SFML	= ./lib/SFML/lib/libsfml-system.so
+SFML	+= ./lib/SFML/lib/libsfml-audio.so
+#SFML	+= ./lib/SFML/lib/libsfml-graphics.so
+#SFML	+= ./lib/SFML/lib/libsfml-window.so
 
 OBJ         =	$(SRC:.cpp=.o)
 
-INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include -I./includes/LuaBridge -I/usr/include/lua5.1 -I./lib/irrKlang/include
+INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include -I./includes/LuaBridge -I/usr/include/lua5.1 -I./lib/SFML/include
 
 CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11 -g3
 
 CPP         =	g++
 
-LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht -llua5.1 ./lib/irrKlang/bin/linux-gcc-64/libIrrKlang.so
+LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht -llua5.1 $(SFML)
 
 all:		$(NAME)
 
