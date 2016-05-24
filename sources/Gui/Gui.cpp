@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <unistd.h>
+#include "Keybind.hh"
 
 Gui::Gui(int Height, int Width, int Ddp, bool Fullscreen, bool Vsync)
     : _Height(Height),
@@ -32,7 +33,7 @@ bool Gui::Start(Menu* menu) {
 void Gui::LoadGame(Game* game) {
   std::cout << "I'm here : " << game << std::endl;
   _Game = game;
-  _Game->init();
+  _Game->init(new Keybind(this));
   _Map = game->get_map();
   _MapsModels.resize(_Map->getMap().size());
   for (int y = 0; y < _Map->getMap().size(); y++) {
@@ -41,6 +42,7 @@ void Gui::LoadGame(Game* game) {
       _MapsModels[y][x] = NULL;
     }
   }
+  _Game->start();
 }
 
 bool Gui::Alive() const {

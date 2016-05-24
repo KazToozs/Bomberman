@@ -14,8 +14,12 @@
 #include "Case.h"
 #include "Keybind.hh"
 
-Player::Player(Map *mp, const int &num)
+#include <iostream>
+
+Player::Player(Map *mp, const int &num, Keybind *keys)
 {
+    std::cout << "Player"<< std::endl;
+  this->key = keys;
   act_func[UP] = &Player::move_up;
   act_func[DOWN] = &Player::move_down;
   act_func[LEFT] = &Player::move_left;
@@ -172,6 +176,7 @@ void  Player::move_up()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
+  std::cout << "Test move up" << std::endl;
   if ((this->pos.y - this->speed) >= 0)
   {
     tmp = this->pos.y - this->speed;
@@ -204,6 +209,7 @@ void  Player::move_down()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
+  std::cout << "down" << std::endl;
   if ((this->pos.y + this->speed) < mp.size())
   {
     tmp = this->pos.y + this->speed;
@@ -236,6 +242,7 @@ void  Player::move_left()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
+  std::cout << "left" << std::endl;
   if ((this->pos.x - this->speed) >= 0)
   {
     tmp = this->pos.x - this->speed;
@@ -268,6 +275,7 @@ void  Player::move_right()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
+  std::cout << "right" << std::endl;
   if ((this->pos.x + this->speed) < mp.size())
   {
     tmp = this->pos.x + this->speed;
@@ -297,11 +305,12 @@ void  Player::move_right()
 
 void  Player::do_action()
 {
-  // e_action bind;
-  //
-  // // bind = key->get_action(this->team);
-  // if (bind != UNKNOWN)
-  //   (this->*act_func[bind])();
+   e_action bind;
+
+   bind = key->get_action(this->team);
+   std::cout << "bind: " << bind << std::endl;
+   if (bind != UNKNOWN)
+     (this->*act_func[bind])();
 }
 
 const size_t &  Player::get_score() const

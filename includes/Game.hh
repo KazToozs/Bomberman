@@ -19,6 +19,7 @@ class IPlayer;
 class Bomb;
 class Map;
 class Gui;
+class Keybind;
 
 class Game
 {
@@ -36,7 +37,7 @@ public:
   ~Game();
   Game(const Game &);
   const Game &operator=(const Game &);
-  void  init();
+  void  init(Keybind *);
   void  start();
   void  lock() const;
   void  unlock() const;

@@ -14,6 +14,7 @@
 #include "Bomb.hh"
 #include "Map.hh"
 #include "AI.hh"
+#include "Keybind.hh"
 #include <iostream>
 
 class AI;
@@ -60,19 +61,19 @@ const Game &Game::operator=(const Game &gm) {
   return (*this);
 }
 
-void Game::init() {
-  std::cout << "géty" << std::endl;
+void Game::init(Keybind *keys) {
+//  std::cout << "géty" << std::endl;
   this->map = new Map(this->size, this->size);
-  std::cout << "fag" << std::endl;
+//  std::cout << "fag" << std::endl;
   for (size_t x = 0; x < this->nb_real; x++) {
-    this->players.push_back(new Player(this->map, x + 1));
+    this->players.push_back(new Player(this->map, x + 1, keys));
     players[x]->init();
   }
-  for (size_t x = 0; x < this->nb_ia; x++)
+  /*for (size_t x = 0; x < this->nb_ia; x++)
   {
     this->players.push_back(new AI(this->map, (x + this->nb_real + 1)));
     players[x + this->nb_real]->init();
-  }
+  }*/
   // luabridge::LuaRef playerTable = luabridge::newTable(L);
   // for(size_t i = 0; i < this->players.size(); ++i)
   // {
@@ -88,6 +89,7 @@ void Game::init() {
 void Game::start() {
   int i = 0; /* delete this */
 
+    std::cout << "in loop" << std::endl;
   while (this->check_finish() == false) {
     this->mtx->lock();
     for (size_t x = 0; x < this->players.size(); x++) {
@@ -98,9 +100,9 @@ void Game::start() {
       }
     }
     i++;
-    std::cout << "---- Turn: " << i << std::endl;
-    std::cout << "----- AFTER -----" << std::endl;
-    this->map->print();
+//    std::cout << "---- Turn: " << i << std::endl;
+  //  std::cout << "----- AFTER -----" << std::endl;
+   // this->map->print();
     this->mtx->unlock();
     sleep(0.2);
   }

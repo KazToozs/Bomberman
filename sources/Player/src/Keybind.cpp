@@ -1,4 +1,4 @@
-//
+﻿//
 // Keybind.cpp for bombi in /Users/pallua_j/rendu/CPP/cpp_indie_studio/sources/Player/src/
 //
 // Made by Jules Palluau
@@ -9,12 +9,14 @@
 //
 
 #include "Keybind.hh"
+#include "Gui.hh"
 
 #include <iostream>
 #include <fstream>
 
-Keybind::Keybind()
+Keybind::Keybind(Gui *key)
 {
+  this->_key = key;
   bind1[0x5A] = UP;
   bind1[0x53] = DOWN;
   bind1[0x51] = LEFT;
@@ -30,6 +32,7 @@ Keybind::Keybind()
 
 Keybind::Keybind(const Keybind &key)
 {
+  this->_key = key._key;
   this->bind1 = key.bind1;
   this->bind2 = key.bind2;
 }
@@ -41,6 +44,7 @@ Keybind::~Keybind()
 
 const Keybind   &Keybind::operator=(const Keybind &key)
 {
+  this->_key = key._key;
   this->bind2 = key.bind2;
   this->bind1 = key.bind1;
   return (*this);
@@ -101,12 +105,31 @@ void  Keybind::override()
   
 }
 
-const e_action  &Keybind::get_action(const int &player)
+e_action  Keybind::get_action(const int &player)
 {
-  return (bind1[0x26]);
-  /*
   if (player == 1)
-    return (this->bind1[key]);
+  {
+    const std::vector<irr::SEvent::SKeyInput>& keys = _key->get_key_event();
+
+    for (size_t x = 0; x < keys.size(); x++)
+    {
+       // usleep(200000);
+        if (bind1[x])
+            std::cout << std::boolalpha << "test: " << bind1[x] << " presse: " << keys[x].PressedDown << std::endl;
+        if (bind1[x] != UNKNOWN && keys[x].PressedDown)
+            return (bind1[keys[x].Key]);
+    }
+    return (UNKNOWN);
+  }
   else
-    return (this->bind2[key]);*/
+  {
+      const std::vector<irr::SEvent::SKeyInput>& keys = _key->get_key_event();
+
+      for (size_t x = 0; x < keys.size(); x++)
+      {
+          if (bind2[x] != UNKNOWN && keys[x].PressedDown)
+              return (bind2[keys[x].Key]);
+      }
+      return (UNKNOWN);
+  }
 }

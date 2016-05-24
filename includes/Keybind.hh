@@ -15,11 +15,14 @@
 #include <map>
 #include <string>
 
+class Gui;
+
 class Keybind
 {
 private:
   std::map<int, e_action>  bind1;
   std::map<int, e_action>  bind2;
+  Gui                      *_key;
 
   typedef struct s_keys
   {
@@ -39,13 +42,13 @@ private:
 
   void parseKey(std::string &str, const int &player);
 public:
-  Keybind();
+  Keybind(Gui *);
   Keybind(const Keybind &);
   ~Keybind();
   const Keybind &operator=(const Keybind &);
   void  init(const std::string &);
   void  override();
-  const e_action  &get_action(const int &);
+  e_action  get_action(const int &);
 };
 
 #endif /*!_KEYBIND_HH_*/
