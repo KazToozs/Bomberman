@@ -70,11 +70,11 @@ void Game::init(Keybind *keys) {
     this->players.push_back(new Player(this->map, x + 1, keys));
     players[x]->init();
   }
-  /*for (size_t x = 0; x < this->nb_ia; x++)
+  for (size_t x = 0; x < this->nb_ia; x++)
   {
     this->players.push_back(new AI(this->map, (x + this->nb_real + 1)));
     players[x + this->nb_real]->init();
-  }*/
+  }
   // luabridge::LuaRef playerTable = luabridge::newTable(L);
   // for(size_t i = 0; i < this->players.size(); ++i)
   // {

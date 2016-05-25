@@ -31,7 +31,7 @@ Player::Player(Map *mp, const int &num, Keybind *keys)
   this->p = NULL;
   this->max_bombs = 1;
   this->range_bomb = 5;
-  this->speed = 0.01;
+  this->speed = 0.1;
   this->alive = true;
   this->action = UNKNOWN;
   this->pos.x = 0.0;
@@ -181,7 +181,7 @@ void  Player::move_up()
 
   if ((this->pos.y - this->speed) >= 0.1)
   {
-      std::cout << "speed: " << this->speed << " y: " << this->pos.y << " Test move up: " << (this->pos.y - this->speed) << std::endl;
+  //    std::cout << "speed: " << this->speed << " y: " << this->pos.y << " Test move up: " << (this->pos.y - this->speed) << std::endl;
     tmp = this->pos.y - this->speed;
     if (static_cast<int>(this->pos.y) != static_cast<int>(tmp))
       {
@@ -283,13 +283,15 @@ void  Player::move_right()
   if ((this->pos.x + this->speed) < (mp.size() - 1.1))
   {
     tmp = this->pos.x + this->speed;
-    std::cout << "team: " << this->team << " speed: " << this->speed << " x: " << this->pos.x << " Test move up: " << (this->pos.x + this->speed) << " place: " << mp[this->pos.y][static_cast<int>(tmp)]._state << std::endl;
+   // std::cout << "team: " << this->team << " speed: " << this->speed << " x: " << this->pos.x << " Test move up: " << (this->pos.x + this->speed) << " place: " << mp[this->pos.y][static_cast<int>(tmp)]._state << std::endl;
 
     if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
       {
-       if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
+        if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state != Case::FREE)
+            std::cout << "y: " << this->pos.y << " x: " << tmp << std::endl;
+       if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state == Case::FREE)
         {
-         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+         if (mp[static_cast<int>(tmp)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
           {
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
             if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
@@ -298,9 +300,9 @@ void  Player::move_right()
           }
           else
           {
-            mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::FREE;
+            mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::FREE;
             this->pos.x = tmp;
-            mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
+            mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
           }
         }
       }
@@ -313,8 +315,9 @@ void  Player::do_action()
 {
    e_action bind;
 
+   bind = UNKNOWN;
    bind = key->get_action(this->team);
-   //std::cout << "bind: " << bind << std::endl;
+  // std::cout << "bind: " << bind << std::endl;
    if (bind != UNKNOWN)
      (this->*act_func[bind])();
 }

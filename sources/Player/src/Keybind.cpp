@@ -16,6 +16,8 @@
 
 Keybind::Keybind(Gui *key)
 {
+  t1 = std::chrono::high_resolution_clock::now();
+  t2 = std::chrono::high_resolution_clock::now();
   this->_key = key;
   bind1[0x5A] = UP;
   bind1[0x53] = DOWN;
@@ -111,13 +113,15 @@ e_action  Keybind::get_action(const int &player)
   {
     const std::vector<irr::SEvent::SKeyInput>& keys = _key->get_key_event();
 
-    for (size_t x = 0; x < keys.size(); x++)
+    if ((std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count()
+    - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t1).time_since_epoch().count()) >= 40)
     {
-       // usleep(200000);
-        //if (bind1[x])
-        //    std::cout << std::boolalpha << "test: " << bind1[x] << " presse: " << keys[x].PressedDown << std::endl;
-        if (bind1[x] != UNKNOWN && keys[x].PressedDown)
-            return (bind1[keys[x].Key]);
+        this->t1 = std::chrono::high_resolution_clock::now();
+        for (size_t x = 0; x < keys.size(); x++)
+        {
+            if (bind1[x] != UNKNOWN && keys[x].PressedDown)
+                return (bind1[keys[x].Key]);
+        }
     }
     return (UNKNOWN);
   }
@@ -125,10 +129,15 @@ e_action  Keybind::get_action(const int &player)
   {
       const std::vector<irr::SEvent::SKeyInput>& keys = _key->get_key_event();
 
-      for (size_t x = 0; x < keys.size(); x++)
+      if ((std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count()
+      - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t2).time_since_epoch().count()) >= 40)
       {
-          if (bind2[x] != UNKNOWN && keys[x].PressedDown)
-              return (bind2[keys[x].Key]);
+          this->t2 = std::chrono::high_resolution_clock::now();
+          for (size_t x = 0; x < keys.size(); x++)
+            {
+              if (bind2[x] != UNKNOWN && keys[x].PressedDown)
+                  return (bind2[keys[x].Key]);
+            }
       }
       return (UNKNOWN);
   }

@@ -13,6 +13,7 @@
 
 #include "IPlayer.hh"
 #include <map>
+#include <chrono>
 #include <string>
 
 class Gui;
@@ -20,6 +21,8 @@ class Gui;
 class Keybind
 {
 private:
+  std::chrono::high_resolution_clock::time_point t1;
+  std::chrono::high_resolution_clock::time_point t2;
   std::map<int, e_action>  bind1;
   std::map<int, e_action>  bind2;
   Gui                      *_key;
