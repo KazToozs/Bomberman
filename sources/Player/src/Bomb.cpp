@@ -8,12 +8,14 @@
 // Last update Wed May 11 13:12:35 2016 pallua_j
 //
 
+#include <iostream>
 #include "Bomb.hh"
 #include "Map.hh"
 #include "Game.hh"
 
 Bomb::Bomb(const t_pos &p, const int &rng, const int &t)
 {
+  this->exploded = false;
   this->pos = p;
   this->range = rng;
   this->team = t;
@@ -65,7 +67,7 @@ void        Bomb::do_explosion(std::vector<std::vector<Case> > &mp) const
 
   breaked = false;
   mp[(int)this->pos.y][(int)this->pos.x]._state = Case::EXPLODING;
-  for (int x = 0; x <= this->range && breaked == false; x++)
+  for (int x = 1; x <= this->range && breaked == false; x++)
   {
     if (((size_t)this->pos.x + x) < mp.size())
     {
@@ -76,7 +78,7 @@ void        Bomb::do_explosion(std::vector<std::vector<Case> > &mp) const
     }
   }
   breaked = false;
-  for (int x = 0; x <= this->range && breaked == false; x++)
+  for (int x = 1; x <= this->range && breaked == false; x++)
   {
     if (((int)this->pos.x - x) >= 0)
     {
@@ -87,7 +89,7 @@ void        Bomb::do_explosion(std::vector<std::vector<Case> > &mp) const
     }
   }
   breaked = false;
-  for (int y = 0; y <= this->range && breaked == false; y++)
+  for (int y = 1; y <= this->range && breaked == false; y++)
   {
     if (((size_t)this->pos.y + y) < mp.size())
     {
@@ -98,7 +100,7 @@ void        Bomb::do_explosion(std::vector<std::vector<Case> > &mp) const
     }
   }
   breaked = false;
-  for (int y = 0; y <= this->range && breaked == false; y++)
+  for (int y = 1; y <= this->range && breaked == false; y++)
   {
     if (((int)this->pos.y - y) >= 0)
     {
@@ -113,24 +115,24 @@ void        Bomb::do_explosion(std::vector<std::vector<Case> > &mp) const
 void  Bomb::del_explosion(std::vector<std::vector<Case> > &mp) const
 {
   mp[(int)this->pos.y][(int)this->pos.x]._state = Case::FREE;
-  for (int x = 0; x <= this->range; x++)
+  for (int x = 0; x <= this->range; x++) //right
   {
     if (((size_t)this->pos.x + x) < mp.size() && mp[(int)this->pos.y][(int)this->pos.x + x]._state == Case::EXPLODING)
       mp[(int)this->pos.y][(int)this->pos.x + x]._state = Case::FREE;
   }
-  for (int x = 0; x <= this->range; x++)
+  for (int x = 0; x <= this->range; x++) //left
   {
-    if (((int)this->pos.x - x) >= 0 && mp[(int)this->pos.y][(int)this->pos.x - x]._state != Case::EXPLODING)
+    if (((int)this->pos.x - x) >= 0 && mp[(int)this->pos.y][(int)this->pos.x - x]._state == Case::EXPLODING)
       mp[(int)this->pos.y][(int)this->pos.x - x]._state = Case::FREE;
   }
-  for (int y = 0; y <= this->range; y++)
+  for (int y = 0; y <= this->range; y++) //down
   {
-    if (((size_t)this->pos.y + y) < mp.size() && mp[(int)this->pos.y + y][(int)this->pos.x]._state != Case::EXPLODING)
+    if (((size_t)this->pos.y + y) < mp.size() && mp[(int)this->pos.y + y][(int)this->pos.x]._state == Case::EXPLODING)
       mp[(int)this->pos.y + y][(int)this->pos.x]._state = Case::FREE;
   }
-  for (int y = 0; y <= this->range; y++)
+  for (int y = 0; y <= this->range; y++) //up
   {
-    if (((int)this->pos.y - y) >= 0 && mp[(int)this->pos.y - y][(int)this->pos.x]._state != Case::EXPLODING)
+    if (((int)this->pos.y - y) >= 0 && mp[(int)this->pos.y - y][(int)this->pos.x]._state == Case::EXPLODING)
       mp[(int)this->pos.y - y][(int)this->pos.x]._state = Case::FREE;
   }
 }

@@ -26,6 +26,7 @@ class Bomb
     t_pos                                           pos;
     int                                             range;
     int                                             team;
+    bool                                            exploded;
     void                                            do_explosion(std::vector<std::vector<Case> > &) const;
     void                                            del_explosion(std::vector<std::vector<Case> > &) const;
   public:

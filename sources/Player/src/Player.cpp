@@ -32,7 +32,7 @@ Player::Player(Map *mp, const int &num, Keybind *keys, Game *g)
   this->p = NULL;
   this->max_bombs = 1;
   this->range_bomb = 5;
-  this->speed = 0.01;
+  this->speed = 0.02;
   this->alive = true;
   this->action = UNKNOWN;
   this->pos.x = 0.0;
@@ -200,7 +200,7 @@ void  Player::move_up()
           {
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
             this->pos.y = tmp;
-            std::cout << "tmp: " << tmp << std::endl;
+     //       std::cout << "tmp: " << tmp << std::endl;
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
           }
         }
@@ -216,7 +216,7 @@ void  Player::move_down()
   float   tmp;
 
   //std::cout << "down" << std::endl;
-  if ((this->pos.y + this->speed) < (mp.size() - 1.1))
+  if ((this->pos.y + this->speed) < (mp.size() - 0.1))
   {
     tmp = this->pos.y + this->speed;
     if (static_cast<int>(this->pos.y) != static_cast<int>(tmp))
@@ -282,14 +282,14 @@ void  Player::move_right()
   float   tmp;
 
   //std::cout << "right" << std::endl;
-  if ((this->pos.x + this->speed) < (mp.size() - 1.1))
+  if ((this->pos.x + this->speed) < (mp.size() - 0.1))
   {
     tmp = this->pos.x + this->speed;
-    std::cout << "tmp:   " << tmp << std::endl;
+ //   std::cout << "tmp:   " << tmp << std::endl;
     if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
       {
-        if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state != Case::FREE)
-            std::cout << "y: " << this->pos.y << " tmp: " << tmp << " x: " << this->pos.x << std::endl;
+  //      if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state != Case::FREE)
+    //        std::cout << "y: " << this->pos.y << " tmp: " << tmp << " x: " << this->pos.x << std::endl;
        if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state == Case::FREE)
         {
          if (mp[static_cast<int>(tmp)][static_cast<int>(this->pos.x)]._state == Case::BOMB)

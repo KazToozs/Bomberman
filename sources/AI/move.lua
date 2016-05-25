@@ -61,6 +61,8 @@ function move.randomMove()
     return (1)
   elseif (isCellFree.Down() == true) then
     return (2)
+  else
+    return (0)
   end
 end
 

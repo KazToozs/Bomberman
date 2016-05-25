@@ -2,6 +2,7 @@
 #define AI_H_
 
 #include <map>
+#include <chrono>
 #include "IPlayer.hh"
 #include "Bomb.hh"
 #include "Case.h"
@@ -13,10 +14,12 @@ extern "C" {
 #include "LuaBridge.h"
 
 class Keybinds;
+class Game;
 
 class AI : public IPlayer
 {
   std::chrono::high_resolution_clock::time_point  t;
+  Game                                            *gm;
   Map                                             *map;
   int                                             team;
   size_t                                          score;
@@ -34,7 +37,7 @@ class AI : public IPlayer
   std::map<e_action, act_func>  acts;
 
  public:
-   AI(Map *, const int &num);
+   AI(Map *, const int &num, Game *);
    AI(const AI &);
    AI &operator=(const AI &);
    ~AI();

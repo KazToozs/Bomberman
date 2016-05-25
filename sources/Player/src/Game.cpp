@@ -27,7 +27,7 @@ Game::Game(const int &nb_ia, const int &nb_real, const int &size) {
   this->mtx = new std::mutex();
   this->map = NULL;
   this->th = NULL;
-  this->actualiasation = false;
+  this->actualiasation = true;
 }
 
 Game::Game(const Game &gm) {
@@ -70,11 +70,11 @@ void Game::init(Keybind *keys) {
     this->players.push_back(new Player(this->map, x + 1, keys, this));
     players[x]->init();
   }
- /* for (size_t x = 0; x < this->nb_ia; x++)
+  for (size_t x = 0; x < this->nb_ia; x++)
   {
-    this->players.push_back(new AI(this->map, (x + this->nb_real + 1)));
+    this->players.push_back(new AI(this->map, (x + this->nb_real + 1), this));
     players[x + this->nb_real]->init();
-  }*/
+  }
   // luabridge::LuaRef playerTable = luabridge::newTable(L);
   // for(size_t i = 0; i < this->players.size(); ++i)
   // {
