@@ -27,6 +27,10 @@ bool Gui::Start(Menu* menu) {
   if (_Th->joinable()) return (true);
 }
 
+const Game *Gui::getGame() const {
+    return (this->_Game);
+}
+
 void Gui::LoadGame(Game* game) {
   std::cout << "I'm here : " << game << std::endl;
   _Mtx->lock();
@@ -42,9 +46,7 @@ void Gui::LoadGame(Game* game) {
     }
   }
   this->_Menu->StartGame();
-  this->_Menu->Unlock();
   _Mtx->unlock();
-  usleep(5000);
   _Game->start();
 }
 
@@ -237,6 +239,7 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
   if (old) {
     if (old->getID() == type._state) return;
     _Smgr->addToDeletionQueue(old);
+    old = NULL;
   }
   if (type._state == Case::FREE) {
     if (!type._powerup) {

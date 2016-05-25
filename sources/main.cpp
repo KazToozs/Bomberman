@@ -31,7 +31,7 @@ int main() {
   g.Start(menu);
 
   while (g.Alive()) {
-    key = check_keys(g);
+    key = ((g.getGame() == NULL) ? check_keys(g) : 0);
     switch (key) {
       case 1:
         menu->GoUp();

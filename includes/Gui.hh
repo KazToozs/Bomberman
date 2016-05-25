@@ -28,6 +28,7 @@ class Gui {
   bool Start(Menu *menu);
   void LoadGame(Game *game);
   bool Alive() const;
+  const Game *getGame() const;
   const irr::SEvent::SJoystickEvent& get_joy_event() const;
   const std::vector<irr::SEvent::SKeyInput>& get_key_event() const;
 
