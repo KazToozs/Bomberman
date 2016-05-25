@@ -178,6 +178,8 @@ void                AI::pass_values(lua_State *L, std::vector<std::vector<Case>>
   lua_setglobal(L, "map_x");
 
   /* Pass positions */
+  std::cout << "Player positions: x " << this->pos.x + 1 << " y " << this->pos.y + 1 << std::endl;
+  std::cout << "Player positions cast: x " << static_cast<int>(this->pos.x) + 1 << " y " << static_cast<int>(this->pos.y) + 1 << std::endl;
   lua_pushnumber(L, static_cast<int>(this->pos.x + 1));
   lua_setglobal(L, "pos_x");
   lua_pushnumber(L, static_cast<int>(this->pos.y + 1));
@@ -327,12 +329,12 @@ void  AI::move_left()
             mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::BOMB;
             if (static_cast<int>(tmp) != static_cast<int>(this->pos.x))
               mp[this->pos.y][static_cast<int>(tmp)]._state = Case::TAKEN;
-            this->pos.y = tmp;
+            this->pos.x = tmp;
           }
           else
           {
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-            this->pos.y = tmp;
+            this->pos.x = tmp;
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
           }
         }
@@ -359,12 +361,12 @@ void  AI::move_right()
             mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::BOMB;
             if (static_cast<int>(tmp) != static_cast<int>(this->pos.x))
               mp[this->pos.y][static_cast<int>(tmp)]._state = Case::TAKEN;
-            this->pos.y = tmp;
+            this->pos.x = tmp;
           }
           else
           {
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-            this->pos.y = tmp;
+            this->pos.x = tmp;
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
           }
         }
