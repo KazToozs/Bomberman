@@ -36,9 +36,12 @@ class Menu {
     SOLO_MULTI = 3,
     GAME = 4
   };
-  const ID_MENU &getId() const;
+  const ID_MENU getId() const;
   const IButtons *getCurrentButton() const;
   const std::string getButtonName() const;
+  void Unlock() {
+      _Mtx->unlock();
+  }
   
   Gui *gui;
  private:

@@ -17,8 +17,7 @@
 #include "OptionButton.hh"
 #include "ContinueButton.hh"
 
-Menu::Menu(Gui *gui) 
-{
+Menu::Menu(Gui *gui) {
   this->id_menu = MAIN_MENU;
   this->_pos = 0;
   this->_Mtx = new std::mutex();
@@ -67,12 +66,15 @@ void Menu::Action() {
 }
 
 void Menu::StartGame() {
-    this->id_menu = GAME;
+  this->id_menu = GAME;
 }
 
 void Menu::pushBackList(IButtons *button) { this->buttons.push_back(button); }
 
-const Menu::ID_MENU &Menu::getId() const { return this->id_menu; }
+const Menu::ID_MENU Menu::getId() const {
+  Menu::ID_MENU id = this->id_menu;
+  return id;
+}
 
 const IButtons *Menu::getCurrentButton() const { return this->buttons[_pos]; }
 

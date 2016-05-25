@@ -29,9 +29,11 @@ bool Gui::Start(Menu* menu) {
 
 void Gui::LoadGame(Game* game) {
   std::cout << "I'm here : " << game << std::endl;
+  _Mtx->lock();
   _Game = game;
   _Game->init(new Keybind(this));
   _Map = game->get_map();
+  LoadModels();
   _MapsModels.resize(_Map->getMap().size());
   for (int y = 0; y < _Map->getMap().size(); y++) {
     _MapsModels[y].resize((*_Map)[0].size());
@@ -39,6 +41,10 @@ void Gui::LoadGame(Game* game) {
       _MapsModels[y][x] = NULL;
     }
   }
+  this->_Menu->StartGame();
+  this->_Menu->Unlock();
+  _Mtx->unlock();
+  usleep(5000);
   _Game->start();
 }
 
@@ -133,8 +139,10 @@ bool Gui::WindowIsOpen() {
 }
 
 void Gui::LoadModels() {
-  _PlayerModels.resize(4);
-  for (int i = 0; i < 4; i++) {
+  int size = _Game->get_players().size();
+  _PlayerModels.resize(size);
+  std::cout << size << std::endl;
+  for (int i = 0; i < size; i++) {
     std::stringstream ss;
     ss << "Ressources/Models/Latios";
     if (i) ss << i;
@@ -146,12 +154,12 @@ void Gui::LoadModels() {
     _PlayerModels[i][0]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
     _PlayerModels[i][0]->setRotation(irr::core::vector3df(90, 0, 0));
 
-    state = _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
+    state = _Smgr->getMesh((ss.str() + "/state2.obj").c_str());
     _PlayerModels[i][1] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][1]->setVisible(false);
     _PlayerModels[i][1]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
     _PlayerModels[i][1]->setRotation(irr::core::vector3df(90, 0, 0));
-    state = _Smgr->getMesh((ss.str() + "/state1.obj").c_str());
+    state = _Smgr->getMesh((ss.str() + "/state3.obj").c_str());
     _PlayerModels[i][2] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][2]->setVisible(false);
     _PlayerModels[i][2]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
@@ -172,19 +180,24 @@ void Gui::Load() {
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
   _BufferTuturu.loadFromFile("Ressources/Sounds/Tutturuu.wav");
   _BufferMainSound.loadFromFile("Ressources/Sounds/MenuTheme.wav");
-  LoadModels();
   LoadMaps();
   _Mtx->unlock();
 }
 
 void Gui::MovePlayer(int id) {
+  static int current_pos = 0;
   std::vector<IPlayer*> players = _Game->get_players();
-  for (int i = 0; i < players.size(); i++) {
-    _PlayerModels[id][i]->setPosition(irr::core::vector3df(
-        players[i]->get_pos().x * 2, players[i]->get_pos().y * 2, 0));
+  float posx = players[id]->get_pos().x;
+  float posy = players[id]->get_pos().y;
+
+  for (int i = 0; i < 3; i++) {
+      bool b = (i == current_pos) ? true : false;
+    _PlayerModels[id][i]->setPosition(
+        irr::core::vector3df(posx * 2 + ((!b) ? 5000: 0) , posy * 2, 0));
     _PlayerModels[id][i]->setRotation(irr::core::vector3df(180, 0, 0));
-    _PlayerModels[id][i]->setVisible(true);
+    _PlayerModels[id][i]->setVisible(b);
   }
+  current_pos = (current_pos + 1) % 3;
 }
 
 void Gui::LoadMaps() {
@@ -197,18 +210,18 @@ void Gui::LoadMaps() {
       _Smgr->getMesh("Ressources/Models/Block/breakable/Breakable.obj");
   _BlockModels[Case::BOMB] =
       _Smgr->getMesh("Ressources/Models/Original_bomb/original_bomb.obj");
-  _BlockModels[Case::B_BOMB] = NULL;
-  //      _Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
-  _BlockModels[Case::EXPLODING] = NULL;
-  //      _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
-  _BlockModels[Case::NOPE] = NULL;
-  //      _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
-  _BlockModels[Case::POWERUP_BOMB] = NULL;
-  //      _Smgr->getMesh("Ressources/Models/Powerup_Bomb/powerup_bomb.obj");
-  _BlockModels[Case::POWERUP_RANGE] = NULL;
-  //      _Smgr->getMesh("Ressources/Models/Powerup_Range/powerup_range.obj");
-  _BlockModels[Case::POWERUP_SPEED] = NULL;
-  //      _Smgr->getMesh("Ressources/Models/Powerup_Speed/powerup_speed.obj");
+  _BlockModels[Case::B_BOMB] =
+      _Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
+  _BlockModels[Case::EXPLODING] =
+      _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
+  _BlockModels[Case::NOPE] =
+      _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
+  _BlockModels[Case::POWERUP_BOMB] =
+      _Smgr->getMesh("Ressources/Models/Powerup_Bomb/powerup_bomb.obj");
+  _BlockModels[Case::POWERUP_RANGE] =
+      _Smgr->getMesh("Ressources/Models/Powerup_Range/powerup_range.obj");
+  _BlockModels[Case::POWERUP_SPEED] =
+      _Smgr->getMesh("Ressources/Models/Powerup_Speed/powerup_speed.obj");
 }
 
 void Gui::ActualiseMaps() {
@@ -222,6 +235,7 @@ void Gui::ActualiseMaps() {
 void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
   irr::scene::IMesh* mesh = NULL;
   if (old) {
+    if (old->getID() == type._state) return;
     _Smgr->addToDeletionQueue(old);
   }
   if (type._state == Case::FREE) {
@@ -245,9 +259,10 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
     mesh = _BlockModels[type._state];
   if (!mesh) return;
   irr::scene::ISceneNode* new_block = _Smgr->addMeshSceneNode(mesh);
+  new_block->setID(type._state);
   old = new_block;
   old->setPosition(irr::core::vector3df(x * 2, y * 2, 0));
-  old->setRotation(irr::core::vector3df(0, 0, 0));
+  old->setRotation(irr::core::vector3df(50, 0, 0));
   if (type._state != Case::BOMB)
     old->setScale(irr::core::vector3df(0.003f, 0.003f, 0.003f));
   else
@@ -288,7 +303,7 @@ bool Gui::DrawScene() {
   /*Start Scene*/
   if (!_BaseModels) UpdateBlock(0, 0, c, _BaseModels);
   ActualiseMaps();
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < _Game->get_players().size(); i++) {
     MovePlayer(i);
   }
 
@@ -350,10 +365,10 @@ void Gui::StartLoop() {
       DrawSplash();
     else {
       if (!is_game_sound) {
-          is_game_sound = true;
-          _Sound.setBuffer(_BufferMainSound);
-          _Sound.setLoop(true);
-          _Sound.play();
+        is_game_sound = true;
+        _Sound.setBuffer(_BufferMainSound);
+        _Sound.setLoop(true);
+        _Sound.play();
       }
       if (_Menu->getId() == Menu::GAME)
         DrawScene();
