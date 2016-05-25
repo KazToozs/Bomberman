@@ -21,11 +21,13 @@
 class Map;
 class Gui;
 class Keybind;
+class Game;
 
 class Player: public IPlayer
 {
   typedef void (Player::*ptr)();
 private:
+  Game                                            *gm;
   std::map<e_action, ptr>                         act_func;
   Keybind                                         *key;
   std::chrono::high_resolution_clock::time_point  t;
@@ -46,7 +48,7 @@ private:
   void move_left();
   void move_right();
 public:
-  Player(Map *, const int &num, Keybind *);
+  Player(Map *, const int &num, Keybind *, Game *);
   Player(const Player &);
   ~Player();
   void  init();

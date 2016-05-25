@@ -24,6 +24,7 @@ class Keybind;
 class Game
 {
 private:
+  bool                    actualiasation;
   Gui                     *keybind;
   std::thread             *lp;
   int                     nb_ia;
@@ -50,6 +51,8 @@ public:
   std::vector<Bomb *> get_bombs() const;
   Map     *get_map() const;
   void  set_map(Map *);
+  const bool &get_actualisation() const;
+  void  set_actualisation(const bool &);
   void  set_players(const std::vector<IPlayer *>&);
 };
 

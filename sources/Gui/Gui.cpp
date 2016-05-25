@@ -232,6 +232,8 @@ void Gui::ActualiseMaps() {
       UpdateBlock(x, y, (*_Map)[y][x], _MapsModels[y][x]);
     }
   }
+  //set bool
+  this->_Game->set_actualisation(false);
 }
 
 void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
@@ -264,7 +266,7 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
   irr::scene::ISceneNode* new_block = _Smgr->addMeshSceneNode(mesh);
   new_block->setID(type._state);
   old = new_block;
-  old->setPosition(irr::core::vector3df(x * 2, y * 2, 0));
+  old->setPosition(irr::core::vector3df(x * 2 + 1, y * 2, 0));
   old->setRotation(irr::core::vector3df(50, 0, 0));
   if (type._state != Case::BOMB)
     old->setScale(irr::core::vector3df(0.003f, 0.003f, 0.003f));
@@ -305,7 +307,9 @@ bool Gui::DrawScene() {
   _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
   /*Start Scene*/
   if (!_BaseModels) UpdateBlock(0, 0, c, _BaseModels);
-  ActualiseMaps();
+  /*TO_DO_ if ()*/
+  if (this->_Game->get_actualisation() == true)
+      ActualiseMaps();
   for (int i = 0; i < _Game->get_players().size(); i++) {
     MovePlayer(i);
   }

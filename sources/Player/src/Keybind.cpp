@@ -114,7 +114,7 @@ e_action  Keybind::get_action(const int &player)
     const std::vector<irr::SEvent::SKeyInput>& keys = _key->get_key_event();
 
     if ((std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count()
-    - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t1).time_since_epoch().count()) >= 40)
+    - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t1).time_since_epoch().count()) >= 10)
     {
         this->t1 = std::chrono::high_resolution_clock::now();
         for (size_t x = 0; x < keys.size(); x++)

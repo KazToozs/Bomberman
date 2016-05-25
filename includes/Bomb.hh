@@ -17,6 +17,7 @@
 #include "../../../includes/Map.hh"
 
 class Map;
+class Game;
 
 class Bomb
 {
@@ -35,7 +36,7 @@ class Bomb
     void  put_bomb(Map *);
     const t_pos &get_pos() const;
     const int  &get_team() const;
-    bool  check_bomb(Map *);
+    bool  check_bomb(Map *, Game *);
 };
 
 #endif /*!_BOMB_HH_*/

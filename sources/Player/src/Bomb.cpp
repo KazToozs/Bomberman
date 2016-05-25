@@ -10,6 +10,7 @@
 
 #include "Bomb.hh"
 #include "Map.hh"
+#include "Game.hh"
 
 Bomb::Bomb(const t_pos &p, const int &rng, const int &t)
 {
@@ -134,18 +135,22 @@ void  Bomb::del_explosion(std::vector<std::vector<Case> > &mp) const
   }
 }
 
-bool  Bomb::check_bomb(Map *m)
+bool  Bomb::check_bomb(Map *m, Game *gm)
 {
   std::vector<std::vector<Case> > &mp = m->getMap();
 
   if ((std::chrono::time_point_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count()
   - std::chrono::time_point_cast<std::chrono::seconds>(this->t).time_since_epoch().count()) >= 4)
   {
+    gm->set_actualisation(true);
     this->del_explosion(mp);
     return (true);
   }
   else if ((std::chrono::time_point_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count()
   - std::chrono::time_point_cast<std::chrono::seconds>(this->t).time_since_epoch().count()) >= 3)
+  {
     this->do_explosion(mp);
+    gm->set_actualisation(true);
+  }
   return (false);
 }

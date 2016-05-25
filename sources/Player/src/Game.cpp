@@ -21,13 +21,13 @@
 class AI;
 
 Game::Game(const int &nb_ia, const int &nb_real, const int &size) {
-  //  this->keybind = key;
   this->size = size;
   this->nb_ia = nb_ia;
   this->nb_real = nb_real;
   this->mtx = new std::mutex();
   this->map = NULL;
   this->th = NULL;
+  this->actualiasation = false;
 }
 
 Game::Game(const Game &gm) {
@@ -67,14 +67,14 @@ void Game::init(Keybind *keys) {
   this->map = new Map(this->size, this->size);
 //  std::cout << "fag" << std::endl;
   for (size_t x = 0; x < this->nb_real; x++) {
-    this->players.push_back(new Player(this->map, x + 1, keys));
+    this->players.push_back(new Player(this->map, x + 1, keys, this));
     players[x]->init();
   }
-  for (size_t x = 0; x < this->nb_ia; x++)
+ /* for (size_t x = 0; x < this->nb_ia; x++)
   {
     this->players.push_back(new AI(this->map, (x + this->nb_real + 1)));
     players[x + this->nb_real]->init();
-  }
+  }*/
   // luabridge::LuaRef playerTable = luabridge::newTable(L);
   // for(size_t i = 0; i < this->players.size(); ++i)
   // {
@@ -154,6 +154,16 @@ std::vector<Bomb *> Game::get_bombs() const {
     ret.insert(ret.end(), tmp.begin(), tmp.end());
   }
   return (ret);
+}
+
+const bool &Game::get_actualisation() const
+{
+    return (this->actualiasation);
+}
+
+void Game::set_actualisation(const bool &act)
+{
+    this->actualiasation = act;
 }
 
 Map *Game::get_map() const { return (this->map); }

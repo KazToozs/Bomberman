@@ -12,13 +12,14 @@
 #include "IPowerup.hh"
 #include "Map.hh"
 #include "Case.h"
+#include "Game.hh"
 #include "Keybind.hh"
 
 #include <iostream>
 
-Player::Player(Map *mp, const int &num, Keybind *keys)
+Player::Player(Map *mp, const int &num, Keybind *keys, Game *g)
 {
-    std::cout << "Player"<< std::endl;
+  this->gm = g;
   this->key = keys;
   act_func[UP] = &Player::move_down;
   act_func[DOWN] = &Player::move_up;
@@ -31,7 +32,7 @@ Player::Player(Map *mp, const int &num, Keybind *keys)
   this->p = NULL;
   this->max_bombs = 1;
   this->range_bomb = 5;
-  this->speed = 0.1;
+  this->speed = 0.01;
   this->alive = true;
   this->action = UNKNOWN;
   this->pos.x = 0.0;
@@ -101,7 +102,7 @@ void  Player::check_bombs()
 {
   for (size_t x = 0; x < this->bombs.size(); x++)
   {
-    if (this->bombs[x]->check_bomb(this->map) == true)
+    if (this->bombs[x]->check_bomb(this->map, this->gm) == true)
       this->bombs.erase(this->bombs.begin() + x);
   }
 }
@@ -112,6 +113,7 @@ void  Player::put_bomb()
   {
     this->bombs.push_back(new Bomb(this->pos, this->range_bomb, this->team));
     this->bombs.back()->put_bomb(this->map);
+    this->gm->set_actualisation(true);
   }
 }
 
@@ -283,12 +285,11 @@ void  Player::move_right()
   if ((this->pos.x + this->speed) < (mp.size() - 1.1))
   {
     tmp = this->pos.x + this->speed;
-   // std::cout << "team: " << this->team << " speed: " << this->speed << " x: " << this->pos.x << " Test move up: " << (this->pos.x + this->speed) << " place: " << mp[this->pos.y][static_cast<int>(tmp)]._state << std::endl;
-
+    std::cout << "tmp:   " << tmp << std::endl;
     if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
       {
         if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state != Case::FREE)
-            std::cout << "y: " << this->pos.y << " x: " << tmp << std::endl;
+            std::cout << "y: " << this->pos.y << " tmp: " << tmp << " x: " << this->pos.x << std::endl;
        if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state == Case::FREE)
         {
          if (mp[static_cast<int>(tmp)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
