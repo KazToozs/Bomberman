@@ -16,6 +16,7 @@
 #include "AI.hh"
 #include "Keybind.hh"
 #include <iostream>
+#include <thread>
 
 class AI;
 
@@ -86,7 +87,7 @@ void Game::init(Keybind *keys) {
   // TODO create ia
 }
 
-void Game::start() {
+void Game::loop() {
   int i = 0; /* delete this */
 
     std::cout << "in loop" << std::endl;
@@ -104,8 +105,13 @@ void Game::start() {
   //  std::cout << "----- AFTER -----" << std::endl;
    // this->map->print();
     this->mtx->unlock();
-    sleep(0.2);
+   // sleep(0.2);
   }
+}
+
+void    Game::start()
+{
+   this->lp = new std::thread([&] { this->loop(); });
 }
 
 void Game::lock() const { this->mtx->lock(); }

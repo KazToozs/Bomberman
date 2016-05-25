@@ -25,6 +25,7 @@ class Game
 {
 private:
   Gui                     *keybind;
+  std::thread             *lp;
   int                     nb_ia;
   int                     nb_real;
   int                     size;
@@ -32,6 +33,7 @@ private:
   std::vector<IPlayer *>  players;
   std::thread             *th;
   std::mutex              *mtx;
+  void                    loop();
 public:
   Game(const int &nb_ia, const int &nb_real, const int &size);
   ~Game();
