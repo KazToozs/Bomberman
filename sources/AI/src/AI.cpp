@@ -182,8 +182,8 @@ void                AI::pass_values(lua_State *L, std::vector<std::vector<Case>>
   lua_setglobal(L, "map_x");
 
   /* Pass positions */
-  std::cout << "Player positions: x " << this->pos.x + 1 << " y " << this->pos.y + 1 << std::endl;
-  std::cout << "Player positions cast: x " << static_cast<int>(this->pos.x) + 1 << " y " << static_cast<int>(this->pos.y) + 1 << std::endl;
+  // std::cout << "Player positions: x " << this->pos.x + 1 << " y " << this->pos.y + 1 << std::endl;
+  // std::cout << "Player positions cast: x " << static_cast<int>(this->pos.x) + 1 << " y " << static_cast<int>(this->pos.y) + 1 << std::endl;
   lua_pushnumber(L, static_cast<int>(this->pos.x + 1));
   lua_setglobal(L, "pos_x");
   lua_pushnumber(L, static_cast<int>(this->pos.y + 1));
