@@ -53,6 +53,7 @@ public:
   virtual ~IPlayer() {};
   virtual void  init() = 0;
   virtual e_player get_type() const = 0;
+  virtual const int &get_team() const = 0;
   virtual const std::vector<Bomb *> &get_bombs() const = 0;
   virtual void check_bombs() = 0;
   virtual void set_pos(const t_pos &) = 0;

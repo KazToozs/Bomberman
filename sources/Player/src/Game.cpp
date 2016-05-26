@@ -107,6 +107,7 @@ void Game::loop() {
     this->mtx->unlock();
     //sleep(1);
   }
+  std::cout << "Winner: " << this->who_alive()->get_team() << std::endl;
 }
 
 void    Game::start()

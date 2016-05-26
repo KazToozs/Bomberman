@@ -49,6 +49,7 @@ class AI : public IPlayer
 
    bool                       is_alive() const;
    e_player                   get_type() const;
+   const int                  &get_team() const;
    const std::vector<Bomb *> &get_bombs() const;
    const t_pos &              get_pos() const;
    const float &              get_speed() const;

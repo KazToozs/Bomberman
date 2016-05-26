@@ -70,6 +70,7 @@ public:
   const float &get_speed() const;
   const size_t  &get_score() const;
   void  set_powerups(IPowerup *);
+  const int &get_team() const;
 };
 
 #endif /*!_PLAYER_HH_*/

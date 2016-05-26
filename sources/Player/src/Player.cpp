@@ -31,7 +31,7 @@ Player::Player(Map *mp, const int &num, Keybind *keys, Game *g)
   this->score = 0;
   this->p = NULL;
   this->max_bombs = 1;
-  this->range_bomb = 5;
+  this->range_bomb = 2;
   this->speed = 0.02;
   this->alive = true;
   this->action = UNKNOWN;
@@ -115,6 +115,11 @@ void  Player::put_bomb()
     this->bombs.back()->put_bomb(this->map);
     this->gm->set_actualisation(true);
   }
+}
+
+const int &Player::get_team() const
+{
+    return (this->team);
 }
 
 void  Player::set_pos(const t_pos &ps)

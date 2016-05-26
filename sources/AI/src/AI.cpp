@@ -126,6 +126,11 @@ const t_pos &AI::get_pos() const
   return (this->pos);
 }
 
+const int &AI::get_team() const
+{
+    return (this->team);
+}
+
 bool  AI::is_alive() const
 {
   return (this->alive);
