@@ -307,11 +307,12 @@ bool Gui::DrawScene() {
   _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
   /*Start Scene*/
   if (!_BaseModels) UpdateBlock(0, 0, c, _BaseModels);
-  /*TO_DO_ if ()*/
+  //this->_Game->lock();
   if (this->_Game->get_actualisation() == true)
       ActualiseMaps();
   for (int i = 0; i < _Game->get_players().size(); i++) {
     MovePlayer(i);
+   //this->_Game->unlock();
   }
 
   /*End Scene*/

@@ -24,6 +24,8 @@ Keybind::Keybind(Gui *key)
   bind1[0x51] = LEFT;
   bind1[0x44] = RIGHT;
   bind1[0x20] = BOMB;
+  this->m1 = true;
+  this->m2 = false;
 
   bind2[0x26] = UP;
   bind2[0x28] = DOWN;
@@ -111,16 +113,69 @@ e_action  Keybind::get_action(const int &player)
 {
   if (player == 1)
   {
-    const std::vector<irr::SEvent::SKeyInput>& keys = _key->get_key_event();
-
     if ((std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count()
     - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t1).time_since_epoch().count()) >= 10)
     {
         this->t1 = std::chrono::high_resolution_clock::now();
-        for (size_t x = 0; x < keys.size(); x++)
+        if (this->m1 == false)
         {
-            if (bind1[x] != UNKNOWN && keys[x].PressedDown)
-                return (bind1[keys[x].Key]);
+            const std::vector<irr::SEvent::SKeyInput>& keys = _key->get_key_event();
+
+            for (size_t x = 0; x < keys.size(); x++)
+            {
+                if (bind1[x] != UNKNOWN && keys[x].PressedDown)
+                    return (bind1[keys[x].Key]);
+            }
+        }
+        else
+        {
+            const irr::SEvent::SJoystickEvent &m = _key->get_joy_event();
+            int                             x;
+            int                             y;
+
+            if (m.ButtonStates == 4)
+                return (BOMB);
+            x = 0.0;
+            y = 0.0;
+
+            if (m.Axis[0] > 2000 || m.Axis[0] < -2000)
+                x = m.Axis[0];
+            if (m.Axis[1] > 2000 || m.Axis[1] < -2000)
+                y = m.Axis[1];
+            if (x > 0)
+            {
+                if (y < 0)
+                {
+                    if (x > -y)
+                        return (RIGHT);
+                    else
+                        return (UP);
+                }
+                else
+                {
+                    if (x > y)
+                        return (RIGHT);
+                    else
+                        return (DOWN);
+                }
+            }
+            else
+            {
+                if (y < 0)
+                {
+                    if (-x > -y)
+                        return (LEFT);
+                    else
+                        return (UP);
+                }
+                else
+                {
+                    if (-x > y)
+                        return (LEFT);
+                    else if (y != 0)
+                        return (DOWN);
+                }
+            }
         }
     }
     return (UNKNOWN);

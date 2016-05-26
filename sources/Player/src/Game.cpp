@@ -101,11 +101,11 @@ void Game::loop() {
       }
     }
     i++;
-//    std::cout << "---- Turn: " << i << std::endl;
+  //  std::cout << "---- Turn: " << i << std::endl;
   //  std::cout << "----- AFTER -----" << std::endl;
    // this->map->print();
     this->mtx->unlock();
-   // sleep(0.2);
+    //sleep(1);
   }
 }
 
