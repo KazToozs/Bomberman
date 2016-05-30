@@ -14,13 +14,16 @@
 #include "Bomb.hh"
 #include "Map.hh"
 #include "AI.hh"
+#include "Gui.hh"
 #include "Keybind.hh"
+#include "Game.hh"
 #include <iostream>
 #include <thread>
 
 class AI;
 
-Game::Game(const int &nb_ia, const int &nb_real, const int &size) {
+Game::Game(const int &nb_ia, const int &nb_real, const int &size, Gui *g) {
+  this->g = g;
   this->size = size;
   this->nb_ia = nb_ia;
   this->nb_real = nb_real;
@@ -31,7 +34,7 @@ Game::Game(const int &nb_ia, const int &nb_real, const int &size) {
 }
 
 Game::Game(const Game &gm) {
-  this->keybind = gm.keybind;
+  this->g = gm.g;
   this->size = gm.size;
   this->nb_ia = gm.nb_ia;
   this->nb_real = gm.nb_real;
@@ -58,14 +61,12 @@ const Game &Game::operator=(const Game &gm) {
   this->mtx = gm.mtx;
   this->th = gm.th;
   this->players = gm.players;
-  this->keybind = gm.keybind;
+  this->g = gm.g;
   return (*this);
 }
 
 void Game::init(Keybind *keys) {
-//  std::cout << "géty" << std::endl;
   this->map = new Map(this->size, this->size);
-//  std::cout << "fag" << std::endl;
   for (size_t x = 0; x < this->nb_real; x++) {
     this->players.push_back(new Player(this->map, x + 1, keys, this));
     players[x]->init();
@@ -75,16 +76,11 @@ void Game::init(Keybind *keys) {
     this->players.push_back(new AI(this->map, (x + this->nb_real + 1), this));
     players[x + this->nb_real]->init();
   }
-  // luabridge::LuaRef playerTable = luabridge::newTable(L);
-  // for(size_t i = 0; i < this->players.size(); ++i)
-  // {
-  //   luabridge::LuaRef innerTable = luabridge::newTable(L);
-  //   innerTable[1] = this->players[i].get_pos().x;
-  //   innerTable[2] = this->players[i].get_pos().y;
-  //   playerTable[i + 1] = innerTable;
-  // }
-  // luabridge::setGlobal(L, playerTable, "playerTable");
-  // TODO create ia
+}
+
+void Game::MovePl(const int &pl) const
+{
+    //this->g->MovePlayer(pl);
 }
 
 void Game::loop() {
@@ -94,18 +90,18 @@ void Game::loop() {
   while (this->check_finish() == false) {
     this->mtx->lock();
     for (size_t x = 0; x < this->players.size(); x++) {
+      this->players[x]->check_bombs();
       if (this->players[x]->is_alive() == true) {
-        this->players[x]->check_bombs();
         if (this->players[x]->check_alive() == true)
-          this->players[x]->do_action();
+        {
+            this->players[x]->do_action();
+            this->players[x]->check_powerup();
+            this->players[x]->check_power_map();
+        }
       }
     }
     i++;
-  //  std::cout << "---- Turn: " << i << std::endl;
-  //  std::cout << "----- AFTER -----" << std::endl;
-   // this->map->print();
     this->mtx->unlock();
-    //sleep(1);
   }
   std::cout << "Winner: " << this->who_alive()->get_team() << std::endl;
 }

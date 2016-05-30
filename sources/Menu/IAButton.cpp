@@ -26,7 +26,7 @@ void			IAButton::action() const
 {
   Game	*game;
   
-  game = new Game(id, multi ? 2 : 1, 20);
+  game = new Game(id, multi ? 2 : 1, 16, this->menu->gui);
   this->menu->gui->LoadGame(game);
 }
 

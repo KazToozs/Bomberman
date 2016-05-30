@@ -14,6 +14,7 @@
 #include "Case.h"
 #include "Game.hh"
 #include "Keybind.hh"
+#include "Gui.hh"
 
 #include <iostream>
 
@@ -84,8 +85,8 @@ void  Player::init()
     this->pos.x += (mp.size() - 1);
   if (this->team > 2)
     this->pos.y += (mp.size() - 1);
-  std::cout << "team: " << this->team << " x: " << this->pos.x << " y: " << this->pos.y << std::endl;
   mp[(int)this->pos.y][(int)this->pos.x]._state = Case::TAKEN;
+ // this->gm->MovePl(this->team - 1);
 }
 
 IPlayer::e_player Player::get_type() const
@@ -109,6 +110,7 @@ void  Player::check_bombs()
 
 void  Player::put_bomb()
 {
+  std::cout << "nb bombs: " << this->bombs.size() << " max: " << this->max_bombs << std::endl;
   if (this->bombs.size() < this->max_bombs)
   {
     this->bombs.push_back(new Bomb(this->pos, this->range_bomb, this->team));
@@ -129,8 +131,6 @@ void  Player::set_pos(const t_pos &ps)
 
 const t_pos &Player::get_pos() const
 {
-   // if (this->team == 1)
-     // std::cout << "x: " << this->pos.x << " y: " << this->pos.y << std::endl;
   return (this->pos);
 }
 
@@ -188,26 +188,22 @@ void  Player::move_up()
 
   if ((this->pos.y - this->speed) >= 0.1)
   {
-  //    std::cout << "speed: " << this->speed << " y: " << this->pos.y << " Test move up: " << (this->pos.y - this->speed) << std::endl;
     tmp = this->pos.y - this->speed;
     if (static_cast<int>(this->pos.y) != static_cast<int>(tmp))
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-            this->pos.y = tmp;
-          }
-          else
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-            this->pos.y = tmp;
-     //       std::cout << "tmp: " << tmp << std::endl;
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
-          }
+            if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
+            {
+                mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+              this->pos.y = tmp;
+            }
+            else
+            {
+                mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+                this->pos.y = tmp;
+                mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+            }
         }
       }
     else
@@ -220,7 +216,6 @@ void  Player::move_down()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
-  //std::cout << "down" << std::endl;
   if ((this->pos.y + this->speed) < (mp.size() - 0.1))
   {
     tmp = this->pos.y + this->speed;
@@ -228,19 +223,17 @@ void  Player::move_down()
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-            this->pos.y = tmp;
-          }
-          else
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-            this->pos.y = tmp;
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
-          }
+            if (mp[static_cast<int>(this->pos.y)][this->pos.x]._state == Case::BOMB)
+            {
+                mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+              this->pos.y = tmp;
+            }
+            else
+            {
+                mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+                this->pos.y = tmp;
+                mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
+            }
         }
       }
     else
@@ -253,7 +246,6 @@ void  Player::move_left()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
-  //std::cout << "left" << std::endl;
   if ((this->pos.x - this->speed) >= 0.1)
   {
     tmp = this->pos.x - this->speed;
@@ -261,19 +253,17 @@ void  Player::move_left()
       {
         if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-            this->pos.x = tmp;
-          }
-          else
-          {
-            mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::FREE;
-            this->pos.x = tmp;
-            mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
-          }
+            if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
+            {
+                mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state = Case::TAKEN;
+              this->pos.x = tmp;
+            }
+            else
+            {
+                mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::FREE;
+                this->pos.x = tmp;
+                mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
+            }
         }
       }
     else
@@ -286,30 +276,24 @@ void  Player::move_right()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
-  //std::cout << "right" << std::endl;
   if ((this->pos.x + this->speed) < (mp.size() - 0.1))
   {
     tmp = this->pos.x + this->speed;
- //   std::cout << "tmp:   " << tmp << std::endl;
     if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
       {
-  //      if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state != Case::FREE)
-    //        std::cout << "y: " << this->pos.y << " tmp: " << tmp << " x: " << this->pos.x << std::endl;
        if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state == Case::FREE)
         {
-         if (mp[static_cast<int>(tmp)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-            this->pos.x = tmp;
-          }
-          else
-          {
-            mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::FREE;
-            this->pos.x = tmp;
-            mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
-          }
+           if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
+            {
+               mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state = Case::TAKEN;
+              this->pos.x = tmp;
+            }
+           else
+           {
+               mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::FREE;
+               this->pos.x = tmp;
+               mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
+           }
         }
       }
     else
@@ -323,9 +307,10 @@ void  Player::do_action()
 
    bind = UNKNOWN;
    bind = key->get_action(this->team);
-  // std::cout << "bind: " << bind << std::endl;
    if (bind != UNKNOWN)
      (this->*act_func[bind])();
+   if (bind != UNKNOWN && bind != BOMB)
+       this->gm->MovePl(this->team - 1);
 }
 
 const size_t &  Player::get_score() const
@@ -340,7 +325,21 @@ void  Player::set_powerups(IPowerup *power)
     this->p = power;
     this->t = std::chrono::high_resolution_clock::now();
   }
+  std::cout << "type: " << power->get_type() << " speed: " << this->speed << " max_bombs: " << this->max_bombs << " range: " << this->range_bomb << std::endl;
   power->set_powerup(this);
+  std::cout << "speed: " << this->speed << " max_bombs: " << this->max_bombs << " range: " << this->range_bomb << std::endl;
+}
+
+void  Player::check_power_map()
+{
+    std::vector<std::vector<Case> > &mp = this->map->getMap();
+
+    if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup != NULL)
+    {
+        this->set_powerups(mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup);
+        mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup = NULL;
+            this->gm->set_actualisation(true);
+    }
 }
 
 void  Player::check_powerup()

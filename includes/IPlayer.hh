@@ -62,6 +62,7 @@ public:
   virtual const float &get_speed() const = 0;
   virtual bool  is_alive() const = 0;
   virtual void  check_powerup() = 0;
+  virtual void  check_power_map() = 0;
   virtual bool check_alive() = 0;
   virtual void set_score(const size_t &) = 0;
   virtual void set_maxbombs(const size_t &) = 0;

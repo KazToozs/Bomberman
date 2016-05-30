@@ -1,9 +1,10 @@
 #include "AI.hh"
-#include "../../Player/include/IPowerup.hh"
+#include "IPowerup.hh"
 #include "Map.hh"
 #include "Case.h"
 #include <iostream>
 #include "Game.hh"
+#include "Gui.hh"
 
 AI::AI(Map *mp, const int &num, Game *g)
 {
@@ -84,6 +85,7 @@ void  AI::init()
     this->pos.y += (mp.size() - 1);
   }
   mp[this->pos.y][this->pos.x]._state = Case::TAKEN;
+  //this->gm->MovePl(this->team - 1);
   //TODO keybinding
 }
 
@@ -230,6 +232,8 @@ void                                AI::do_action()
         {
           (this->*acts[act])();
         }
+        if (act != UNKNOWN && act != BOMB)
+            this->gm->MovePl(this->team - 1);
     }
   // lua_close(L);
   //TODO do an action with what the script returns, then close the luascript cleanly
@@ -260,135 +264,18 @@ void  AI::check_powerup()
     this->p = NULL;
   }
 }
-/*
-void  AI::move_up()
+
+void  AI::check_power_map()
 {
-  std::vector<std::vector<Case> > &mp = this->map->getMap();
-  float   tmp;
+    std::vector<std::vector<Case> > &mp = this->map->getMap();
 
-  if ((this->pos.y - this->speed) >= 0)
-  {
-    tmp = this->pos.y - this->speed;
-    if (static_cast<int>(this->pos.y) != static_cast<int>(tmp))
-      {
-        if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
-        {
-          if (mp[this->pos.y][this->pos.x]._state == Case::BOMB)
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-            this->pos.y = tmp;
-          }
-          else
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-            this->pos.y = tmp;
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
-          }
-        }
-      }
-    else
-      this->pos.y = tmp;
-  }
+    if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup != NULL)
+    {
+        this->set_powerups(mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup);
+        mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup = NULL;
+            this->gm->set_actualisation(true);
+    }
 }
-
-void  AI::move_down()
-{
-  std::vector<std::vector<Case> > &mp = this->map->getMap();
-  float   tmp;
-
-  if ((this->pos.y + this->speed) < mp.size())
-  {
-    tmp = this->pos.y + this->speed;
-    if (static_cast<int>(this->pos.y) != static_cast<int>(tmp))
-      {
-        if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
-        {
-          if (mp[this->pos.y][this->pos.x]._state == Case::BOMB)
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-            this->pos.y = tmp;
-          }
-          else
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-            this->pos.y = tmp;
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
-          }
-        }
-      }
-    else
-      this->pos.y = tmp;
-  }
-}
-
-void  AI::move_left()
-{
-  std::vector<std::vector<Case> > &mp = this->map->getMap();
-  float   tmp;
-
-  if ((this->pos.x - this->speed) >= 0)
-  {
-    tmp = this->pos.x - this->speed;
-    if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
-      {
-        if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
-        {
-          if (mp[this->pos.y][this->pos.x]._state == Case::BOMB)
-          {
-            mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.x))
-              mp[this->pos.y][static_cast<int>(tmp)]._state = Case::TAKEN;
-            this->pos.x = tmp;
-          }
-          else
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-            this->pos.x = tmp;
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
-          }
-        }
-      }
-    else
-      this->pos.x = tmp;
-  }
-}
-
-void  AI::move_right()
-{
-  std::vector<std::vector<Case> > &mp = this->map->getMap();
-  float   tmp;
-
-  if ((this->pos.x + this->speed) < mp.size())
-  {
-    tmp = this->pos.x + this->speed;
-    if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
-      {
-        if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
-        {
-          if (mp[this->pos.y][this->pos.x]._state == Case::BOMB)
-          {
-            mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.x))
-              mp[this->pos.y][static_cast<int>(tmp)]._state = Case::TAKEN;
-            this->pos.x = tmp;
-          }
-          else
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
-            this->pos.x = tmp;
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
-          }
-        }
-      }
-    else
-      this->pos.x = tmp;
-  }
-}
-*/
 
 void  AI::move_up()
 {

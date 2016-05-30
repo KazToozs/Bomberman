@@ -46,6 +46,7 @@ class AI : public IPlayer
    void                       check_bombs();
    bool                       check_alive();
    void                       check_powerup();
+   void                       check_power_map();
 
    bool                       is_alive() const;
    e_player                   get_type() const;

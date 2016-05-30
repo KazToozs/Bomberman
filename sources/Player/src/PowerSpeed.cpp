@@ -22,12 +22,12 @@ PowerSpeed::~PowerSpeed()
 
 void  PowerSpeed::set_powerup(IPlayer *pl) const
 {
-  pl->set_speed(0.1);
+  pl->set_speed(0.01);
 }
 
 void  PowerSpeed::unset_powerup(IPlayer *pl) const
 {
-  pl->set_speed(-0.1);
+  pl->set_speed(-0.01);
 }
 
 e_powerup PowerSpeed::get_type() const

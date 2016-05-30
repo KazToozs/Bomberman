@@ -62,6 +62,7 @@ public:
   const t_pos &get_pos() const;
   bool  is_alive() const;
   bool  check_alive();
+  void  check_power_map();
   void set_score(const size_t &);
   void set_maxbombs(const size_t &);
   void set_rangebomb(const int &);

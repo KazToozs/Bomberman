@@ -43,8 +43,12 @@ void Gui::LoadGame(Game* game) {
       _MapsModels[y][x] = NULL;
     }
   }
-  this->_Menu->StartGame();
   _Mtx->unlock();
+  this->ActualiseMaps();
+  for (int i = 0; i < this->_Game->get_players().size(); i++) {
+      this->MovePlayer(i);
+  }
+  this->_Menu->StartGame();
   _Game->start();
 }
 
@@ -173,8 +177,8 @@ void Gui::Load() {
   irr::scene::ILightSceneNode* LightNode =
       _Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
                                irr::video::SColor(255, 128, 128, 128), 50.0f);
-  CamNode->setPosition(irr::core::vector3df(20, 4, -26));
-  CamNode->setTarget(irr::core::vector3df(20, 14, 0));
+  CamNode->setPosition(irr::core::vector3df(16, 2, -20));
+  CamNode->setTarget(irr::core::vector3df(16, 10, 0));
   _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
   _Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
@@ -191,12 +195,21 @@ void Gui::MovePlayer(int id) {
   IPlayer* player = _Game->get_players()[id];
   float posx = player->get_pos().x;
   float posy = player->get_pos().y;
+  irr::core::vector3df oldpos = _PlayerModels[id][0]->getPosition();
+
 
   for (int i = 0; i < 3; i++) {
     bool b = (i == current_pos[id] % 3) ? true : false;
     _PlayerModels[id][i]->setPosition(
         irr::core::vector3df(posx * 2, (posy * 2) - 1, 0));
-    _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, 0));
+    if (oldpos.X < posx)
+        _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, 90));
+    else if (oldpos.X > posx)
+        _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, -90));
+    else if (oldpos.Y < posy)
+        _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, 0));
+    else if (oldpos.Y > posy)
+        _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, -180));
     _PlayerModels[id][i]->setVisible(player->is_alive() && b);
   }
   current_pos[id]++;
@@ -234,7 +247,6 @@ void Gui::ActualiseMaps() {
       UpdateBlock(x, y, (*_Map)[y][x], _MapsModels[y][x]);
     }
   }
-  this->_Game->set_actualisation(false);
   _Mtx->unlock();
 }
 
@@ -284,20 +296,20 @@ void Gui::PutWall() {
 
   c._state = Case::UNBREAKABLE;
   c._powerup = NULL;
-  for (int i = 0; i < 22; i++) {
+  for (int i = 0; i < 18; i++) {
     UpdateBlock(-1 + i, -1, c, elem);
     elem = NULL;
   }
-  for (int i = 0; i < 22; i++) {
-    UpdateBlock(-1 + i, 20, c, elem);
+  for (int i = 0; i < 18; i++) {
+    UpdateBlock(-1 + i, 16, c, elem);
     elem = NULL;
   }
-  for (int i = 0; i < 20; i++) {
+  for (int i = 0; i < 16; i++) {
     UpdateBlock(-1, i, c, elem);
     elem = NULL;
   }
-  for (int i = 0; i < 20; i++) {
-    UpdateBlock(20, i, c, elem);
+  for (int i = 0; i < 16; i++) {
+    UpdateBlock(16, i, c, elem);
     elem = NULL;
   }
 }
@@ -313,6 +325,10 @@ bool Gui::DrawScene() {
   _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
   _MainFont->draw(ss.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
                   irr::video::SColor(255, 0, 0, 0), false, true);
+  if (this->_Game->get_actualisation()) ActualiseMaps();
+  for (int i = 0; i < _Game->get_players().size(); i ++) {
+    MovePlayer(i);
+  }
   /*Start Scene*/
   // if (!_BaseModels) UpdateBlock(0, 0, c, _BaseModels);
 
