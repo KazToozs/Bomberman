@@ -27,7 +27,9 @@ bool Gui::Start(Menu* menu) {
   if (_Th->joinable()) return (true);
 }
 
-const Game* Gui::getGame() const { return (this->_Game); }
+const Game *Gui::getGame() const {
+    return (this->_Game);
+}
 
 void Gui::LoadGame(Game* game) {
   std::cout << "I'm here : " << game << std::endl;
@@ -178,26 +180,26 @@ void Gui::Load() {
   _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
   _Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
-  _MusicMenu.openFromFile("Ressources/Sounds/MenuTheme.ogg");
-  _MusicGame.openFromFile("Ressources/Sounds/GameTheme.ogg");
-  _BufferTuturu.loadFromFile("Ressources/Sounds/Tutturuu.ogg");
+  _BufferTuturu.loadFromFile("Ressources/Sounds/Tutturuu.wav");
+  _BufferMainSound.loadFromFile("Ressources/Sounds/MenuTheme.wav");
   LoadMaps();
   _Mtx->unlock();
 }
 
 void Gui::MovePlayer(int id) {
-  static int current_pos[4] = {0, 0, 0, 0};
-  IPlayer* player = _Game->get_players()[id];
-  float posx = player->get_pos().x;
-  float posy = player->get_pos().y;
+  static int current_pos = 0;
+  std::vector<IPlayer*> players = _Game->get_players();
+  float posx = players[id]->get_pos().x;
+  float posy = players[id]->get_pos().y;
 
   for (int i = 0; i < 3; i++) {
-    bool b = (i == current_pos[id]) ? true : false;
-    _PlayerModels[id][i]->setPosition(irr::core::vector3df(posx * 2, posy * 2, 0));
+      bool b = (i == current_pos) ? true : false;
+    _PlayerModels[id][i]->setPosition(
+        irr::core::vector3df(posx * 2 + ((!b) ? 5000: 0) , posy * 2, 0));
     _PlayerModels[id][i]->setRotation(irr::core::vector3df(180, 0, 0));
-    _PlayerModels[id][i]->setVisible(player->is_alive() && b);
+    _PlayerModels[id][i]->setVisible(b);
   }
-  current_pos[id] = (current_pos[id] + 1) % 3;
+  current_pos = (current_pos + 1) % 3;
 }
 
 void Gui::LoadMaps() {
@@ -212,10 +214,10 @@ void Gui::LoadMaps() {
       _Smgr->getMesh("Ressources/Models/Original_bomb/original_bomb.obj");
   _BlockModels[Case::B_BOMB] =
       _Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
-  _BlockModels[Case::EXPLODING] =
-      _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
-  _BlockModels[Case::NOPE] =
-      _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
+  _BlockModels[Case::EXPLODING] = NULL;
+      //_Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
+  _BlockModels[Case::NOPE] = NULL;
+      //_Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
   _BlockModels[Case::POWERUP_BOMB] =
       _Smgr->getMesh("Ressources/Models/Powerup_Bomb/powerup_bomb.obj");
   _BlockModels[Case::POWERUP_RANGE] =
@@ -225,13 +227,11 @@ void Gui::LoadMaps() {
 }
 
 void Gui::ActualiseMaps() {
-  std::cout << "Looool" << std::endl;
   for (int y = 0; y < _Map->getMap().size(); y++) {
     for (int x = 0; x < _Map->getMap().size(); x++) {
       UpdateBlock(x, y, (*_Map)[y][x], _MapsModels[y][x]);
     }
   }
-  this->_Game->set_actualisation(false);
 }
 
 void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
@@ -264,21 +264,19 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
   irr::scene::ISceneNode* new_block = _Smgr->addMeshSceneNode(mesh);
   new_block->setID(type._state);
   old = new_block;
-  old->setPosition(irr::core::vector3df(x * 2 + 1, y * 2, 0));
-  old->setRotation(irr::core::vector3df(-90, 0, 0));
+  old->setPosition(irr::core::vector3df(x * 2, y * 2, 0));
+  old->setRotation(irr::core::vector3df(50, 0, 0));
   if (type._state != Case::BOMB)
     old->setScale(irr::core::vector3df(0.003f, 0.003f, 0.003f));
   else
     old->setScale(irr::core::vector3df(0.10f, 0.10f, 0.10f));
-  if (type._state == Case::FREE)
-    old->setScale(irr::core::vector3df(0.25f, 0.25f, 0.25f));
 }
 
 void Gui::PutWall() {
   Case c;
   irr::scene::ISceneNode* elem = NULL;
 
-  c._state = Case::UNBREAKABLE;
+  c._state = Case::BOMB;
   c._powerup = NULL;
   for (int i = 0; i < 22; i++) {
     UpdateBlock(-1 + i, -1, c, elem);
@@ -307,11 +305,9 @@ bool Gui::DrawScene() {
   _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
   /*Start Scene*/
   if (!_BaseModels) UpdateBlock(0, 0, c, _BaseModels);
-  // this->_Game->lock();
-  if (this->_Game->get_actualisation() == true) ActualiseMaps();
+  ActualiseMaps();
   for (int i = 0; i < _Game->get_players().size(); i++) {
     MovePlayer(i);
-    // this->_Game->unlock();
   }
 
   /*End Scene*/
@@ -371,22 +367,16 @@ void Gui::StartLoop() {
     if (_Sound.getStatus() == sf::Sound::Playing && !is_game_sound)
       DrawSplash();
     else {
-      if (_Menu->getId() == Menu::GAME) {
-        _MusicMenu.stop();
-        if (is_game_sound) {
-          is_game_sound = false;
-          _MusicGame.setLoop(true);
-          _MusicGame.play();
-        }
-        DrawScene();
-      } else {
-        if (!is_game_sound) {
-          is_game_sound = true;
-          _MusicMenu.setLoop(true);
-          _MusicMenu.play();
-        }
-        DrawMenu();
+      if (!is_game_sound) {
+        is_game_sound = true;
+        _Sound.setBuffer(_BufferMainSound);
+        _Sound.setLoop(true);
+        _Sound.play();
       }
+      if (_Menu->getId() == Menu::GAME)
+        DrawScene();
+      else
+        DrawMenu();
     }
   }
   _Mtx->lock();
