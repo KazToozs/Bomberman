@@ -31,6 +31,8 @@ class Gui {
   const Game *getGame() const;
   const irr::SEvent::SJoystickEvent& get_joy_event() const;
   const std::vector<irr::SEvent::SKeyInput>& get_key_event() const;
+  void MovePlayer(int);
+  void ActualiseMaps();
 
   ~Gui();
 
@@ -43,9 +45,7 @@ class Gui {
   void LoadMaps();
   int check_keys();
 
-  void ActualiseMaps();
   void UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old);
-  void MovePlayer(int);
   void PutWall();
   bool DrawScene();
   void DrawMenu();
