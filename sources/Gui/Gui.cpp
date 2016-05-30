@@ -180,8 +180,9 @@ void Gui::Load() {
   _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
   _Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
-  _BufferTuturu.loadFromFile("Ressources/Sounds/Tutturuu.wav");
-  _BufferMainSound.loadFromFile("Ressources/Sounds/MenuTheme.wav");
+  _MusicMenu.openFromFile("Ressources/Sounds/MenuTheme.ogg");
+  _MusicGame.openFromFile("Ressources/Sounds/GameTheme.ogg");
+  _BufferTuturu.loadFromFile("Ressources/Sounds/Tutturuu.ogg");
   LoadMaps();
   _Mtx->unlock();
 }
@@ -362,6 +363,7 @@ void Gui::DrawSplash() {
 void Gui::StartLoop() {
   bool is_game_sound = false;
 
+
   if (!CreateWindow()) return;
   this->Load();
   usleep(5000);
@@ -372,16 +374,24 @@ void Gui::StartLoop() {
     if (_Sound.getStatus() == sf::Sound::Playing && !is_game_sound)
       DrawSplash();
     else {
-      if (!is_game_sound) {
-        is_game_sound = true;
-        _Sound.setBuffer(_BufferMainSound);
-        _Sound.setLoop(true);
-        _Sound.play();
-      }
-      if (_Menu->getId() == Menu::GAME)
+      if (_Menu->getId() == Menu::GAME){
+        _MusicMenu.stop();
+        if (is_game_sound) {
+          is_game_sound = false;
+          _MusicGame.setLoop(true);
+          _MusicGame.play();
+        }
         DrawScene();
-      else
+      }
+      else{
+        if (!is_game_sound) {
+          is_game_sound = true;
+          _MusicMenu.setLoop(true);
+          _MusicMenu.play();
+
+        }
         DrawMenu();
+      }
     }
   }
   _Mtx->lock();

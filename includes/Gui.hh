@@ -64,6 +64,8 @@ class Gui {
   irr::scene::ISceneNode* _BaseModels;
   std::vector<irr::scene::IMesh*> _BlockModels;
   sf::SoundBuffer _BufferTuturu;
+  sf::Music _MusicMenu;
+  sf::Music _MusicGame;
   sf::SoundBuffer _BufferMainSound;
   sf::Sound _Sound;
 

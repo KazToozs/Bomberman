@@ -10,4 +10,4 @@ make clean
 ls
 # cd ../../
 # ls
-sudo cp -r SFML/lib/* /usr/lib64
+sudo cp -r SFML/lib/* /usr/lib
