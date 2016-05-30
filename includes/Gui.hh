@@ -22,8 +22,8 @@ class Menu;
 
 class Gui {
  public:
-  Gui(int Height = 720, int Width = 1280, int Ddp = 32, bool Fullscreen = false,
-      bool Vsync = true);
+  Gui(int Height = 720, int Width = 1280, int Ddp = 16, bool Fullscreen = false,
+      bool Vsync = false);
 
   bool Start(Menu *menu);
   void LoadGame(Game *game);
@@ -58,6 +58,7 @@ class Gui {
   irr::gui::IGUIEnvironment* _Guienv;
   irr::gui::IGUIFont* _MainFont;
   irr::video::ITexture* _Back;
+  irr::video::ITexture* _BackInGame;
   irr::video::ITexture* _Splash;
   std::vector<std::vector<irr::scene::ISceneNode*>> _PlayerModels;
   std::vector<std::vector<irr::scene::ISceneNode*>> _MapsModels;
@@ -68,6 +69,7 @@ class Gui {
   sf::Music _MusicGame;
   sf::SoundBuffer _BufferMainSound;
   sf::Sound _Sound;
+  std::vector<irr::core::vector3df> _SizeBlock;
 
   ControlEventReceiver _Event;
   std::thread* _Th;

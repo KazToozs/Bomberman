@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 22.05.2016 12:16:28
+# File Created: 30.05.2016 17:47:42
 
 newmtl BodySpc_mat
 	Ns 43.2193
@@ -12,8 +12,8 @@ newmtl BodySpc_mat
 	Kd 0.8000 0.8000 0.8000
 	Ks 1.0000 1.0000 1.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka maps\pm0100_00_Body1.png
-	map_Kd maps\pm0100_00_Body1.png
+	map_Ka images\pm0100_00_Body1.png
+	map_Kd images\pm0100_00_Body1.png
 
 newmtl Eye_mat
 	Ns 43.2193
@@ -26,5 +26,5 @@ newmtl Eye_mat
 	Kd 0.8000 0.8000 0.8000
 	Ks 1.0000 1.0000 1.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka maps\pm0100_00_Eye1.png
-	map_Kd maps\pm0100_00_Eye1.png
+	map_Ka images\pm0100_00_Eye1.png
+	map_Kd images\pm0100_00_Eye1.png

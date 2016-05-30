@@ -12,12 +12,13 @@
 # define _POWERUP_HH_
 
 #include "IPlayer.hh"
+#include "Case.h"
 
 typedef enum powerup
 {
-  SPEEDUP,
-  RANGEUP,
-  BOMBUP
+  SPEEDUP = 10,
+  RANGEUP = 9,
+  BOMBUP = 8
 }e_powerup;
 
 class IPowerup

@@ -35,7 +35,6 @@ void Gui::LoadGame(Game* game) {
   _Game = game;
   _Game->init(new Keybind(this));
   _Map = game->get_map();
-  LoadModels();
   _MapsModels.resize(_Map->getMap().size());
   for (int y = 0; y < _Map->getMap().size(); y++) {
     _MapsModels[y].resize((*_Map)[0].size());
@@ -46,7 +45,7 @@ void Gui::LoadGame(Game* game) {
   _Mtx->unlock();
   this->ActualiseMaps();
   for (int i = 0; i < this->_Game->get_players().size(); i++) {
-      this->MovePlayer(i);
+    this->MovePlayer(i);
   }
   this->_Menu->StartGame();
   _Game->start();
@@ -86,23 +85,6 @@ void Gui::InitJoystick() {
                 << std::endl;
       std::cout << "\tAxes: " << joystickInfo[joystick].Axes << std::endl;
       std::cout << "\tButtons: " << joystickInfo[joystick].Buttons << std::endl;
-
-      std::cout << "\tHat is: ";
-
-      switch (joystickInfo[joystick].PovHat) {
-        case irr::SJoystickInfo::POV_HAT_PRESENT:
-          std::cout << "present" << std::endl;
-          break;
-
-        case irr::SJoystickInfo::POV_HAT_ABSENT:
-          std::cout << "absent" << std::endl;
-          break;
-
-        case irr::SJoystickInfo::POV_HAT_UNKNOWN:
-        default:
-          std::cout << "unknown" << std::endl;
-          break;
-      }
     }
   } else {
     std::cout << "Joystick support is not enabled." << std::endl;
@@ -143,7 +125,7 @@ bool Gui::WindowIsOpen() {
 }
 
 void Gui::LoadModels() {
-  int size = _Game->get_players().size();
+  int size = 4;
   _PlayerModels.resize(size);
   std::cout << size << std::endl;
   for (int i = 0; i < size; i++) {
@@ -157,7 +139,6 @@ void Gui::LoadModels() {
     _PlayerModels[i][0]->setVisible(false);
     _PlayerModels[i][0]->setScale(irr::core::vector3df(0.01f, 0.01f, 0.01f));
     _PlayerModels[i][0]->setRotation(irr::core::vector3df(90, 0, 0));
-
     state = _Smgr->getMesh((ss.str() + "/state2.obj").c_str());
     _PlayerModels[i][1] = _Smgr->addMeshSceneNode(state);
     _PlayerModels[i][1]->setVisible(false);
@@ -180,11 +161,13 @@ void Gui::Load() {
   CamNode->setPosition(irr::core::vector3df(16, 2, -20));
   CamNode->setTarget(irr::core::vector3df(16, 10, 0));
   _Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
+  _BackInGame = _Driver->getTexture("Ressources/Pictures/backingame.png");
   _Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
   _MainFont = _Guienv->getFont("Ressources/Fonts/mainfont.png");
   _MusicMenu.openFromFile("Ressources/Sounds/MenuTheme.ogg");
   _MusicGame.openFromFile("Ressources/Sounds/GameTheme.ogg");
   _BufferTuturu.loadFromFile("Ressources/Sounds/Tutturuu.ogg");
+  LoadModels();
   LoadMaps();
   _Mtx->unlock();
 }
@@ -193,23 +176,20 @@ void Gui::MovePlayer(int id) {
   _Mtx->lock();
   static unsigned int current_pos[4] = {0, 0, 0, 0};
   IPlayer* player = _Game->get_players()[id];
-  float posx = player->get_pos().x;
-  float posy = player->get_pos().y;
+  float posx = player->get_pos().x * 2;
+  float posy = player->get_pos().y * 2 - 1;
   irr::core::vector3df oldpos = _PlayerModels[id][0]->getPosition();
-
-
   for (int i = 0; i < 3; i++) {
     bool b = (i == current_pos[id] % 3) ? true : false;
-    _PlayerModels[id][i]->setPosition(
-        irr::core::vector3df(posx * 2, (posy * 2) - 1, 0));
+    _PlayerModels[id][i]->setPosition(irr::core::vector3df(posx, posy, 0));
     if (oldpos.X < posx)
-        _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, 90));
-    else if (oldpos.X > posx)
-        _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, -90));
-    else if (oldpos.Y < posy)
-        _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, 0));
-    else if (oldpos.Y > posy)
-        _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, -180));
+      _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, -90));
+    if (oldpos.X > posx)
+      _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, 90));
+    if (oldpos.Y < posy)
+      _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, 0));
+    if (oldpos.Y > posy)
+      _PlayerModels[id][i]->setRotation(irr::core::vector3df(-90, 0, 180));
     _PlayerModels[id][i]->setVisible(player->is_alive() && b);
   }
   current_pos[id]++;
@@ -219,6 +199,7 @@ void Gui::MovePlayer(int id) {
 void Gui::LoadMaps() {
   _BaseModels = NULL;
   _BlockModels.resize(11);
+  _SizeBlock.resize(11);
   _BlockModels[Case::FREE] = NULL;
   _BlockModels[Case::UNBREAKABLE] =
       _Smgr->getMesh("Ressources/Models/Block/unbreak/Unbreak.obj");
@@ -229,15 +210,25 @@ void Gui::LoadMaps() {
   _BlockModels[Case::B_BOMB] =
       _Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
   _BlockModels[Case::EXPLODING] =
-      _Smgr->getMesh("Ressources/Models/Block/Exploding.obj");
-  _BlockModels[Case::NOPE] =
-      _Smgr->getMesh("Ressources/Models/Block/cube/cube.obj");
+      _Smgr->getMesh("Ressources/Models/Block/Exploding/exploding.obj");
+  _BlockModels[Case::NOPE] = NULL;
   _BlockModels[Case::POWERUP_BOMB] =
       _Smgr->getMesh("Ressources/Models/Powerup_Bomb/powerup_bomb.obj");
   _BlockModels[Case::POWERUP_RANGE] =
       _Smgr->getMesh("Ressources/Models/Powerup_Range/powerup_range.obj");
   _BlockModels[Case::POWERUP_SPEED] =
       _Smgr->getMesh("Ressources/Models/Powerup_Speed/powerup_speed.obj");
+
+  _SizeBlock[Case::FREE] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
+  _SizeBlock[Case::UNBREAKABLE] = irr::core::vector3df(0.003f, 0.003f, 0.003f);
+  _SizeBlock[Case::BREAKABLE] = irr::core::vector3df(0.003f, 0.003f, 0.003f);
+  _SizeBlock[Case::BOMB] = irr::core::vector3df(0.10f, 0.10f, 0.10f);
+  _SizeBlock[Case::B_BOMB] = irr::core::vector3df(0.10f, 0.10f, 0.10f);
+  _SizeBlock[Case::EXPLODING] = irr::core::vector3df(0.05f, 0.05f, 0.05f);
+  _SizeBlock[Case::NOPE] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
+  _SizeBlock[Case::POWERUP_BOMB] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
+  _SizeBlock[Case::POWERUP_RANGE] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
+  _SizeBlock[Case::POWERUP_SPEED] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
 }
 
 void Gui::ActualiseMaps() {
@@ -262,17 +253,7 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
       old = NULL;
       return;
     } else {
-      switch (type._powerup->get_type()) {
-        case SPEEDUP:
-          mesh = _BlockModels[Case::POWERUP_SPEED];
-          break;
-        case RANGEUP:
-          mesh = _BlockModels[Case::POWERUP_RANGE];
-          break;
-        case BOMBUP:
-          mesh = _BlockModels[Case::POWERUP_BOMB];
-          break;
-      }
+      mesh = _BlockModels[type._powerup->get_type()];
     }
   } else
     mesh = _BlockModels[type._state];
@@ -282,12 +263,7 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
   old = new_block;
   old->setPosition(irr::core::vector3df(x * 2 + 1, y * 2, 0));
   old->setRotation(irr::core::vector3df(-90, 0, 0));
-  if (type._state != Case::BOMB)
-    old->setScale(irr::core::vector3df(0.003f, 0.003f, 0.003f));
-  else
-    old->setScale(irr::core::vector3df(0.10f, 0.10f, 0.10f));
-  if (type._state == Case::FREE)
-    old->setScale(irr::core::vector3df(0.25f, 0.25f, 0.25f));
+    old->setScale(_SizeBlock[type._state]);
 }
 
 void Gui::PutWall() {
@@ -323,10 +299,13 @@ bool Gui::DrawScene() {
   // c._powerup = NULL;
 
   _Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
+  if (_BackInGame)
+    _Driver->draw2DImage(_BackInGame, irr::core::position2di(0, 0),
+                         irr::core::rect<irr::s32>(0, 0, 1280, 720));
   _MainFont->draw(ss.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
                   irr::video::SColor(255, 0, 0, 0), false, true);
   if (this->_Game->get_actualisation()) ActualiseMaps();
-  for (int i = 0; i < _Game->get_players().size(); i ++) {
+  for (int i = 0; i < _Game->get_players().size(); i++) {
     MovePlayer(i);
   }
   /*Start Scene*/
