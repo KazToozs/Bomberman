@@ -91,7 +91,7 @@ function algo.findClosestEnemy(enemies)
   local closest = enemies[1]
   local i = 1
 
-  io.write("Player at x ", player.x, " y ", player.y, "\n")
+  -- io.write("Player at x ", player.x, " y ", player.y, "\n")
   local current = algo.calculateDistance(enemies[1])
   while i <= #enemies do
     local ret = algo.calculateDistance(enemies[i])
@@ -145,7 +145,7 @@ function algo.moveToEnemy()
 
   if #enemies > 0 then
     local closest = algo.findClosestEnemy(enemies)
-    io.write("Closest: x: ", closest.x, " y: ", closest.y, "\n")
+    -- io.write("Closest: x: ", closest.x, " y: ", closest.y, "\n")
     -- print("------------------")
     return (move.pickMove(closest))
   else

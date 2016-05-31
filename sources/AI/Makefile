@@ -8,6 +8,7 @@ SRC	=	./test/main.cpp			\
 		../Player/src/PowerRange.cpp	\
 		../Player/src/PowerSpeed.cpp	\
 		../Player/src/Bomb.cpp		\
+		../Player/src/Keybind.cpp	\
 
 CXXFLAGS=	-g -g3 -I/usr/include/lua5.1 -I../../includes -I../Player/include -I./LuaBridge -std=c++11 
 

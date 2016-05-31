@@ -22,7 +22,7 @@ class Menu;
 
 class Gui {
  public:
-  Gui(int Height = 2160, int Width = 3840, int Ddp = 16, bool Fullscreen = true,
+  Gui(int Height = 720, int Width = 1280, int Ddp = 16, bool Fullscreen = false,
       bool Vsync = false);
 
   bool Start(Menu *menu);

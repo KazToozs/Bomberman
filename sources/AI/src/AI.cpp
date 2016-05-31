@@ -6,6 +6,7 @@
 #include "Game.hh"
 #include "Gui.hh"
 
+
 AI::AI(Map *mp, const int &num, Game *g)
 {
   this->t = std::chrono::high_resolution_clock::now();
@@ -77,16 +78,10 @@ void  AI::init()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
 
   if ((this->team % 2) == 0)
-  {
     this->pos.x += (mp.size() - 1);
-  }
   if (this->team > 2)
-  {
     this->pos.y += (mp.size() - 1);
-  }
   mp[this->pos.y][this->pos.x]._state = Case::TAKEN;
-  //this->gm->MovePl(this->team - 1);
-  //TODO keybinding
 }
 
 IPlayer::e_player AI::get_type() const
@@ -215,9 +210,9 @@ void                AI::pass_values(lua_State *L, std::vector<std::vector<Case>>
 void                                AI::do_action()
 {
     if ((std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count()
-    - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t).time_since_epoch().count()) >= 10)
+    - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t).time_since_epoch().count()) >= 40)
     {
-        lua_State* L = luaL_newstate();
+        lua_State *L = luaL_newstate();
         luaL_openlibs(L);
         int r = luaL_loadfile(L, "luascript.lua");
         pass_values(L, this->map->getMap());
@@ -225,18 +220,17 @@ void                                AI::do_action()
         {
           r = lua_pcall(L, 0, 0, 0);
         }
-        luabridge::LuaRef a = luabridge::getGlobal(L, "actionChoice");
-        e_action act = static_cast<e_action>(a.cast<int>());
-        // std::cout << "action: " << act << std::endl;
+        lua_getglobal(L, "actionChoice");
+        int a = lua_tonumber(L, lua_gettop(L));
+        e_action act = static_cast<e_action>(a);
         if (act != UNKNOWN)
         {
           (this->*acts[act])();
         }
         if (act != UNKNOWN && act != BOMB)
             this->gm->MovePl(this->team - 1);
+        lua_close(L);
     }
-  // lua_close(L);
-  //TODO do an action with what the script returns, then close the luascript cleanly
 }
 
 const size_t &  AI::get_score() const
@@ -284,16 +278,20 @@ void  AI::move_up()
 
   if ((this->pos.y - this->speed) >= 0.1)
   {
-  //    std::cout << "speed: " << this->speed << " y: " << this->pos.y << " Test move up: " << (this->pos.y - this->speed) << std::endl;
     tmp = this->pos.y - this->speed;
     if (static_cast<int>(this->pos.y) != static_cast<int>(tmp))
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          // if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          // {
+          //   mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
+          //   if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
+          //     mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+          //   this->pos.y = tmp;
+          // }
+          if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
           {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
               mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
             this->pos.y = tmp;
           }
@@ -301,7 +299,6 @@ void  AI::move_up()
           {
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
             this->pos.y = tmp;
-      //      std::cout << "tmp: " << tmp << std::endl;
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
           }
         }
@@ -316,7 +313,6 @@ void  AI::move_down()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
-  //std::cout << "down" << std::endl;
   if ((this->pos.y + this->speed) < (mp.size() - 0.1))
   {
     tmp = this->pos.y + this->speed;
@@ -324,10 +320,15 @@ void  AI::move_down()
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          // if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          // {
+          //   mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
+          //   if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
+          //     mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+          //   this->pos.y = tmp;
+          // }
+          if (mp[static_cast<int>(this->pos.y)][this->pos.x]._state == Case::BOMB)
           {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
               mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
             this->pos.y = tmp;
           }
@@ -357,11 +358,16 @@ void  AI::move_left()
       {
         if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
         {
-          if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          // if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
+          // {
+          //   mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
+          //   if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
+          //     mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+          //   this->pos.x = tmp;
+          // }
+          if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
           {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+              mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state = Case::TAKEN;
             this->pos.x = tmp;
           }
           else
@@ -382,24 +388,25 @@ void  AI::move_right()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
-  //std::cout << "right" << std::endl;
   if ((this->pos.x + this->speed) < (mp.size() - 0.1))
   {
     tmp = this->pos.x + this->speed;
-  //  std::cout << "tmp:   " << tmp << std::endl;
     if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
       {
-    //    if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state != Case::FREE)
-      //      std::cout << "y: " << this->pos.y << " tmp: " << tmp << " x: " << this->pos.x << std::endl;
        if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state == Case::FREE)
         {
-         if (mp[static_cast<int>(tmp)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
-          {
-            mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-            if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-              mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-            this->pos.x = tmp;
-          }
+        //  if (mp[static_cast<int>(tmp)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
+        //   {
+        //     mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
+        //     if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
+        //       mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
+        //     this->pos.x = tmp;
+        //   }
+        if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
+         {
+            mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state = Case::TAKEN;
+           this->pos.x = tmp;
+         }
           else
           {
             mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::FREE;

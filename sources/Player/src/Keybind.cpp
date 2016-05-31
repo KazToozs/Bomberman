@@ -24,7 +24,7 @@ Keybind::Keybind(Gui *key)
   bind1[0x51] = LEFT;
   bind1[0x44] = RIGHT;
   bind1[0x20] = BOMB;
-  this->m1 = true;
+  this->m1 = false;
   this->m2 = false;
 
   bind2[0x26] = UP;
@@ -82,7 +82,7 @@ void  Keybind::init(const std::string &file)
   std::ifstream ifs;
   std::string str;
   int numPlayer;
-  
+
   numPlayer = 0;
   ifs.open (file, std::ifstream::in);
   if (ifs.is_open())
@@ -93,20 +93,20 @@ void  Keybind::init(const std::string &file)
 	    numPlayer = 1;
 	  else if (!str.compare("[P2]"))
 	    numPlayer = 2;
-	  if (str.compare("") && str.compare("[P1]") 
+	  if (str.compare("") && str.compare("[P1]")
 	      && str.compare("[P2]") && numPlayer != 0)
 	    this->parseKey(str, numPlayer);
 	}
       ifs.close();
     }
   if (numPlayer == 0)
-    std::cout << "No players were found." << std::endl; 
+    std::cout << "No players were found." << std::endl;
 }
 
 void  Keybind::override()
 {
   std::ofstream ofs;
-  
+
 }
 
 e_action  Keybind::get_action(const int &player)

@@ -76,16 +76,6 @@ Gui::~Gui() { _Th->join(); }
 void Gui::InitJoystick() {
 	irr::core::array<irr::SJoystickInfo> joystickInfo;
 	if (_Device->activateJoysticks(joystickInfo)) {
-		std::cout << "Joystick support is enabled and " << joystickInfo.size()
-			<< " joystick(s) are present." << std::endl;
-
-		for (irr::u32 joystick = 0; joystick < joystickInfo.size(); ++joystick) {
-			std::cout << "Joystick " << joystick << ":" << std::endl;
-			std::cout << "\tName: '" << joystickInfo[joystick].Name.c_str() << "'"
-				<< std::endl;
-			std::cout << "\tAxes: " << joystickInfo[joystick].Axes << std::endl;
-			std::cout << "\tButtons: " << joystickInfo[joystick].Buttons << std::endl;
-		}
 	}
 	else {
 		std::cout << "Joystick support is not enabled." << std::endl;
@@ -393,10 +383,6 @@ void Gui::StartLoop() {
 	if (_Smgr) {
 		_Smgr->drop();
 		_Smgr = NULL;
-	}
-	if (_Guienv) {
-		_Guienv->drop();
-		_Guienv = NULL;
 	}
 	_Mtx->unlock();
 }
