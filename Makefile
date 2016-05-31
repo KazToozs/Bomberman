@@ -20,6 +20,8 @@ SRC         =	sources/main.cpp	\
 		sources/Map/Map.cpp 		\
 		sources/AI/src/AI.cpp
 
+LUA		= ./lib/lua/liblua53.a
+		
 SFML	= ./lib/SFML/lib/libsfml-system.so
 SFML	+= ./lib/SFML/lib/libsfml-audio.so
 #SFML	+= ./lib/SFML/lib/libsfml-graphics.so
@@ -33,7 +35,7 @@ CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11 -g3
 
 CPP         =	g++
 
-LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht -llua5.1 $(SFML)
+LIBS        =	-lX11 -lXcursor -lpthread -lIrrlicht -llua5.1 $(SFML) $(LUA)
 
 all:		$(NAME)
 
