@@ -1,17 +1,22 @@
 #ifndef AI_H_
 #define AI_H_
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#pragma comment(lib, "lua.lib")
+#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#endif
+
 #include <map>
 #include <chrono>
 #include "IPlayer.hh"
 #include "Bomb.hh"
 #include "Case.h"
 extern "C" {
-# include <lua.h>
-# include <lauxlib.h>
-# include <lualib.h>
+# include <lua/lua.h>
+# include <lua/lauxlib.h>
+# include <lua/lualib.h>
 }
-#include "LuaBridge.h"
+#include "LuaBridge/LuaBridge.h"
 
 class Keybinds;
 class Game;

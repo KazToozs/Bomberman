@@ -11,7 +11,7 @@
 #ifndef _IPLAYER_HH_
 # define _IPLAYER_HH_
 
-#include <unistd.h>
+#include <cstdlib>
 #include <vector>
 
 

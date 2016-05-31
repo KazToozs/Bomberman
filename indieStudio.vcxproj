@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BA0D8A77-9AED-40B5-AE49-B840B317AD34}</ProjectGuid>
+    <RootNamespace>indieStudio</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>lib\SFML\include;lib\irrlicht\include;includes;$(IncludePath)</IncludePath>
+    <LibraryPath>lib\SFML\lib;lib\irrlicht;lib\lua;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>sfml-system-s.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\quent\epitech\cpp_indie_studio\lib\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="includes\AI.hh" />
+    <ClInclude Include="includes\Bomb.hh" />
+    <ClInclude Include="includes\Case.h" />
+    <ClInclude Include="includes\ConfirmButton.hh" />
+    <ClInclude Include="includes\ContinueButton.hh" />
+    <ClInclude Include="includes\ControlEventReceiver.hh" />
+    <ClInclude Include="includes\ExitButton.hh" />
+    <ClInclude Include="includes\Game.hh" />
+    <ClInclude Include="includes\Gui.hh" />
+    <ClInclude Include="includes\IAButton.hh" />
+    <ClInclude Include="includes\IButtons.hh" />
+    <ClInclude Include="includes\IPlayer.hh" />
+    <ClInclude Include="includes\IPowerup.hh" />
+    <ClInclude Include="includes\Keybind.hh" />
+    <ClInclude Include="includes\LuaBridge\detail\CFunctions.h" />
+    <ClInclude Include="includes\LuaBridge\detail\ClassInfo.h" />
+    <ClInclude Include="includes\LuaBridge\detail\Constructor.h" />
+    <ClInclude Include="includes\LuaBridge\detail\dump.h" />
+    <ClInclude Include="includes\LuaBridge\detail\FuncTraits.h" />
+    <ClInclude Include="includes\LuaBridge\detail\Iterator.h" />
+    <ClInclude Include="includes\LuaBridge\detail\LuaException.h" />
+    <ClInclude Include="includes\LuaBridge\detail\LuaHelpers.h" />
+    <ClInclude Include="includes\LuaBridge\detail\LuaRef.h" />
+    <ClInclude Include="includes\LuaBridge\detail\Namespace.h" />
+    <ClInclude Include="includes\LuaBridge\detail\Stack.h" />
+    <ClInclude Include="includes\LuaBridge\detail\TypeList.h" />
+    <ClInclude Include="includes\LuaBridge\detail\TypeTraits.h" />
+    <ClInclude Include="includes\LuaBridge\detail\Userdata.h" />
+    <ClInclude Include="includes\LuaBridge\LuaBridge.h" />
+    <ClInclude Include="includes\LuaBridge\lua_typed_enums.h" />
+    <ClInclude Include="includes\LuaBridge\RefCountedObject.h" />
+    <ClInclude Include="includes\LuaBridge\RefCountedPtr.h" />
+    <ClInclude Include="includes\lua\lapi.h" />
+    <ClInclude Include="includes\lua\lauxlib.h" />
+    <ClInclude Include="includes\lua\lcode.h" />
+    <ClInclude Include="includes\lua\lctype.h" />
+    <ClInclude Include="includes\lua\ldebug.h" />
+    <ClInclude Include="includes\lua\ldo.h" />
+    <ClInclude Include="includes\lua\lfunc.h" />
+    <ClInclude Include="includes\lua\lgc.h" />
+    <ClInclude Include="includes\lua\llex.h" />
+    <ClInclude Include="includes\lua\llimits.h" />
+    <ClInclude Include="includes\lua\lmem.h" />
+    <ClInclude Include="includes\lua\lobject.h" />
+    <ClInclude Include="includes\lua\lopcodes.h" />
+    <ClInclude Include="includes\lua\lparser.h" />
+    <ClInclude Include="includes\lua\lprefix.h" />
+    <ClInclude Include="includes\lua\lstate.h" />
+    <ClInclude Include="includes\lua\lstring.h" />
+    <ClInclude Include="includes\lua\ltable.h" />
+    <ClInclude Include="includes\lua\ltm.h" />
+    <ClInclude Include="includes\lua\lua.h" />
+    <ClInclude Include="includes\lua\lua.hpp" />
+    <ClInclude Include="includes\lua\luaconf.h" />
+    <ClInclude Include="includes\lua\lualib.h" />
+    <ClInclude Include="includes\lua\lundump.h" />
+    <ClInclude Include="includes\lua\lvm.h" />
+    <ClInclude Include="includes\lua\lzio.h" />
+    <ClInclude Include="includes\Map.hh" />
+    <ClInclude Include="includes\Menu.hh" />
+    <ClInclude Include="includes\OptionButton.hh" />
+    <ClInclude Include="includes\Player.hh" />
+    <ClInclude Include="includes\PlayerButton.hh" />
+    <ClInclude Include="includes\PowerBomb.hh" />
+    <ClInclude Include="includes\PowerRange.hh" />
+    <ClInclude Include="includes\PowerSpeed.hh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\AI\src\AI.cpp" />
+    <ClCompile Include="sources\Gui\ControlEventReceiver.cpp" />
+    <ClCompile Include="sources\Gui\Gui.cpp" />
+    <ClCompile Include="sources\main.cpp" />
+    <ClCompile Include="sources\Map\Map.cpp" />
+    <ClCompile Include="sources\Menu\ConfirmButton.cpp" />
+    <ClCompile Include="sources\Menu\ContinueButton.cpp" />
+    <ClCompile Include="sources\Menu\ExitButton.cpp" />
+    <ClCompile Include="sources\Menu\IAButton.cpp" />
+    <ClCompile Include="sources\Menu\Menu.cpp" />
+    <ClCompile Include="sources\Menu\OptionButton.cpp" />
+    <ClCompile Include="sources\Menu\PlayerButton.cpp" />
+    <ClCompile Include="sources\Player\src\Bomb.cpp" />
+    <ClCompile Include="sources\Player\src\Game.cpp" />
+    <ClCompile Include="sources\Player\src\Keybind.cpp" />
+    <ClCompile Include="sources\Player\src\Player.cpp" />
+    <ClCompile Include="sources\Player\src\PowerBomb.cpp" />
+    <ClCompile Include="sources\Player\src\PowerRange.cpp" />
+    <ClCompile Include="sources\Player\src\PowerSpeed.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\LuaBridge">
+      <UniqueIdentifier>{31967ecf-f5ab-41fd-89df-022d63ba5c06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\LuaBridge\detail">
+      <UniqueIdentifier>{dc01b721-58af-4532-88bf-672c38d0f4f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Gui">
+      <UniqueIdentifier>{44812a96-ce33-4d70-ac16-28dd553c6ebb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\AI">
+      <UniqueIdentifier>{610b10f3-642e-40a2-ad6f-68e5f2c3c5c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Map">
+      <UniqueIdentifier>{62b0cad0-dadc-46a2-a396-dd5134cbebcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Menu">
+      <UniqueIdentifier>{b5851e48-ec52-49ca-ac79-4894eb15171e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Player">
+      <UniqueIdentifier>{af9b170a-13fe-465a-ad0a-b60ec412244b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\AI\src">
+      <UniqueIdentifier>{98a9a5ff-17f5-456d-bbfd-851568bde1a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Player\src">
+      <UniqueIdentifier>{aa29fb70-bcb0-4ca6-b2ec-f937fbaa156c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\lua">
+      <UniqueIdentifier>{bb6b6277-0f6d-49ef-90b9-bf9758d948df}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="includes\AI.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Bomb.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Case.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ConfirmButton.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ContinueButton.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ControlEventReceiver.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ExitButton.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Game.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Gui.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\IAButton.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\IButtons.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\IPlayer.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\IPowerup.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Keybind.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Map.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Menu.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\OptionButton.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Player.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\PlayerButton.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\PowerBomb.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\PowerRange.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\PowerSpeed.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\lua_typed_enums.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\LuaBridge.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\RefCountedObject.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\RefCountedPtr.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\CFunctions.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\ClassInfo.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\Constructor.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\dump.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\FuncTraits.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\Iterator.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\LuaException.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\LuaHelpers.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\LuaRef.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\Namespace.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\Stack.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\TypeList.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\TypeTraits.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\LuaBridge\detail\Userdata.h">
+      <Filter>Fichiers d%27en-tête\LuaBridge\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lapi.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lauxlib.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lcode.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lctype.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\ldebug.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\ldo.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lfunc.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lgc.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\llex.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\llimits.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lmem.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lobject.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lopcodes.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lparser.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lprefix.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lstate.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lstring.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\ltable.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\ltm.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lua.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lua.hpp">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\luaconf.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lualib.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lundump.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lvm.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\lua\lzio.h">
+      <Filter>Fichiers d%27en-tête\lua</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Gui\ControlEventReceiver.cpp">
+      <Filter>Fichiers sources\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Gui\Gui.cpp">
+      <Filter>Fichiers sources\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\AI\src\AI.cpp">
+      <Filter>Fichiers sources\AI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Map\Map.cpp">
+      <Filter>Fichiers sources\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Menu\ConfirmButton.cpp">
+      <Filter>Fichiers sources\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Menu\ContinueButton.cpp">
+      <Filter>Fichiers sources\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Menu\ExitButton.cpp">
+      <Filter>Fichiers sources\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Menu\IAButton.cpp">
+      <Filter>Fichiers sources\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Menu\Menu.cpp">
+      <Filter>Fichiers sources\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Menu\OptionButton.cpp">
+      <Filter>Fichiers sources\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Menu\PlayerButton.cpp">
+      <Filter>Fichiers sources\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Player\src\Bomb.cpp">
+      <Filter>Fichiers sources\Player\src</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Player\src\Game.cpp">
+      <Filter>Fichiers sources\Player\src</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Player\src\Keybind.cpp">
+      <Filter>Fichiers sources\Player\src</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Player\src\Player.cpp">
+      <Filter>Fichiers sources\Player\src</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Player\src\PowerBomb.cpp">
+      <Filter>Fichiers sources\Player\src</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Player\src\PowerRange.cpp">
+      <Filter>Fichiers sources\Player\src</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Player\src\PowerSpeed.cpp">
+      <Filter>Fichiers sources\Player\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

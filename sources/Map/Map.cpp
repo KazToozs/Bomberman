@@ -233,7 +233,7 @@ void Map::generate() {
   free_qMap(qMap);
 }
 
-void Map::print()
+/*void Map::print()
 {
   std::vector<std::vector<Case> >::iterator it_y;
   std::vector<Case>::iterator it_x;
@@ -253,7 +253,7 @@ void Map::print()
     for (it_x = (*it_y).begin(); it_x != (*it_y).end(); it_x++ ){
       if ((*it_x)._powerup != NULL)
       {
-        if ((*it_x)._powerup->get_type() == SPEEDUP)
+       if ((*it_x)._powerup->get_type() == SPEEDUP)
         std::cout << green << "S " << def;
         if ((*it_x)._powerup->get_type() == RANGEUP)
         std::cout << green << "R " << def;
@@ -283,7 +283,7 @@ void Map::print()
     }
     std::cout << std::endl;
   }
-}
+}*/
 
 std::vector< std::vector<Case> > &Map::getMap()
 {
