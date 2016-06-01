@@ -21,9 +21,9 @@ OptionButton::~OptionButton()
 
 }
 
-void			OptionButton::action() const
+Func_Ptr			OptionButton::action() const
 {
-  
+	return (NULL);
 }
 
 const std::string	&OptionButton::getName() const

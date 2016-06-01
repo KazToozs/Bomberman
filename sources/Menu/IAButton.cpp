@@ -11,36 +11,30 @@
 #include "IAButton.hh"
 
 IAButton::IAButton(const std::string &name, const NB_IA &id, Menu *menu,
-		   bool multi)
-  : id(id), name(name)
-{
-  this->multi = multi;
-  this->menu = menu;
+				   bool multi)
+	: id(id), name(name) {
+	this->multi = multi;
+	this->menu = menu;
 }
 
-IAButton::~IAButton()
-{  
+IAButton::~IAButton() {}
+
+Func_Ptr			IAButton::action() const {
+	/*Game	*game;
+
+	game = new Game(id, multi ? 2 : 1, 16, this->menu->gui);
+	this->menu->gui->LoadGame(game);*/
+	return (NULL);
 }
 
-void			IAButton::action() const
-{
-  Game	*game;
-  
-  game = new Game(id, multi ? 2 : 1, 16, this->menu->gui);
-  this->menu->gui->LoadGame(game);
+const std::string	&IAButton::getName() const {
+	return this->name;
 }
 
-const std::string	&IAButton::getName() const
-{
-  return this->name;
+bool			IAButton::getActive() const {
+	return this->isActive;
 }
 
-bool			IAButton::getActive() const
-{
-  return this->isActive;
-}
-
-IAButton::NB_IA		IAButton::getId() const
-{
-  return this->id;
+IAButton::NB_IA		IAButton::getId() const {
+	return this->id;
 }

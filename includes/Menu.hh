@@ -39,18 +39,21 @@ class Menu {
   const ID_MENU getId() const;
   const IButtons *getCurrentButton() const;
   const std::string getButtonName() const;
+  void CreateMultiPlayer();
   void Unlock() {
       _Mtx->unlock();
   }
   
-  Gui *gui;
  private:
   std::mutex* _Mtx;
   std::vector<IButtons *> buttons;
   ID_MENU id_menu;
   int _pos;
+  Gui *gui;
 
   void createMainMenu();
 };
+
+typedef void (Menu::*Func_Ptr)(void);
 
 #endif /* !MENU_H_ */

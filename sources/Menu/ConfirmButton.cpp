@@ -10,34 +10,28 @@
 
 #include "ConfirmButton.hh"
 
-ConfirmButton::ConfirmButton(const std::string &name, 
-			     const ConfirmButton::TYPE_BUTTON type, Menu *menu)
-  : _type(type),  _name(name)
-{
-  this->menu = menu;
+ConfirmButton::ConfirmButton(const std::string &name,
+							 const ConfirmButton::TYPE_BUTTON type, Menu *menu)
+	: _type(type), _name(name) {
+	this->menu = menu;
 }
 
-ConfirmButton::~ConfirmButton()
-{
-
-}
-
-void				ConfirmButton::action() const
-{
+ConfirmButton::~ConfirmButton() {
 
 }
 
-const std::string		&ConfirmButton::getName() const
-{
-  return this->_name;
+Func_Ptr				ConfirmButton::action() const {
+	return NULL;
 }
 
-bool				ConfirmButton::getActive() const
-{
-  return this->isActive;
+const std::string		&ConfirmButton::getName() const {
+	return this->_name;
 }
 
-ConfirmButton::TYPE_BUTTON	ConfirmButton::getType()
-{
-  return this->_type;
+bool				ConfirmButton::getActive() const {
+	return this->isActive;
+}
+
+ConfirmButton::TYPE_BUTTON	ConfirmButton::getType() {
+	return this->_type;
 }

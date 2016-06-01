@@ -23,7 +23,7 @@ class ExitButton : public IButtons
    ExitButton &operator=(const ExitButton &);
    ~ExitButton();
 
-  virtual void			action() const;
+  virtual Func_Ptr			action() const;
   virtual const std::string	&getName() const;
   virtual bool			getActive() const;
 

@@ -20,14 +20,12 @@ PlayerButton::PlayerButton(const std::string &name,
 
 PlayerButton::~PlayerButton() {}
 
-void PlayerButton::action() const {
-  this->menu->clearList();
-  this->menu->pushBackList(
-      new IAButton("IA1", IAButton::IA_1, this->menu, this->_id != SOLO));
-  this->menu->pushBackList(
-      new IAButton("IA2", IAButton::IA_2, this->menu, this->_id != SOLO));
-  this->menu->pushBackList(
-      new IAButton("IA3", IAButton::IA_3, this->menu, this->_id != SOLO));
+Func_Ptr PlayerButton::action() const {
+	if (this->_id != SOLO) {
+		return &Menu::CreateMultiPlayer;
+	} else {
+		return NULL;
+	}
 }
 
 bool PlayerButton::getActive() const { return this->isActive; }

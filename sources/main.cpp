@@ -34,11 +34,6 @@ int main() {
   bool start = false;
 
   while (g.Alive()) {
-	  /*if (!start) {
-		  g.LoadGame(new Game(1, 2, 16, &g));
-		  start = true;
-	  }*/
-	  
     key = ((g.getGame() == NULL) ? check_keys(g) : 0);
     switch (key) {
       case 1:

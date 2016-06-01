@@ -13,11 +13,14 @@
 
 #include <string>
 
+class Menu;
+typedef void (Menu::*Func_Ptr)(void);
+
 class IButtons
 {
  public:
   virtual ~IButtons() {};
-  virtual void			action() const = 0;
+  virtual Func_Ptr			action() const = 0;
   virtual const std::string	&getName() const = 0;
   virtual bool			getActive() const = 0;
 };

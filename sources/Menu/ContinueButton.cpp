@@ -11,9 +11,9 @@ ContinueButton::~ContinueButton()
 
 }
 
-void			ContinueButton::action() const
+Func_Ptr			ContinueButton::action() const
 {
-
+	return NULL;
 }
 
 const std::string	&ContinueButton::getName() const
