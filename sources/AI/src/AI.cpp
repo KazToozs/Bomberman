@@ -17,8 +17,7 @@ AI::AI(Map *mp, const int &num, Game *g)
   this->p = NULL;
   this->max_bombs = 1;
   this->range_bomb = 3;
-  // this->speed = 0.02;
-  this->speed = 0.5;//reset this
+  this->speed = 0.02;
   this->alive = true;
   this->act = UNKNOWN;
   this->pos.x = 0.0;
@@ -176,7 +175,7 @@ const e_action  &AI::get_action() const
   return (this->act);
 }
 
-void                AI::pass_values(lua_State *L, std::vector<std::vector<Case>> &map)
+void                AI::pass_values(lua_State *L, std::vector<std::vector<Case>> const &map) const
 {
   /* Pass map sizes */
   lua_pushnumber(L, map.size());
@@ -185,8 +184,6 @@ void                AI::pass_values(lua_State *L, std::vector<std::vector<Case>>
   lua_setglobal(L, "map_x");
 
   /* Pass positions */
-  // std::cout << "Player positions: x " << this->pos.x + 1 << " y " << this->pos.y + 1 << std::endl;
-  // std::cout << "Player positions cast: x " << static_cast<int>(this->pos.x) + 1 << " y " << static_cast<int>(this->pos.y) + 1 << std::endl;
   lua_pushnumber(L, static_cast<int>(this->pos.x + 1));
   lua_setglobal(L, "pos_x");
   lua_pushnumber(L, static_cast<int>(this->pos.y + 1));
@@ -223,7 +220,6 @@ void                                AI::do_action()
         }
         lua_getglobal(L, "actionChoice");
         int a = lua_tonumber(L, lua_gettop(L));
-        std::cout << "Final action: " << a << "\n---------------" << std::endl;
         e_action act = static_cast<e_action>(a);
         if (act != UNKNOWN)
         {
@@ -285,13 +281,6 @@ void  AI::move_up()
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          // if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
-          // {
-          //   mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-          //   if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-          //     mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-          //   this->pos.y = tmp;
-          // }
           if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
           {
               mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
@@ -303,6 +292,18 @@ void  AI::move_up()
             this->pos.y = tmp;
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
           }
+        }
+        else if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::EXPLODING)
+        {
+            if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
+            {
+              this->pos.y = tmp;
+            }
+            else
+            {
+                mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+                this->pos.y = tmp;
+            }
         }
       }
     else
@@ -322,13 +323,6 @@ void  AI::move_down()
       {
         if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::FREE)
         {
-          // if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
-          // {
-          //   mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-          //   if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-          //     mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-          //   this->pos.y = tmp;
-          // }
           if (mp[static_cast<int>(this->pos.y)][this->pos.x]._state == Case::BOMB)
           {
               mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
@@ -341,6 +335,18 @@ void  AI::move_down()
             mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::TAKEN;
           }
         }
+        else if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::EXPLODING)
+        {
+            if (mp[static_cast<int>(this->pos.y)][this->pos.x]._state == Case::BOMB)
+            {
+              this->pos.y = tmp;
+            }
+            else
+            {
+                mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::FREE;
+                this->pos.y = tmp;
+            }
+        }
       }
     else
       this->pos.y = tmp;
@@ -352,7 +358,6 @@ void  AI::move_left()
   std::vector<std::vector<Case> > &mp = this->map->getMap();
   float   tmp;
 
-  //std::cout << "left" << std::endl;
   if ((this->pos.x - this->speed) >= 0.1)
   {
     tmp = this->pos.x - this->speed;
@@ -360,13 +365,6 @@ void  AI::move_left()
       {
         if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::FREE)
         {
-          // if (mp[static_cast<int>(tmp)][this->pos.x]._state == Case::BOMB)
-          // {
-          //   mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-          //   if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-          //     mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-          //   this->pos.x = tmp;
-          // }
           if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
           {
               mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state = Case::TAKEN;
@@ -378,6 +376,18 @@ void  AI::move_left()
             this->pos.x = tmp;
             mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
           }
+        }
+        else if (mp[this->pos.y][static_cast<int>(tmp)]._state == Case::EXPLODING)
+        {
+            if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
+            {
+              this->pos.x = tmp;
+            }
+            else
+            {
+                mp[this->pos.y][static_cast<int>(this->pos.x)]._state = Case::FREE;
+                this->pos.x = tmp;
+            }
         }
       }
     else
@@ -395,27 +405,32 @@ void  AI::move_right()
     tmp = this->pos.x + this->speed;
     if (static_cast<int>(this->pos.x) != static_cast<int>(tmp))
       {
-       if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state == Case::FREE)
-        {
-        //  if (mp[static_cast<int>(tmp)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
-        //   {
-        //     mp[static_cast<int>(this->pos.y)][this->pos.x]._state = Case::BOMB;
-        //     if (static_cast<int>(tmp) != static_cast<int>(this->pos.y))
-        //       mp[static_cast<int>(tmp)][this->pos.x]._state = Case::TAKEN;
-        //     this->pos.x = tmp;
-        //   }
-        if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
-         {
-            mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state = Case::TAKEN;
-           this->pos.x = tmp;
-         }
-          else
+         if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state == Case::FREE)
           {
-            mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::FREE;
-            this->pos.x = tmp;
-            mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
+            if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
+             {
+                mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state = Case::TAKEN;
+               this->pos.x = tmp;
+             }
+            else
+            {
+              mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::FREE;
+              this->pos.x = tmp;
+              mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::TAKEN;
+            }
           }
-        }
+        else if (mp[static_cast<int>(this->pos.y)][static_cast<int>(tmp)]._state == Case::EXPLODING)
+         {
+            if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state == Case::BOMB)
+             {
+               this->pos.x = tmp;
+             }
+            else
+            {
+                mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state = Case::FREE;
+                this->pos.x = tmp;
+            }
+         }
       }
     else
       this->pos.x = tmp;

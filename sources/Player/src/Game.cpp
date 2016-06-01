@@ -85,33 +85,20 @@ void Game::MovePl(const int &pl) const
 }
 
 void Game::loop() {
-  int i = 0; /* delete this */
-
-    std::cout << "in loop" << std::endl;
   while (this->check_finish() == false) {
     this->mtx->lock();
-    std::cout << "Turn: " << i++ << std::endl;
-    this->get_map()->print();
     for (size_t x = 0; x < this->players.size(); x++) {
       this->players[x]->check_bombs();
       if (this->players[x]->is_alive() == true) {
         if (this->players[x]->check_alive() == true)
         {
-            std::cout << "\nPlayer: " << x;
             this->players[x]->do_action();
             this->players[x]->check_powerup();
             this->players[x]->check_power_map();
         }
       }
     }
-    i++;
     this->mtx->unlock();
-    this->get_map()->print();
-    std::string my_str(10, '\n');
-
-//sleep(1);
-    usleep(80000);
-    std::cout << my_str;
   }
   std::cout << "Winner: " << this->who_alive()->get_team() << std::endl;
 }

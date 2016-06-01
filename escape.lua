@@ -9,127 +9,126 @@ function escape.bombAll()
 end
 
 function escape.bombUpDown()
-  if isCellFree.Right(player.y, player.x) == true then --and isDeadEnd.Right(player.y, player.x) == false then
+  if isCellFree.Right(player.y, player.x) == true then
     return (4)
   end
   return (0)
 end
 
 function escape.bombUpDownRight()
-  if isCellFree.Left(player.y, player.x) == true then --and isDeadEnd.Left(player.y, player.x) == false then
+  if isCellFree.Left(player.y, player.x) == true then
     return (3)
   end
   return (0)
 end
 
 function escape.bombUpDown()
-  if isCellFree.Left(player.y, player.x) == true then --and isDeadEnd.Left(player.y, player.x) == false then
+  if isCellFree.Left(player.y, player.x) == true then
     return (3)
-  elseif isCellFree.Right(player.y, player.x) == true then --and isDeadEnd.Right(player.y, player.x) == false then
+  elseif isCellFree.Right(player.y, player.x) == true then 
     return (4)
   end
   return (0)
 end
 
 function escape.bombUpLeftRight()
-  if isCellFree.Down(player.y, player.x) == true then --and isDeadEnd.Down(player.y, player.x) == false then
+  if isCellFree.Down(player.y, player.x) == true then
     return (2)
   end
   return (0)
 end
 
 function escape.bombUpLeft()
-  if isCellFree.Down(player.y, player.x) == true then --and isDeadEnd.Down(player.y, player.x) == false then
+  if isCellFree.Down(player.y, player.x) == true then
     return (2)
-  elseif isCellFree.Right(player.y, player.x) == true then --and isDeadEnd.Right(player.y, player.x) == false then
+  elseif isCellFree.Right(player.y, player.x) == true then
     return (3)
   end
   return (0)
 end
 
 function escape.bombUpRight()
-  if isCellFree.Down(player.y, player.x) == true then --and isDeadEnd.Down(player.y, player.x) == false then
+  if isCellFree.Down(player.y, player.x) == true then
     return (2)
-  elseif isCellFree.Left(player.y, player.x) == true then --and isDeadEnd.Left(player.y, player.x) == false then
+  elseif isCellFree.Left(player.y, player.x) == true then
     return (3)
   end
   return (0)
 end
 
 function escape.bombUp()
-  if isCellFree.Right(player.y, player.x) == true then --and isDeadEnd.Right(player.y, player.x) == false then
+  if isCellFree.Right(player.y, player.x) == true then
     return (4)
-  elseif isCellFree.Down(player.y, player.x) == true then --and isDeadEnd.Down(player.y, player.x) == false then
+  elseif isCellFree.Down(player.y, player.x) == true then
     return (2)
-  elseif isCellFree.Left(player.y, player.x) == true then --and isDeadEnd.Left(player.y, player.x) == false then
+  elseif isCellFree.Left(player.y, player.x) == true then
     return (3)
   end
   return (0)
 end
 
 function escape.bombDownLeftRight()
-  if isCellFree.Up(player.y, player.x) == true then --and isDeadEnd.Up(player.y, player.x) == false then
+  if isCellFree.Up(player.y, player.x) == true then
     return (1)
   end
   return (0)
 end
 
 function escape.bombDownLeft()
-  if isCellFree.Up(player.y, player.x) == true then --and isDeadEnd.Up(player.y, player.x) == false then
+  if isCellFree.Up(player.y, player.x) == true then
     return (1)
-  elseif isCellFree.Right(player.y, player.x) == true then --and isDeadEnd.Right(player.y, player.x) == false then
+  elseif isCellFree.Right(player.y, player.x) == true then
     return (4)
   end
   return (0)
 end
 
 function escape.bombDownRight()
-  if isCellFree.Left(player.y, player.x) == true then --and isDeadEnd.Left(player.y, player.x) == false then
+  if isCellFree.Left(player.y, player.x) == true then
     return (3)
-  elseif isCellFree.Up(player.y, player.x) == true then --and isDeadEnd.Up(player.y, player.x) == false then
+  elseif isCellFree.Up(player.y, player.x) == true then
     return (1)
   end
   return (0)
 end
 
 function escape.bombLeftRight()
-  if isCellFree.Up(player.y, player.x) == true then --and isDeadEnd.Up(player.y, player.x) == false then
+  if isCellFree.Up(player.y, player.x) == true then
     return (1)
-  elseif isCellFree.Down(player.y, player.x) == true then --and isDeadEnd.Down(player.y, player.x) ==false then
+  elseif isCellFree.Down(player.y, player.x) == true then
     return (2)
   end
   return (0)
 end
 
 function escape.bombDown()
-  if isCellFree.Up(player.y, player.x) == true then --and isDeadEnd.Up(player.y, player.x) == false then
+  if isCellFree.Up(player.y, player.x) == true then
     return (1)
-  elseif isCellFree.Right(player.y, player.x) == true then --and isDeadEnd.Right(player.y, player.x) == false then
+  elseif isCellFree.Right(player.y, player.x) == true then
     return (4)
-  elseif isCellFree.Left(player.y, player.x) == true then --and isDeadEnd.Left(player.y, player.x) == false then
+  elseif isCellFree.Left(player.y, player.x) == true then
     return (3)
   end
   return (0)
 end
 
 function escape.bombLeft()
-  if isCellFree.Up(player.y, player.x) == true then --and isDeadEnd.Up(player.y, player.x) == false then
+  if isCellFree.Up(player.y, player.x) == true then
     return (1)
-  elseif isCellFree.Down(player.y, player.x) == true then --and isDeadEnd.Down(player.y, player.x) == false then
+  elseif isCellFree.Down(player.y, player.x) == true then
     return (2)
-  elseif isCellFree.Right(player.y, player.x) == true then --and isDeadEnd.Right(player.y, player.x) == false then
+  elseif isCellFree.Right(player.y, player.x) == true then
     return (4)
   end
-  print("returned 0 at escape bomb left")
   return (0)
 end
 
 function escape.bombRight()
-  if isCellFree.Up(player.y, player.x) == true then --and isDeadEnd.Up(player.y, player.x) == false then
+  if isCellFree.Up(player.y, player.x) == true then
     return (1)
-  elseif isCellFree.Down(player.y, player.x) == true then --and isDeadEnd.Down(player.y, player.x) == false then
+  elseif isCellFree.Down(player.y, player.x) == true then
     return (2)
-  elseif isCellFree.Left(player.y, player.x) == true then --and isDeadEnd.Left(player.y, player.x) == false then
+  elseif isCellFree.Left(player.y, player.x) == true then
     return (3)
   end
   return (0)

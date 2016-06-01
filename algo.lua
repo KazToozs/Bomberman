@@ -110,23 +110,16 @@ function algo.isOnBomb()
   local ret
 
   if (newMap[player.y][player.x] == 4) then
-    print("is on bomb")
     if isDeadEnd.Right(player.y, player.x) == false then
-      print("selected right")
       return (4)
     elseif isDeadEnd.Left(player.y, player.x) == false then
-      print("selected left")
       return (3)
     elseif isDeadEnd.Down(player.y, player.x) == false then
-      print("selected down")
       return (2)
     elseif isDeadEnd.Up(player.y, player.x) == false then
-      print("selected up")
       return (1)
     end
-    print("after checks")
   else
-    print("rlly nigga")
     return (-1)
   end
 end
@@ -140,8 +133,6 @@ function algo.isNearBomb()
   if choice == 0 then
     return (-1)
   else
-    print("tryescape")
-    io.write("choice: ", choice, "\n")
     return (esc.tryEscape(choice))
   end
 end
@@ -175,8 +166,6 @@ end
 -- Launch Algorithm
 
 function algo.getAction()
-  print ("\n----- ALGO: getAction -----")
-  io.write("playerX: ", player.x, " playerY: ", player.y, "\n")
   ret = algo.isNearBomb()
   if (ret == -1) then
     ret = algo.isOnBomb()

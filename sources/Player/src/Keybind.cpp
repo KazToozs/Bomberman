@@ -24,7 +24,7 @@ Keybind::Keybind(Gui *key)
   bind1[0x51] = LEFT;
   bind1[0x44] = RIGHT;
   bind1[0x20] = BOMB;
-  this->m1 = true;
+  this->m1 = false;
   this->m2 = false;
 
   bind2[0x26] = UP;

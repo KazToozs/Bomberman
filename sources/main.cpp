@@ -42,7 +42,7 @@ int main() {
 
 	while (g.Alive()) {
 		if (!start) {
-			g.LoadGame(new Game(0, 2, 16, &g));
+			g.LoadGame(new Game(2, 1, 16, &g));
 			start = true;
 		}
 		/*

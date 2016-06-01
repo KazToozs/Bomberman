@@ -78,7 +78,7 @@ private:
    void                       move_left();
    void                       move_right();
 
-   void                       pass_values(lua_State *, std::vector<std::vector<Case>>&);
+   void                       pass_values(lua_State *, std::vector<std::vector<Case>> const &) const;
 };
 
 #endif /* !AI_H_ */

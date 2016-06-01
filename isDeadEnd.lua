@@ -82,7 +82,6 @@ function isDeadEnd.Up(p_y, p_x)
 end
 
 function isDeadEnd.Right(p_y, p_x)
-  print("right")
   local distance = isDeadEnd.distanceFromBomb(1, p_y, p_x)
   local delta = bombRange - distance
   local safe = p_x + delta
@@ -91,23 +90,16 @@ function isDeadEnd.Right(p_y, p_x)
   if (p_x <= 0 or p_y <= 0 or p_x > #newMap[1] or p_y > #newMap) then
     return (true)
   end
-  print("after error check")
-  io.write("py: ", p_y )
-  io.write("i: ", i)
   while i <= safe and i <= map_x do
     if newMap[p_y][i] ~= 0 then
-      print("deadend")
       return true
     elseif i == safe then
-      print("safe")
       return false
     elseif (p_y - 1 > 0 and newMap[p_y - 1][i] == 0) or (p_y + 1 <= #newMap and newMap[p_y + 1][i] == 0) then
-      print("side")
       return false
     end
     i = i + 1
   end
-  print("after while")
   return true
 end
 
