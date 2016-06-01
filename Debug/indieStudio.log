@@ -1,1 +1,43 @@
-﻿
+﻿  Gui.cpp
+d:\quent\documents\epitech\cpp_indie_studio\sources\gui\gui.cpp(39): warning C4018: '<' : incompatibilité signed/unsigned
+d:\quent\documents\epitech\cpp_indie_studio\sources\gui\gui.cpp(41): warning C4018: '<' : incompatibilité signed/unsigned
+d:\quent\documents\epitech\cpp_indie_studio\sources\gui\gui.cpp(47): warning C4018: '<' : incompatibilité signed/unsigned
+d:\quent\documents\epitech\cpp_indie_studio\sources\gui\gui.cpp(229): warning C4018: '<' : incompatibilité signed/unsigned
+d:\quent\documents\epitech\cpp_indie_studio\sources\gui\gui.cpp(230): warning C4018: '<' : incompatibilité signed/unsigned
+d:\quent\documents\epitech\cpp_indie_studio\sources\gui\gui.cpp(259): warning C4244: 'argument' : conversion de 'int' en 'irr::f32', perte possible de données
+d:\quent\documents\epitech\cpp_indie_studio\sources\gui\gui.cpp(303): warning C4018: '<' : incompatibilité signed/unsigned
+d:\quent\documents\epitech\cpp_indie_studio\sources\gui\gui.cpp(28): warning C4715: 'Gui::Start' : les chemins de contrôle ne retournent pas tous une valeur
+lua.lib(lapi.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lapi.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lauxlib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lauxlib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lbaselib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lbaselib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lcode.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lcode.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lcorolib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lcorolib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lctype.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lctype.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(ldblib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(ldblib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(ldebug.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(ldebug.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(ldo.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(ldo.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(ldump.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(ldump.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lfunc.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lfunc.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lgc.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lgc.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(linit.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(linit.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(liolib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(liolib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(llex.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(llex.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lmathlib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lmathlib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lmem.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lmem.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(loadlib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(loadlib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lobject.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lobject.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lopcodes.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lopcodes.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(loslib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(loslib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lparser.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lparser.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lstate.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lstate.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lstring.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lstring.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lstrlib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lstrlib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(ltable.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(ltable.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(ltablib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(ltablib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(ltm.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(ltm.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lundump.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lundump.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lutf8lib.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lutf8lib.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lvm.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lvm.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+lua.lib(lzio.obj) : warning LNK4099: PDB 'lua.pdb' n'a pu être trouvé avec 'lua.lib(lzio.obj)' ou sur 'D:\quent\Documents\Epitech\cpp_indie_studio\Debug\lua.pdb' ; l'objet sera lié sans informations de débogage
+  indieStudio.vcxproj -> D:\quent\Documents\Epitech\cpp_indie_studio\Debug\indieStudio.exe
+  indieStudio.vcxproj -> D:\quent\Documents\Epitech\cpp_indie_studio\Debug\indieStudio.pdb (Partial PDB)

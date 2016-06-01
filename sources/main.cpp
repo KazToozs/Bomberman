@@ -34,11 +34,11 @@ int main() {
   bool start = false;
 
   while (g.Alive()) {
-	  if (!start) {
+	  /*if (!start) {
 		  g.LoadGame(new Game(1, 2, 16, &g));
 		  start = true;
-	  }
-	  /*
+	  }*/
+	  
     key = ((g.getGame() == NULL) ? check_keys(g) : 0);
     switch (key) {
       case 1:
@@ -50,7 +50,7 @@ int main() {
       case 3:
         menu->Action();
         break;
-    }*/
+    }
   }
 
   return 0;
