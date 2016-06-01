@@ -1,9 +1,9 @@
 d:\quent\documents\epitech\cpp_indie_studio\debug\vc140.pdb
 d:\quent\documents\epitech\cpp_indie_studio\debug\vc140.idb
-d:\quent\documents\epitech\cpp_indie_studio\debug\playerbutton.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\ai.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\controleventreceiver.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\gui.obj
+d:\quent\documents\epitech\cpp_indie_studio\debug\main.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\map.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\confirmbutton.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\continuebutton.obj
@@ -11,6 +11,7 @@ d:\quent\documents\epitech\cpp_indie_studio\debug\exitbutton.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\iabutton.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\menu.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\optionbutton.obj
+d:\quent\documents\epitech\cpp_indie_studio\debug\playerbutton.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\bomb.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\game.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\keybind.obj
@@ -18,7 +19,6 @@ d:\quent\documents\epitech\cpp_indie_studio\debug\player.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\powerbomb.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\powerrange.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\powerspeed.obj
-d:\quent\documents\epitech\cpp_indie_studio\debug\main.obj
 d:\quent\documents\epitech\cpp_indie_studio\debug\indiestudio.ilk
 d:\quent\documents\epitech\cpp_indie_studio\debug\indiestudio.exe
 d:\quent\documents\epitech\cpp_indie_studio\debug\indiestudio.pdb
