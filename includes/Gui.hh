@@ -39,6 +39,7 @@ class Gui {
  private:
   void InitJoystick();
   bool CreateWindow();
+  void ClearBlock();
   bool WindowIsOpen();
   void Load();
   void LoadModels();

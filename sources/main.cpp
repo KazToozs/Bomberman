@@ -41,9 +41,15 @@ int main() {
 	bool start = false;
 
 	while (g.Alive()) {
+		if (!start) {
+			g.LoadGame(new Game(0, 2, 16, &g));
+			start = true;
+		}
+		/*
 		key = ((g.getGame() == NULL) ? check_keys(g) : 0);
 		if (key)
 			(menu->*MenuBtnTab[key - 1])();
+			*/
 	}
 
 	return 0;

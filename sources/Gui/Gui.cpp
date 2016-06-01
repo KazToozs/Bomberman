@@ -76,8 +76,7 @@ Gui::~Gui() { _Th->join(); }
 void Gui::InitJoystick() {
 	irr::core::array<irr::SJoystickInfo> joystickInfo;
 	if (_Device->activateJoysticks(joystickInfo)) {
-	}
-	else {
+	} else {
 		std::cout << "Joystick support is not enabled." << std::endl;
 	}
 }
@@ -88,8 +87,8 @@ bool Gui::CreateWindow() {
 	_Mtx->lock();
 	if (_Device) return (true);
 	_Device = irr::createDevice(irr::video::EDT_OPENGL,
-		irr::core::dimension2d<irr::u32>(_Width, _Height),
-		_Ddp, _isFullscreen, false, _VSync, &_Event);
+								irr::core::dimension2d<irr::u32>(_Width, _Height),
+								_Ddp, _isFullscreen, false, _VSync, &_Event);
 	if (_Device) {
 		_Device->setResizable(false);
 		_Device->setWindowCaption(L"Indie Studio : Bomberman");
@@ -150,7 +149,7 @@ void Gui::Load() {
 	irr::scene::ICameraSceneNode* CamNode = _Smgr->addCameraSceneNode();
 	irr::scene::ILightSceneNode* LightNode =
 		_Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
-			irr::video::SColor(255, 128, 128, 128), 50.0f);
+								 irr::video::SColor(255, 128, 128, 128), 50.0f);
 	CamNode->setPosition(irr::core::vector3df(16, 2, -20));
 	CamNode->setTarget(irr::core::vector3df(16, 10, 0));
 	_Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
@@ -215,8 +214,8 @@ void Gui::LoadMaps() {
 	_SizeBlock[Case::FREE] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
 	_SizeBlock[Case::UNBREAKABLE] = irr::core::vector3df(0.003f, 0.003f, 0.003f);
 	_SizeBlock[Case::BREAKABLE] = irr::core::vector3df(0.003f, 0.003f, 0.003f);
-	_SizeBlock[Case::BOMB] = irr::core::vector3df(0.10f, 0.10f, 0.10f);
-	_SizeBlock[Case::B_BOMB] = irr::core::vector3df(0.10f, 0.10f, 0.10f);
+	_SizeBlock[Case::BOMB] = irr::core::vector3df(0.07f, 0.07f, 0.07f);
+	_SizeBlock[Case::B_BOMB] = irr::core::vector3df(0.07f, 0.07f, 0.07f);
 	_SizeBlock[Case::EXPLODING] = irr::core::vector3df(0.05f, 0.05f, 0.05f);
 	_SizeBlock[Case::NOPE] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
 	_SizeBlock[Case::POWERUP_BOMB] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
@@ -245,12 +244,10 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
 		if (!type._powerup) {
 			old = NULL;
 			return;
-		}
-		else {
+		} else {
 			mesh = _BlockModels[type._powerup->get_type()];
 		}
-	}
-	else
+	} else
 		mesh = _BlockModels[type._state];
 	if (!mesh) return;
 	irr::scene::ISceneNode* new_block = _Smgr->addMeshSceneNode(mesh);
@@ -285,6 +282,19 @@ void Gui::PutWall() {
 	}
 }
 
+void Gui::ClearBlock() {
+	Case c;
+
+	c._state = Case::FREE;
+	c._powerup = NULL;
+	for (int x = 0; x < 16; x++) {
+		for (int y = 0; y < 16; y++) {
+			UpdateBlock(x, y, c, _MapsModels[y][x]);
+		}
+	}
+	_Smgr->clear();
+}
+
 bool Gui::DrawScene() {
 	// Case c;
 	std::stringstream ss;
@@ -293,15 +303,27 @@ bool Gui::DrawScene() {
 	// c._state = Case::NOPE;
 	// c._powerup = NULL;
 
+
 	_Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
-	if (_BackInGame)
-		_Driver->draw2DImage(_BackInGame, irr::core::position2di(0, 0),
-			irr::core::rect<irr::s32>(0, 0, 1280, 720));
-	_MainFont->draw(ss.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
-		irr::video::SColor(255, 0, 0, 0), false, true);
-	if (this->_Game->get_actualisation()) ActualiseMaps();
-	for (int i = 0; i < _Game->get_players().size(); i++) {
-		MovePlayer(i);
+	if (_Game->check_finish()) {
+		if (_Back)
+			_Driver->draw2DImage(_Back, irr::core::position2di(0, 0),
+								 irr::core::rect<irr::s32>(0, 0, 1280, 720));
+		this->ClearBlock();
+		std::stringstream sswin;
+		sswin << "Player " << _Game->who_alive()->get_team() << " Win !";
+		_MainFont->draw(sswin.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
+						irr::video::SColor(255, 0, 0, 0), false, true);
+	} else {
+		if (_BackInGame)
+			_Driver->draw2DImage(_BackInGame, irr::core::position2di(0, 0),
+								 irr::core::rect<irr::s32>(0, 0, 1280, 720));
+		_MainFont->draw(ss.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
+						irr::video::SColor(255, 0, 0, 0), false, true);
+		if (this->_Game->get_actualisation()) ActualiseMaps();
+		for (int i = 0; i < _Game->get_players().size(); i++) {
+			MovePlayer(i);
+		}
 	}
 	/*Start Scene*/
 	// if (!_BaseModels) UpdateBlock(0, 0, c, _BaseModels);
@@ -322,10 +344,10 @@ void Gui::DrawMenu() {
 
 	if (_Back)
 		_Driver->draw2DImage(_Back, irr::core::position2di(0, 0),
-			irr::core::rect<irr::s32>(0, 0, 1280, 720));
+							 irr::core::rect<irr::s32>(0, 0, 1280, 720));
 	if (_MainFont)
 		_MainFont->draw(button.c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
-			irr::video::SColor(255, 0, 0, 0), false, true);
+						irr::video::SColor(255, 0, 0, 0), false, true);
 
 	/*End Menu*/
 	//_Smgr->drawAll();
@@ -340,7 +362,7 @@ void Gui::DrawSplash() {
 
 	if (_Back)
 		_Driver->draw2DImage(_Splash, irr::core::position2di(0, 0),
-			irr::core::rect<irr::s32>(0, 0, 1280, 720));
+							 irr::core::rect<irr::s32>(0, 0, 1280, 720));
 	/*End Menu*/
 	//_Smgr->drawAll();
 	_Guienv->drawAll();
@@ -368,8 +390,7 @@ void Gui::StartLoop() {
 					_MusicGame.play();
 				}
 				DrawScene();
-			}
-			else {
+			} else {
 				if (!is_game_sound) {
 					is_game_sound = true;
 					_MusicMenu.setLoop(true);
