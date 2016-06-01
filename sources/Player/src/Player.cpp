@@ -86,7 +86,6 @@ void  Player::init()
   if (this->team > 2)
     this->pos.y += (mp.size() - 1);
   mp[(int)this->pos.y][(int)this->pos.x]._state = Case::TAKEN;
- // this->gm->MovePl(this->team - 1);
 }
 
 IPlayer::e_player Player::get_type() const
@@ -110,8 +109,9 @@ void  Player::check_bombs()
 
 void  Player::put_bomb()
 {
-  std::cout << "nb bombs: " << this->bombs.size() << " max: " << this->max_bombs << std::endl;
-  if (this->bombs.size() < this->max_bombs)
+     std::vector<std::vector<Case> > &mp = this->map->getMap();
+
+  if (this->bombs.size() < this->max_bombs && mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state != Case::BOMB)
   {
     this->bombs.push_back(new Bomb(this->pos, this->range_bomb, this->team));
     this->bombs.back()->put_bomb(this->map);
@@ -334,7 +334,7 @@ void  Player::check_power_map()
 {
     std::vector<std::vector<Case> > &mp = this->map->getMap();
 
-    if (mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup != NULL)
+    if (this->p == NULL && mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup != NULL)
     {
         this->set_powerups(mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup);
         mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._powerup = NULL;
