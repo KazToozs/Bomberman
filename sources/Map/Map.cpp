@@ -233,7 +233,7 @@ void Map::generate() {
   free_qMap(qMap);
 }
 
-/*void Map::print()
+void Map::print()
 {
   std::vector<std::vector<Case> >::iterator it_y;
   std::vector<Case>::iterator it_x;
@@ -283,7 +283,7 @@ void Map::generate() {
     }
     std::cout << std::endl;
   }
-}*/
+}
 
 std::vector< std::vector<Case> > &Map::getMap()
 {

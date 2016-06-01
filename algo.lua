@@ -4,7 +4,7 @@ local algo = {}
 move = require("move")
 check = require("check")
 esc = require("escape")
-
+isDeadEnd = require("isDeadEnd")
 ---------------------------
 -- [[ Local variables ]] --
 ---------------------------
@@ -107,32 +107,51 @@ end
 -- Base decisions
 
 function algo.isOnBomb()
+  local ret
+
   if (newMap[player.y][player.x] == 4) then
-    return (move.randomMove())
+    print("is on bomb")
+    if isDeadEnd.Right(player.y, player.x) == false then
+      print("selected right")
+      return (4)
+    elseif isDeadEnd.Left(player.y, player.x) == false then
+      print("selected left")
+      return (3)
+    elseif isDeadEnd.Down(player.y, player.x) == false then
+      print("selected down")
+      return (2)
+    elseif isDeadEnd.Up(player.y, player.x) == false then
+      print("selected up")
+      return (1)
+    end
+    print("after checks")
   else
+    print("rlly nigga")
     return (-1)
   end
 end
 
 function algo.isNearBomb()
   local choice = 0
-  choice = choice + check.check_up(newMap, 4)
-  choice = choice + check.check_down(newMap, 4)
-  choice = choice + check.check_left(newMap, 4)
-  choice = choice + check.check_right(newMap, 4)
+  choice = choice + check.check_up(newMap, 4, player.x, player.y)
+  choice = choice + check.check_down(newMap, 4, player.x, player.y)
+  choice = choice + check.check_left(newMap, 4, player.x, player.y)
+  choice = choice + check.check_right(newMap, 4, player.x, player.y)
   if choice == 0 then
     return (-1)
   else
+    print("tryescape")
+    io.write("choice: ", choice, "\n")
     return (esc.tryEscape(choice))
   end
 end
 
 function algo.isCloseToEnemy()
   local choice = 0
-  choice = choice + check.check_up(newMap, 3)
-  choice = choice + check.check_down(newMap, 3)
-  choice = choice + check.check_left(newMap, 3)
-  choice = choice + check.check_right(newMap, 3)
+  choice = choice + check.check_up(newMap, 3, player.x, player.y)
+  choice = choice + check.check_down(newMap, 3, player.x, player.y)
+  choice = choice + check.check_left(newMap, 3, player.x, player.y)
+  choice = choice + check.check_right(newMap, 3, player.x, player.y)
   if choice == 0 then
     return (-1)
   else
@@ -156,6 +175,8 @@ end
 -- Launch Algorithm
 
 function algo.getAction()
+  print ("\n----- ALGO: getAction -----")
+  io.write("playerX: ", player.x, " playerY: ", player.y, "\n")
   ret = algo.isNearBomb()
   if (ret == -1) then
     ret = algo.isOnBomb()

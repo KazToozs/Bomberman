@@ -17,7 +17,8 @@ AI::AI(Map *mp, const int &num, Game *g)
   this->p = NULL;
   this->max_bombs = 1;
   this->range_bomb = 3;
-  this->speed = 0.02;
+  // this->speed = 0.02;
+  this->speed = 0.5;//reset this
   this->alive = true;
   this->act = UNKNOWN;
   this->pos.x = 0.0;
@@ -222,13 +223,14 @@ void                                AI::do_action()
         }
         lua_getglobal(L, "actionChoice");
         int a = lua_tonumber(L, lua_gettop(L));
+        std::cout << "Final action: " << a << "\n---------------" << std::endl;
         e_action act = static_cast<e_action>(a);
         if (act != UNKNOWN)
         {
           (this->*acts[act])();
         }
         if (act != UNKNOWN && act != BOMB)
-            this->gm->MovePl(this->team - 1);
+          this->gm->MovePl(this->team - 1);
         lua_close(L);
     }
 }
