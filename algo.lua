@@ -5,6 +5,7 @@ move = require("move")
 check = require("check")
 esc = require("escape")
 isDeadEnd = require("isDeadEnd")
+
 ---------------------------
 -- [[ Local variables ]] --
 ---------------------------
@@ -24,28 +25,6 @@ function algo.makeMap(m, x, y)
       end
   end
   return grid
-
-end
-
-function algo.printMap()
-  for i = 1, #newMap, 1 do
-    for n = 1, #newMap[i] do
-      if (newMap[i][n] == 1) then
-        io.write("\27[31m", newMap[i][n], " ")
-      elseif (newMap[i][n] == 2) then
-        io.write("\27[34m", newMap[i][n], " ")
-      elseif (newMap[i][n] == 3) then
-        io.write("\27[32m", newMap[i][n], " ")
-      elseif (newMap[i][n] == 4) then
-        io.write("\27[1m", newMap[i][n], "\27[0m ")
-      elseif (newMap[i][n] == 5) then
-        io.write("\27[93m", newMap[i][n], " ")
-      else
-        io.write("\27[39m\27[2m", newMap[i][n], "\27[0m ")
-      end
-    end
-    io.write("\27[39m\n");
-  end
 end
 
 -------------------------------
@@ -68,16 +47,6 @@ function algo.findEnemies(pos_x, pos_y)
   return enemies
 end
 
-function algo.printEnemies(enemyList)
-  for i = 1, #enemyList do
-    io.write("Enemy ", i, ": \n")
-    for n = 1, #enemyList[i] do
-      io.write(enemyList[i][n], " ")
-    end
-    io.write("\n")
-  end
-end
-
 -- Enemy Distance
 
 function algo.calculateDistance(en)
@@ -91,7 +60,6 @@ function algo.findClosestEnemy(enemies)
   local closest = enemies[1]
   local i = 1
 
-  -- io.write("Player at x ", player.x, " y ", player.y, "\n")
   local current = algo.calculateDistance(enemies[1])
   while i <= #enemies do
     local ret = algo.calculateDistance(enemies[i])
