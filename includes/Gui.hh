@@ -23,7 +23,7 @@ class Menu;
 class Gui {
  public:
   Gui(int Height = 720, int Width = 1280, int Ddp = 16, bool Fullscreen = false,
-      bool Vsync = false);
+      bool Vsync = true);
 
   bool Start(Menu *menu);
   void LoadGame(Game *game);

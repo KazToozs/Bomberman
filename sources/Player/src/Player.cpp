@@ -16,7 +16,6 @@
 #include "Keybind.hh"
 #include "Gui.hh"
 
-#include <iostream>
 
 Player::Player(Map *mp, const int &num, Keybind *keys, Game *g)
 {
@@ -109,7 +108,7 @@ void  Player::check_bombs()
 
 void  Player::put_bomb()
 {
-     std::vector<std::vector<Case> > &mp = this->map->getMap();
+  std::vector<std::vector<Case> > &mp = this->map->getMap();
 
   if (this->bombs.size() < this->max_bombs && mp[static_cast<int>(this->pos.y)][static_cast<int>(this->pos.x)]._state != Case::BOMB)
   {
@@ -121,7 +120,7 @@ void  Player::put_bomb()
 
 const int &Player::get_team() const
 {
-    return (this->team);
+  return (this->team);
 }
 
 void  Player::set_pos(const t_pos &ps)
@@ -357,8 +356,6 @@ void  Player::do_action()
    bind = key->get_action(this->team);
    if (bind != UNKNOWN)
      (this->*act_func[bind])();
-   if (bind != UNKNOWN && bind != BOMB)
-       this->gm->MovePl(this->team - 1);
 }
 
 const size_t &  Player::get_score() const
@@ -373,9 +370,7 @@ void  Player::set_powerups(IPowerup *power)
     this->p = power;
     this->t = std::chrono::high_resolution_clock::now();
   }
-  std::cout << "type: " << power->get_type() << " speed: " << this->speed << " max_bombs: " << this->max_bombs << " range: " << this->range_bomb << std::endl;
   power->set_powerup(this);
-  std::cout << "speed: " << this->speed << " max_bombs: " << this->max_bombs << " range: " << this->range_bomb << std::endl;
 }
 
 void  Player::check_power_map()

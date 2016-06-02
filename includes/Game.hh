@@ -39,7 +39,6 @@ public:
   Game(const int &nb_ia, const int &nb_real, const int &size, Gui *);
   ~Game();
   Game(const Game &);
-  void  MovePl(const int &) const;
   const Game &operator=(const Game &);
   void  init(Keybind *);
   void  start();

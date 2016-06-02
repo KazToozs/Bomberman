@@ -5,7 +5,7 @@
 // Login   <pallua_j@epitech.eu>
 //
 // Started on  Tue May  3 17:16:51 2016 Jules Palluau
-// Last update Thu Jun  2 10:00:24 2016 pallua_j
+// Last update Tue May 10 10:46:45 2016 Jules Palluau
 //
 
 #include "Game.hh"
@@ -19,7 +19,6 @@
 #include "Game.hh"
 #include <iostream>
 #include <thread>
-#include <unistd.h>
 
 class AI;
 
@@ -80,6 +79,9 @@ void Game::init(Keybind *keys) {
 }
 
 void Game::loop() {
+  int i = 0; /* delete this */
+
+    std::cout << "in loop" << std::endl;
   while (this->check_finish() == false) {
     this->mtx->lock();
     for (size_t x = 0; x < this->players.size(); x++) {
@@ -93,8 +95,10 @@ void Game::loop() {
         }
       }
     }
+    i++;
     this->mtx->unlock();
   }
+  std::cout << "Winner: " << this->who_alive()->get_team() << std::endl;
 }
 
 void    Game::start()

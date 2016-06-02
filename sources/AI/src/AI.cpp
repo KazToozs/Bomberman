@@ -225,8 +225,8 @@ void                                AI::do_action()
         {
           (this->*acts[act])();
         }
-        if (act != UNKNOWN && act != BOMB)
-          this->gm->MovePl(this->team - 1);
+ //       if (act != UNKNOWN && act != BOMB)
+ //         this->gm->MovePl(this->team - 1);
         lua_close(L);
     }
 }
