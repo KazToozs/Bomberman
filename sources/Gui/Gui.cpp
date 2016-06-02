@@ -193,12 +193,12 @@ void Gui::LoadMaps() {
 	_BlockModels.resize(11);
 	_SizeBlock.resize(11);
 	_BlockModels[Case::FREE] = NULL;
-	_BlockModels[Case::UNBREAKABLE] = 
+	_BlockModels[Case::UNBREAKABLE] =
 		_Smgr->getMesh("Ressources/Models/Block/unbreak/Unbreak.obj");
 	_BlockModels[Case::BREAKABLE] =
 		_Smgr->getMesh("Ressources/Models/Block/breakable/Breakable.obj");
 	_BlockModels[Case::BOMB] =
-		_Smgr->getMesh("Ressources/Models/Original_bomb/original_bomb.obj");
+		_Smgr->getMesh("Ressources/Models/Original_bomb/voltorb.obj");
 	_BlockModels[Case::B_BOMB] =
 		_Smgr->getMesh("Ressources/Models/Bomb_plus/bomb_plus.obj");
 	_BlockModels[Case::EXPLODING] =
@@ -214,7 +214,7 @@ void Gui::LoadMaps() {
 	_SizeBlock[Case::FREE] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
 	_SizeBlock[Case::UNBREAKABLE] = irr::core::vector3df(0.003f, 0.003f, 0.003f);
 	_SizeBlock[Case::BREAKABLE] = irr::core::vector3df(0.003f, 0.003f, 0.003f);
-	_SizeBlock[Case::BOMB] = irr::core::vector3df(0.07f, 0.07f, 0.07f);
+	_SizeBlock[Case::BOMB] = irr::core::vector3df(0.18f, 0.18f, 0.18f);
 	_SizeBlock[Case::B_BOMB] = irr::core::vector3df(0.07f, 0.07f, 0.07f);
 	_SizeBlock[Case::EXPLODING] = irr::core::vector3df(0.05f, 0.05f, 0.05f);
 	_SizeBlock[Case::NOPE] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
@@ -254,7 +254,10 @@ void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
 	new_block->setID(type._state);
 	old = new_block;
 	old->setPosition(irr::core::vector3df(x * 2 + 1, y * 2, 0));
-	old->setRotation(irr::core::vector3df(-90, 0, 0));
+	if (type._state != Case::BOMB)
+		old->setRotation(irr::core::vector3df(-90, 0, 0));
+	else
+		old->setRotation(irr::core::vector3df(180, 0, 180));
 	old->setScale(_SizeBlock[type._state]);
 }
 
@@ -311,7 +314,12 @@ bool Gui::DrawScene() {
 								 irr::core::rect<irr::s32>(0, 0, 1280, 720));
 		this->ClearBlock();
 		std::stringstream sswin;
-		sswin << "Player " << _Game->who_alive()->get_team() << " Win !";
+		const IPlayer *pl = _Game->who_alive();
+		if (pl) {
+			sswin << "Player " << pl->get_team() << " Win !";
+		} else {
+			sswin << "No player Win !";
+		}
 		_MainFont->draw(sswin.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
 						irr::video::SColor(255, 0, 0, 0), false, true);
 	} else {
