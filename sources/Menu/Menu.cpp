@@ -120,7 +120,7 @@ void Menu::ConfirmExit()
 
 void Menu::ExitGame()
 {
-	//TODO Exit !
+	this->gui->CloseWindows();
 }
 
 void Menu::StartGame() {

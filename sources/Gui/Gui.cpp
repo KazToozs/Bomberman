@@ -369,6 +369,10 @@ void Gui::DrawSplash() {
 	_Driver->endScene();
 }
 
+void Gui::CloseWindows() {
+	this->_Device->closeDevice();
+}
+
 void Gui::StartLoop() {
 	bool is_game_sound = false;
 

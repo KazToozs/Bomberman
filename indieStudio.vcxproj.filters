@@ -243,6 +243,9 @@
     <ClInclude Include="includes\lua\lzio.h">
       <Filter>Fichiers d%27en-tête\lua</Filter>
     </ClInclude>
+    <ClInclude Include="includes\BackButton.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\main.cpp">
@@ -301,6 +304,9 @@
     </ClCompile>
     <ClCompile Include="sources\Player\src\PowerSpeed.cpp">
       <Filter>Fichiers sources\Player\src</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Menu\BackButton.cpp">
+      <Filter>Fichiers sources\Menu</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

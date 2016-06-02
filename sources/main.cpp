@@ -38,13 +38,8 @@ int main() {
 	Menu *menu = new Menu(&g);
 	int key;
 	g.Start(menu);
-	bool start = true;
 
 	while (g.Alive()) {
-		if (!start) {
-			g.LoadGame(new Game(2, 1, 16, &g));
-			start = true;
-		}
 		
 		key = ((g.getGame() == NULL) ? check_keys(g) : 0);
 		if (key)
