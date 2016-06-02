@@ -21,11 +21,14 @@ PlayerButton::PlayerButton(const std::string &name,
 PlayerButton::~PlayerButton() {}
 
 Func_Ptr PlayerButton::action() const {
-	if (this->_id != SOLO) {
+	if (this->_id == MULTI) {
 		return &Menu::CreateMultiPlayer;
-	} else {
-		return NULL;
 	}
+	else if (this->_id == SOLO) {
+		return &Menu::CreateSoloPlayer;
+	}
+	else
+		return NULL;
 }
 
 bool PlayerButton::getActive() const { return this->isActive; }

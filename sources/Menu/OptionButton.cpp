@@ -23,7 +23,7 @@ OptionButton::~OptionButton()
 
 Func_Ptr			OptionButton::action() const
 {
-	return (NULL);
+	return &Menu::PutOptions;
 }
 
 const std::string	&OptionButton::getName() const

@@ -17,6 +17,8 @@
 #include "OptionButton.hh"
 #include "IAButton.hh"
 #include "ContinueButton.hh"
+#include "ConfirmButton.hh"
+#include "BackButton.hh"
 
 Menu::Menu(Gui *gui) {
 	this->id_menu = MAIN_MENU;
@@ -50,6 +52,8 @@ void Menu::affList() {
 	}
 }
 
+Gui *Menu::getGui() const { return this->gui; }
+
 void Menu::GoUp() {
 	_Mtx->lock();
 	this->_pos = (_pos - 1 < 0) ? 0 : _pos - 1;
@@ -69,9 +73,54 @@ void Menu::Action() {
 
 void Menu::CreateMultiPlayer() {
 	clearList();
+	this->id_menu = SOLO_MULTI;
+	pushBackList(new IAButton("IA1", IAButton::IA_1, this, true));
+	pushBackList(new IAButton("IA2", IAButton::IA_2, this, true));
+	pushBackList(new BackButton("Retour", this));
+}
+
+void Menu::BackMenu()
+{
+	clearList();
+	if (this->id_menu == SOLO_MULTI || this->id_menu == OPTIONS 
+		|| this->id_menu == EXIT)
+		createMainMenu();
+}
+
+void Menu::CreateSoloPlayer() {
+	clearList();
+	this->id_menu = SOLO_MULTI;
+	pushBackList(new IAButton("IA1", IAButton::IA_1, this, false));
+	pushBackList(new IAButton("IA2", IAButton::IA_2, this, false));
+	pushBackList(new IAButton("IA3", IAButton::IA_3, this, false));
+	pushBackList(new BackButton("Retour", this));
+}
+
+void Menu::LaunchGame()
+{
+}
+
+void Menu::PutOptions()
+{
+	clearList();
+	this->id_menu = OPTIONS;
 	pushBackList(new IAButton("IA1", IAButton::IA_1, this, true));
 	pushBackList(new IAButton("IA2", IAButton::IA_2, this, true));
 	pushBackList(new IAButton("IA3", IAButton::IA_3, this, true));
+	pushBackList(new BackButton("Retour", this));
+}
+
+void Menu::ConfirmExit()
+{
+	clearList();
+	this->id_menu = EXIT;
+	pushBackList(new ConfirmButton("Oui", ConfirmButton::YES, this));
+	pushBackList(new ConfirmButton("Non", ConfirmButton::NO, this));
+}
+
+void Menu::ExitGame()
+{
+	//TODO Exit !
 }
 
 void Menu::StartGame() {
@@ -96,7 +145,6 @@ const std::string Menu::getButtonName() const {
 }
 
 void Menu::createMainMenu() {
-	this->buttons.push_back(new ContinueButton(this));
 	this->buttons.push_back(new PlayerButton("Solo", PlayerButton::SOLO, this));
 	this->buttons.push_back(new PlayerButton("Multi", PlayerButton::MULTI, this));
 	this->buttons.push_back(new OptionButton(this));

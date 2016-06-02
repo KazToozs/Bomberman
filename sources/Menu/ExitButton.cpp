@@ -22,11 +22,7 @@ ExitButton::~ExitButton() {
 }
 
 Func_Ptr			ExitButton::action() const {
-	//this->menu->clearList();
-	//this->menu->pushBackList(new ExitButton(this->menu));
-	//this->menu->pushBackList(new ConfirmButton("Yes", ConfirmButton::YES, this->menu));
-	//this->menu->pushBackList(new ConfirmButton("No", ConfirmButton::NO, this->menu));
-	return (NULL);
+	return &Menu::ConfirmExit;
 }
 
 const std::string	&ExitButton::getName() const {

@@ -19,7 +19,6 @@
 #include "Game.hh"
 #include <iostream>
 #include <thread>
-#include <unistd.h>
 
 class AI;
 

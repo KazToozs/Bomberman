@@ -34,12 +34,20 @@ class Menu {
     OPTIONS = 1,
     PAUSE = 2,
     SOLO_MULTI = 3,
-    GAME = 4
+    GAME = 4,
+	EXIT = 5
   };
   const ID_MENU getId() const;
   const IButtons *getCurrentButton() const;
   const std::string getButtonName() const;
+  Gui *getGui() const;
   void CreateMultiPlayer();
+  void BackMenu();
+  void LaunchGame();
+  void PutOptions();
+  void ConfirmExit();
+  void ExitGame();
+  void CreateSoloPlayer();
   void Unlock() {
       _Mtx->unlock();
   }

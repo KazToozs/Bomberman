@@ -21,7 +21,10 @@ ConfirmButton::~ConfirmButton() {
 }
 
 Func_Ptr				ConfirmButton::action() const {
-	return NULL;
+	if (this->_type == NO)
+		return &Menu::BackMenu;
+	else
+		return &Menu::ExitGame;
 }
 
 const std::string		&ConfirmButton::getName() const {

@@ -20,11 +20,12 @@ IAButton::IAButton(const std::string &name, const NB_IA &id, Menu *menu,
 IAButton::~IAButton() {}
 
 Func_Ptr			IAButton::action() const {
-	/*Game	*game;
 
-	game = new Game(id, multi ? 2 : 1, 16, this->menu->gui);
-	this->menu->gui->LoadGame(game);*/
-	return (NULL);
+	Game	*game;
+
+	game = new Game(id, multi ? 2 : 1, 16, this->menu->getGui());
+	this->menu->getGui()->LoadGame(game);
+	return &Menu::LaunchGame;
 }
 
 const std::string	&IAButton::getName() const {
