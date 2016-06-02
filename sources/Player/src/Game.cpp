@@ -110,9 +110,9 @@ bool Game::check_finish() {
 
   cpt = 0;
   for (size_t x = 0; x < this->players.size(); x++) {
-    if (players[x]->check_alive() == false) cpt++;
-    if (cpt == (this->nb_ia + this->nb_real) - 1) return (true);
+    if (players[x]->is_alive() == false) cpt++;
   }
+  if (cpt == (this->nb_ia + this->nb_real) - 1) return (true);
   return (false);
 }
 

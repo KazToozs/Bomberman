@@ -26,7 +26,8 @@ SOURCES += sources/main.cpp \
     sources/Menu/PlayerButton.cpp \
     sources/AI/src/AI.cpp \
     sources/AI/test/main.cpp \
-    sources/Map/main.cpp
+    sources/Map/main.cpp \
+    sources/Menu/BackButton.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
