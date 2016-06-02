@@ -114,7 +114,7 @@ e_action  Keybind::get_action(const int &player)
   if (player == 1)
   {
     if ((std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count()
-    - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t1).time_since_epoch().count()) >= 10)
+    - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t1).time_since_epoch().count()) >= 8)
     {
         this->t1 = std::chrono::high_resolution_clock::now();
         if (this->m1 == false)

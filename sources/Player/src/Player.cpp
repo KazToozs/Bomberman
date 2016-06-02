@@ -32,7 +32,7 @@ Player::Player(Map *mp, const int &num, Keybind *keys, Game *g)
   this->p = NULL;
   this->max_bombs = 1;
   this->range_bomb = 2;
-  this->speed = 0.02;
+  this->speed = 0.03;
   this->alive = true;
   this->action = UNKNOWN;
   this->pos.x = 0.0;

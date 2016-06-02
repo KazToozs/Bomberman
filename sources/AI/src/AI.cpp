@@ -208,7 +208,7 @@ void                AI::pass_values(lua_State *L, std::vector<std::vector<Case>>
 void                                AI::do_action()
 {
     if ((std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count()
-    - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t).time_since_epoch().count()) >= 40)
+    - std::chrono::time_point_cast<std::chrono::milliseconds>(this->t).time_since_epoch().count()) >= 80)
     {
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
