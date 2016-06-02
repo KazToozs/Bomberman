@@ -71,6 +71,12 @@ void Menu::Action() {
 	_Mtx->unlock();
 }
 
+void Menu::setEndGame() {
+	this->id_menu = MAIN_MENU;
+	createMainMenu();
+	this->gui->StopGame();
+}
+
 void Menu::CreateMultiPlayer() {
 	clearList();
 	this->id_menu = SOLO_MULTI;
@@ -98,6 +104,8 @@ void Menu::CreateSoloPlayer() {
 
 void Menu::LaunchGame()
 {
+	clearList();
+	createMainMenu();
 }
 
 void Menu::PutOptions()

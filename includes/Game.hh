@@ -29,6 +29,7 @@ private:
   std::thread             *lp;
   int                     nb_ia;
   int                     nb_real;
+  bool						_kill;
   int                     size;
   Map                     *map;
   std::vector<IPlayer *>  players;
@@ -44,7 +45,7 @@ public:
   void  start();
   void  lock() const;
   void  unlock() const;
-  bool  check_finish();
+  bool  check_finish() const;
   const IPlayer *who_alive() const;
   const std::vector<IPlayer *> &get_players() const;
   void  check_bombs();

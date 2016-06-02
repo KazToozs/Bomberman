@@ -43,12 +43,17 @@ void Gui::LoadGame(Game* game) {
 		}
 	}
 	_Mtx->unlock();
-	this->ActualiseMaps();
-	for (int i = 0; i < this->_Game->get_players().size(); i++) {
-		this->MovePlayer(i);
-	}
 	this->_Menu->StartGame();
 	_Game->start();
+}
+
+void Gui::StopGame() {
+	_Mtx->lock();
+	if (this->_Game) {
+		delete this->_Game;
+	}
+	this->_Game = NULL;
+	_Mtx->unlock();
 }
 
 bool Gui::Alive() const {
@@ -146,12 +151,6 @@ void Gui::LoadModels() {
 
 void Gui::Load() {
 	_Mtx->lock();
-	irr::scene::ICameraSceneNode* CamNode = _Smgr->addCameraSceneNode();
-	irr::scene::ILightSceneNode* LightNode =
-		_Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
-								 irr::video::SColor(255, 128, 128, 128), 50.0f);
-	CamNode->setPosition(irr::core::vector3df(16, 2, -20));
-	CamNode->setTarget(irr::core::vector3df(16, 10, 0));
 	_Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
 	_BackInGame = _Driver->getTexture("Ressources/Pictures/backingame.png");
 	_Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
@@ -159,8 +158,6 @@ void Gui::Load() {
 	_MusicMenu.openFromFile("Ressources/Sounds/MenuTheme.ogg");
 	_MusicGame.openFromFile("Ressources/Sounds/GameTheme.ogg");
 	_BufferTuturu.loadFromFile("Ressources/Sounds/Tutturuu.ogg");
-	LoadModels();
-	LoadMaps();
 	_Mtx->unlock();
 }
 
@@ -189,7 +186,6 @@ void Gui::MovePlayer(int id) {
 }
 
 void Gui::LoadMaps() {
-	_BaseModels = NULL;
 	_BlockModels.resize(11);
 	_SizeBlock.resize(11);
 	_BlockModels[Case::FREE] = NULL;
@@ -302,12 +298,15 @@ bool Gui::DrawScene() {
 	// Case c;
 	std::stringstream ss;
 	ss << _Driver->getFPS();
+	bool aff = false;
 
 	// c._state = Case::NOPE;
 	// c._powerup = NULL;
 
 
 	_Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
+	if (!_Game)
+		return (false);
 	if (_Game->check_finish()) {
 		if (_Back)
 			_Driver->draw2DImage(_Back, irr::core::position2di(0, 0),
@@ -322,6 +321,7 @@ bool Gui::DrawScene() {
 		}
 		_MainFont->draw(sswin.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
 						irr::video::SColor(255, 0, 0, 0), false, true);
+		aff = true;
 	} else {
 		if (_BackInGame)
 			_Driver->draw2DImage(_BackInGame, irr::core::position2di(0, 0),
@@ -340,6 +340,10 @@ bool Gui::DrawScene() {
 	_Smgr->drawAll();
 	//_Guienv->drawAll();
 	_Driver->endScene();
+	if (aff) {
+		std::this_thread::sleep_for(std::chrono::microseconds(1000000));
+		StopGame();
+	}
 	return (true);
 }
 
@@ -387,7 +391,6 @@ void Gui::StartLoop() {
 	if (!CreateWindow()) return;
 	this->Load();
 	std::this_thread::sleep_for(std::chrono::microseconds(5000));
-	PutWall();
 	_Sound.setBuffer(_BufferTuturu);
 	_Sound.play();
 	while (WindowIsOpen()) {
@@ -397,6 +400,16 @@ void Gui::StartLoop() {
 			if (_Menu->getId() == Menu::GAME) {
 				_MusicMenu.stop();
 				if (is_game_sound) {
+					_Smgr->clear();
+					irr::scene::ICameraSceneNode* CamNode = _Smgr->addCameraSceneNode();
+					irr::scene::ILightSceneNode* LightNode =
+						_Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
+							irr::video::SColor(255, 128, 128, 128), 50.0f);
+					CamNode->setPosition(irr::core::vector3df(16, 2, -20));
+					CamNode->setTarget(irr::core::vector3df(16, 10, 0));
+					LoadModels();
+					LoadMaps();
+					PutWall();
 					is_game_sound = false;
 					_MusicGame.setLoop(true);
 					_MusicGame.play();

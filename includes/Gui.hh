@@ -32,6 +32,7 @@ class Gui {
   const irr::SEvent::SJoystickEvent& get_joy_event() const;
   const std::vector<irr::SEvent::SKeyInput>& get_key_event() const;
   void CloseWindows();
+  void StopGame();
 
   ~Gui();
 
@@ -64,7 +65,6 @@ class Gui {
   irr::video::ITexture* _Splash;
   std::vector<std::vector<irr::scene::ISceneNode*>> _PlayerModels;
   std::vector<std::vector<irr::scene::ISceneNode*>> _MapsModels;
-  irr::scene::ISceneNode* _BaseModels;
   std::vector<irr::scene::IMesh*> _BlockModels;
   sf::SoundBuffer _BufferTuturu;
   sf::Music _MusicMenu;

@@ -212,7 +212,7 @@ void                                AI::do_action()
     {
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
-        int r = luaL_loadfile(L, "luascript.lua");
+        int r = luaL_loadfile(L, "Ressources/Script/luascript.lua");
         pass_values(L, this->map->getMap());
         if (r == 0)
         {
