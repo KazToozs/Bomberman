@@ -33,24 +33,34 @@ end
 function move.verticalMove(deltaY)
   if (deltaY < 0) then
     -- down
+    print("free down?")
     if (isCellFree.Down(player.y, player.x) == true) then
+      print("cell down free")
       if (isGoodMove.Down(player.y, player.x) == true) then
+        print("returning 2")
         return (2)
       else
+        print("returning 0")
         return (0)
       end
     else
+      print("returning 5")
       return (5)
     end
   else
     -- up
+    print("down not viable, free up?")
     if (isCellFree.Up(player.y, player.x) == true) then
+      print("free up")
       if (isGoodMove.Up(player.y, player.x) == true) then
+        print("returning 1")
         return (1)
       else
+        print("returning 0")
         return (0)
       end
     else
+      print("returning 5")
       return (5)
     end
   end
@@ -63,8 +73,10 @@ function move.pickMove(en)
   local absDeltaY = math.abs(deltaY)
 
   if (absDeltaX > absDeltaY) then
+    print("horizontal move")
     return (move.horizontalMove(deltaX))
   else
+    print("vertical move")
     return (move.verticalMove(deltaY))
   end
 end

@@ -108,6 +108,7 @@ end
 
 function algo.isOnBomb()
   local ret
+  print("is on bomb?")
 
   if (newMap[player.y][player.x] == 4) then
     if isDeadEnd.Right(player.y, player.x) == false then
@@ -120,46 +121,63 @@ function algo.isOnBomb()
       return (1)
     end
   else
+    print("not on bomb")
     return (-1)
   end
 end
 
 function algo.isNearBomb()
   local choice = 0
+  print("is near bomb?")
+
+  print("nearbomb check up")
   choice = choice + check.check_up(newMap, 4, player.x, player.y)
+  print("nearbomb check down")
   choice = choice + check.check_down(newMap, 4, player.x, player.y)
+  print("nearbomb check left")
   choice = choice + check.check_left(newMap, 4, player.x, player.y)
+  print("nearbomb check right")
   choice = choice + check.check_right(newMap, 4, player.x, player.y)
   if choice == 0 then
+    print("not near bomb")
     return (-1)
   else
+    print("is near bomb")
     return (esc.tryEscape(choice))
   end
 end
 
 function algo.isCloseToEnemy()
   local choice = 0
+  print("is close to enemy?")
   choice = choice + check.check_up(newMap, 3, player.x, player.y)
   choice = choice + check.check_down(newMap, 3, player.x, player.y)
   choice = choice + check.check_left(newMap, 3, player.x, player.y)
   choice = choice + check.check_right(newMap, 3, player.x, player.y)
   if choice == 0 then
+    print("not close to enemy")
     return (-1)
   else
+    print("is close, place bomb")
     return (5)
   end
 end
 
 function algo.moveToEnemy()
+  print("finding enemmies")
   local enemies = algo.findEnemies(player.x, player.y)
+  print("found enemmies, moving to enemy")
 
   if #enemies > 0 then
+    print("finding closest")
     local closest = algo.findClosestEnemy(enemies)
+    print("found closest, picking move")
     -- io.write("Closest: x: ", closest.x, " y: ", closest.y, "\n")
     -- print("------------------")
     return (move.pickMove(closest))
   else
-    return (move.randomMove())
+    print("making a random move because no enemmies are found")
+    return (move.randomMove(player.y, player.x))
   end
 end
 

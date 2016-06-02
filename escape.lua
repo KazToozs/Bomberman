@@ -2,7 +2,6 @@
 local escape = {}
 
 isCellFree = require("isCellFree")
-isDeadEnd = require("isDeadEnd")
 
 function escape.bombAll()
   return (-1)
@@ -25,7 +24,7 @@ end
 function escape.bombUpDown()
   if isCellFree.Left(player.y, player.x) == true then
     return (3)
-  elseif isCellFree.Right(player.y, player.x) == true then 
+  elseif isCellFree.Right(player.y, player.x) == true then
     return (4)
   end
   return (0)
