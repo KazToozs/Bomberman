@@ -193,7 +193,7 @@ void Gui::LoadMaps() {
 	_BlockModels.resize(11);
 	_SizeBlock.resize(11);
 	_BlockModels[Case::FREE] = NULL;
-	_BlockModels[Case::UNBREAKABLE] =
+	_BlockModels[Case::UNBREAKABLE] = 
 		_Smgr->getMesh("Ressources/Models/Block/unbreak/Unbreak.obj");
 	_BlockModels[Case::BREAKABLE] =
 		_Smgr->getMesh("Ressources/Models/Block/breakable/Breakable.obj");
