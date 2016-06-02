@@ -18,6 +18,7 @@ SRC         =	sources/main.cpp	\
 		sources/Menu/OptionButton.cpp \
 		sources/Menu/PlayerButton.cpp \
 		sources/Map/Map.cpp 		\
+		sources/Menu/BackButton.cpp	\
 		sources/AI/src/AI.cpp
 
 LUA		=\
