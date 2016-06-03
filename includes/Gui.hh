@@ -37,12 +37,24 @@ class Gui {
   ~Gui();
 
  private:
+	 void InitCam();
+
+	 void DrawBackground();
+	 void DrawButton(const char *name);
+	 void DrawBackMaps();
+	 void DrawFPS();
+	 void DrawWinner();
+	 bool DrawScene();
+	 void DrawMenu();
+	 void DrawSplash();
+
+
   void InitJoystick();
   bool CreateWindow();
   void ClearBlock();
   bool WindowIsOpen();
-  void Load();
-  void LoadModels();
+  void LoadShaders();
+  void LoadPlayersModels();
   void LoadMaps();
   int check_keys();
 
@@ -50,9 +62,6 @@ class Gui {
   void ActualiseMaps();
   void UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old);
   void PutWall();
-  bool DrawScene();
-  void DrawMenu();
-  void DrawSplash();
   void StartLoop();
 
   irr::IrrlichtDevice* _Device;

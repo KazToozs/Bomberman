@@ -86,8 +86,6 @@ void Gui::InitJoystick() {
 	}
 }
 
-
-
 bool Gui::CreateWindow() {
 	_Mtx->lock();
 	if (_Device) return (true);
@@ -121,7 +119,7 @@ bool Gui::WindowIsOpen() {
 	return (_Run);
 }
 
-void Gui::LoadModels() {
+void Gui::LoadPlayersModels() {
 	int size = 4;
 	_PlayerModels.resize(size);
 	std::cout << size << std::endl;
@@ -149,8 +147,7 @@ void Gui::LoadModels() {
 	}
 }
 
-void Gui::Load() {
-	_Mtx->lock();
+void Gui::LoadShaders() {
 	_Back = _Driver->getTexture("Ressources/Pictures/back_game720.png");
 	_BackInGame = _Driver->getTexture("Ressources/Pictures/backingame.png");
 	_Splash = _Driver->getTexture("Ressources/Pictures/splash.png");
@@ -158,7 +155,6 @@ void Gui::Load() {
 	_MusicMenu.openFromFile("Ressources/Sounds/MenuTheme.ogg");
 	_MusicGame.openFromFile("Ressources/Sounds/GameTheme.ogg");
 	_BufferTuturu.loadFromFile("Ressources/Sounds/Tutturuu.ogg");
-	_Mtx->unlock();
 }
 
 void Gui::MovePlayer(int id) {
@@ -217,6 +213,8 @@ void Gui::LoadMaps() {
 	_SizeBlock[Case::POWERUP_BOMB] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
 	_SizeBlock[Case::POWERUP_RANGE] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
 	_SizeBlock[Case::POWERUP_SPEED] = irr::core::vector3df(0.25f, 0.25f, 0.25f);
+
+	PutWall();
 }
 
 void Gui::ActualiseMaps() {
@@ -294,51 +292,60 @@ void Gui::ClearBlock() {
 	_Smgr->clear();
 }
 
-bool Gui::DrawScene() {
-	// Case c;
+void Gui::DrawBackground() {
+	if (_Back)
+		_Driver->draw2DImage(_Back, irr::core::position2di(0, 0),
+							 irr::core::rect<irr::s32>(0, 0, 1280, 720));
+}
+void Gui::DrawButton(const char *name) {
+	if (_MainFont)
+		_MainFont->draw(name, irr::core::rect<irr::s32>(0, 311, 517, 408),
+						irr::video::SColor(255, 0, 0, 0), false, true);
+}
+void Gui::DrawBackMaps() {
+	if (_BackInGame)
+		_Driver->draw2DImage(_BackInGame, irr::core::position2di(0, 0),
+							 irr::core::rect<irr::s32>(0, 0, 1280, 720));
+}
+
+void Gui::DrawFPS() {
 	std::stringstream ss;
 	ss << _Driver->getFPS();
+	_MainFont->draw(ss.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
+					irr::video::SColor(255, 0, 0, 0), false, true);
+}
+
+void Gui::DrawWinner() {
+	std::stringstream sswin;
+	const IPlayer *pl = _Game->who_alive();
+	if (pl) {
+		sswin << "Player " << pl->get_team() << " Win !";
+	} else {
+		sswin << "No player Win !";
+	}
+	DrawButton(sswin.str().c_str());
+}
+
+bool Gui::DrawScene() {
 	bool aff = false;
-
-	// c._state = Case::NOPE;
-	// c._powerup = NULL;
-
 
 	_Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
 	if (!_Game)
 		return (false);
 	if (_Game->check_finish()) {
-		if (_Back)
-			_Driver->draw2DImage(_Back, irr::core::position2di(0, 0),
-								 irr::core::rect<irr::s32>(0, 0, 1280, 720));
-		this->ClearBlock();
-		std::stringstream sswin;
-		const IPlayer *pl = _Game->who_alive();
-		if (pl) {
-			sswin << "Player " << pl->get_team() << " Win !";
-		} else {
-			sswin << "No player Win !";
-		}
-		_MainFont->draw(sswin.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
-						irr::video::SColor(255, 0, 0, 0), false, true);
+		ClearBlock();
+		DrawBackground();
+		DrawWinner();
 		aff = true;
 	} else {
-		if (_BackInGame)
-			_Driver->draw2DImage(_BackInGame, irr::core::position2di(0, 0),
-								 irr::core::rect<irr::s32>(0, 0, 1280, 720));
-		_MainFont->draw(ss.str().c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
-						irr::video::SColor(255, 0, 0, 0), false, true);
+		DrawBackMaps();
+		DrawFPS();
 		if (this->_Game->get_actualisation()) ActualiseMaps();
 		for (int i = 0; i < _Game->get_players().size(); i++) {
 			MovePlayer(i);
 		}
 	}
-	/*Start Scene*/
-	// if (!_BaseModels) UpdateBlock(0, 0, c, _BaseModels);
-
-	/*End Scene*/
 	_Smgr->drawAll();
-	//_Guienv->drawAll();
 	_Driver->endScene();
 	if (aff) {
 		std::this_thread::sleep_for(std::chrono::microseconds(1000000));
@@ -352,17 +359,10 @@ void Gui::DrawMenu() {
 
 	_Mtx->lock();
 	_Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
-	/*Start Menu*/
 
-	if (_Back)
-		_Driver->draw2DImage(_Back, irr::core::position2di(0, 0),
-							 irr::core::rect<irr::s32>(0, 0, 1280, 720));
-	if (_MainFont)
-		_MainFont->draw(button.c_str(), irr::core::rect<irr::s32>(0, 311, 517, 408),
-						irr::video::SColor(255, 0, 0, 0), false, true);
+	DrawBackground();
+	DrawButton(button.c_str());
 
-	/*End Menu*/
-	//_Smgr->drawAll();
 	_Guienv->drawAll();
 	_Driver->endScene();
 	_Mtx->unlock();
@@ -370,13 +370,11 @@ void Gui::DrawMenu() {
 
 void Gui::DrawSplash() {
 	_Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
-	/*Start Menu*/
 
-	if (_Back)
+	if (_Splash)
 		_Driver->draw2DImage(_Splash, irr::core::position2di(0, 0),
 							 irr::core::rect<irr::s32>(0, 0, 1280, 720));
-	/*End Menu*/
-	//_Smgr->drawAll();
+
 	_Guienv->drawAll();
 	_Driver->endScene();
 }
@@ -385,11 +383,21 @@ void Gui::CloseWindows() {
 	this->_Device->closeDevice();
 }
 
+void Gui::InitCam() {
+	irr::scene::ICameraSceneNode* CamNode = _Smgr->addCameraSceneNode();
+	irr::scene::ILightSceneNode* LightNode =
+		_Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
+								 irr::video::SColor(255, 128, 128, 128), 50.0f);
+	CamNode->setPosition(irr::core::vector3df(16, 2, -20));
+	CamNode->setTarget(irr::core::vector3df(16, 10, 0));
+}
+
 void Gui::StartLoop() {
 	bool is_game_sound = false;
 
 	if (!CreateWindow()) return;
-	this->Load();
+
+	this->LoadShaders();
 	std::this_thread::sleep_for(std::chrono::microseconds(5000));
 	_Sound.setBuffer(_BufferTuturu);
 	_Sound.play();
@@ -401,15 +409,9 @@ void Gui::StartLoop() {
 				_MusicMenu.stop();
 				if (is_game_sound) {
 					_Smgr->clear();
-					irr::scene::ICameraSceneNode* CamNode = _Smgr->addCameraSceneNode();
-					irr::scene::ILightSceneNode* LightNode =
-						_Smgr->addLightSceneNode(0, irr::core::vector3df(0, 0, -200),
-							irr::video::SColor(255, 128, 128, 128), 50.0f);
-					CamNode->setPosition(irr::core::vector3df(16, 2, -20));
-					CamNode->setTarget(irr::core::vector3df(16, 10, 0));
-					LoadModels();
+					InitCam();
+					LoadPlayersModels();
 					LoadMaps();
-					PutWall();
 					is_game_sound = false;
 					_MusicGame.setLoop(true);
 					_MusicGame.play();
@@ -418,6 +420,7 @@ void Gui::StartLoop() {
 			} else {
 				if (!is_game_sound) {
 					is_game_sound = true;
+					_MusicGame.stop();
 					_MusicMenu.setLoop(true);
 					_MusicMenu.play();
 				}

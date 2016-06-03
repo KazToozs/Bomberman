@@ -147,7 +147,8 @@ const IButtons *Menu::getCurrentButton() const { return this->buttons[_pos]; }
 const std::string Menu::getButtonName() const {
 	std::string name;
 	_Mtx->lock();
-	name = this->buttons[_pos]->getName();
+
+	name = (this->buttons.size() > 0) ? this->buttons[_pos]->getName() : "Null";
 	_Mtx->unlock();
 	return (name);
 }
