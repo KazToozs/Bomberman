@@ -13,32 +13,31 @@
 
 #include "Menu.hh"
 
-class IAButton : public IButtons
-{
+class IAButton : public IButtons {
 
- public:
-  enum NB_IA
-  {
-    IA_1 = 1,
-    IA_2 = 2,
-    IA_3 = 3
-  };
+public:
+	enum NB_IA {
+		IA_0 = 0,
+		IA_1 = 1,
+		IA_2 = 2,
+		IA_3 = 3
+	};
 
-  IAButton(const std::string &name, const NB_IA &id, Menu *menu, bool multi);
-  virtual ~IAButton();
+	IAButton(const std::string &name, const NB_IA &id, Menu *menu, bool multi);
+	virtual ~IAButton();
 
-  virtual Func_Ptr			action() const;
-  virtual const std::string	&getName() const;
-  virtual bool			getActive() const;
+	virtual Func_Ptr			action() const;
+	virtual const std::string	&getName() const;
+	virtual bool			getActive() const;
 
-  NB_IA		getId() const;
-  
+	NB_IA		getId() const;
+
 private:
-  const NB_IA		id;
-  const std::string	name;
-  bool			isActive;
-  Menu			*menu;
-  bool			multi;
+	const NB_IA		id;
+	const std::string	name;
+	bool			isActive;
+	Menu			*menu;
+	bool			multi;
 };
 
 #endif /* !IABUTTON_H_ */

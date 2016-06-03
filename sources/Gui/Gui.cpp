@@ -48,12 +48,10 @@ void Gui::LoadGame(Game* game) {
 }
 
 void Gui::StopGame() {
-	_Mtx->lock();
 	if (this->_Game) {
 		delete this->_Game;
 	}
 	this->_Game = NULL;
-	_Mtx->unlock();
 }
 
 bool Gui::Alive() const {
@@ -335,7 +333,9 @@ bool Gui::DrawScene() {
 			aff = true;
 		} else {
 			DrawBackMaps();
+#ifdef _DEBUG_
 			DrawFPS();
+#endif
 			if (this->_Game->get_actualisation()) ActualiseMaps();
 			for (int i = 0; i < _Game->get_players().size(); i++) {
 				MovePlayer(i);

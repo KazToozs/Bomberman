@@ -66,8 +66,14 @@ void Menu::GoDown() {
 }
 void Menu::Action() {
 	_Mtx->lock();
-	Func_Ptr btn = this->buttons[_pos]->action();
-	(this->*btn)();
+	Func_Ptr btn = NULL;
+
+	if (buttons.size() > _pos)
+		btn = this->buttons[_pos]->action();
+	if (btn)
+		(this->*btn)();
+	else
+		createMainMenu();
 	_Mtx->unlock();
 }
 
@@ -80,15 +86,15 @@ void Menu::setEndGame() {
 void Menu::CreateMultiPlayer() {
 	clearList();
 	this->id_menu = SOLO_MULTI;
+	pushBackList(new IAButton("IA0", IAButton::IA_0, this, true));
 	pushBackList(new IAButton("IA1", IAButton::IA_1, this, true));
 	pushBackList(new IAButton("IA2", IAButton::IA_2, this, true));
 	pushBackList(new BackButton("Retour", this));
 }
 
-void Menu::BackMenu()
-{
+void Menu::BackMenu() {
 	clearList();
-	if (this->id_menu == SOLO_MULTI || this->id_menu == OPTIONS 
+	if (this->id_menu == SOLO_MULTI || this->id_menu == OPTIONS
 		|| this->id_menu == EXIT)
 		createMainMenu();
 }
@@ -102,14 +108,12 @@ void Menu::CreateSoloPlayer() {
 	pushBackList(new BackButton("Retour", this));
 }
 
-void Menu::LaunchGame()
-{
+void Menu::LaunchGame() {
 	clearList();
 	createMainMenu();
 }
 
-void Menu::PutOptions()
-{
+void Menu::PutOptions() {
 	clearList();
 	this->id_menu = OPTIONS;
 	pushBackList(new IAButton("IA1", IAButton::IA_1, this, true));
@@ -118,16 +122,14 @@ void Menu::PutOptions()
 	pushBackList(new BackButton("Retour", this));
 }
 
-void Menu::ConfirmExit()
-{
+void Menu::ConfirmExit() {
 	clearList();
 	this->id_menu = EXIT;
 	pushBackList(new ConfirmButton("Oui", ConfirmButton::YES, this));
 	pushBackList(new ConfirmButton("Non", ConfirmButton::NO, this));
 }
 
-void Menu::ExitGame()
-{
+void Menu::ExitGame() {
 	this->gui->CloseWindows();
 }
 
@@ -156,6 +158,5 @@ const std::string Menu::getButtonName() const {
 void Menu::createMainMenu() {
 	this->buttons.push_back(new PlayerButton("Solo", PlayerButton::SOLO, this));
 	this->buttons.push_back(new PlayerButton("Multi", PlayerButton::MULTI, this));
-	this->buttons.push_back(new OptionButton(this));
 	this->buttons.push_back(new ExitButton(this));
 }
