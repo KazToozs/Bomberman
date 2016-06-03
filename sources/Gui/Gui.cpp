@@ -74,7 +74,7 @@ const std::vector<irr::SEvent::SKeyInput>& Gui::get_key_event() const {
 	return (_Event.get_key_event());
 }
 
-Gui::~Gui() { _Th->join(); }
+Gui::~Gui() { }
 
 /*Private !*/
 
