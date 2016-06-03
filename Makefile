@@ -37,7 +37,7 @@ CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11 -g3
 
 CPP         =	g++
 
-LIBS        =	-lX11 -lXcursor -lpthread lib/irrlicht/bin/libIrrlicht.a $(SFML) $(LUA)
+LIBS        =	-lX11 -lXcursor -lpthread -lGL -lGLU -lXxf86vm -lXext -lX11 -Llib/irrlicht/bin/ -lIrrlicht $(SFML) $(LUA)
 
 all:		$(NAME)
 
