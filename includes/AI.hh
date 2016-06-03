@@ -38,6 +38,13 @@ class AI : public IPlayer
   std::vector<Bomb *>                             bombs;
   e_action                                        act;
 
+  #ifdef _WIN32
+  std::string path_script = ".\\Ressources\\Script\\";
+  #else
+  std::string path_script = "./Ressources/Script/";
+  #endif // _WIN32
+
+
   typedef void                  (AI::*act_func)();
   std::map<e_action, act_func>  acts;
 
@@ -78,6 +85,7 @@ private:
    void                       move_left();
    void                       move_right();
 
+   void                       setLuaPath(lua_State *L, const char *path) const;
    void                       pass_values(lua_State *, std::vector<std::vector<Case>> const &) const;
 };
 

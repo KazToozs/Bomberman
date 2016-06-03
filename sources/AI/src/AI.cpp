@@ -205,28 +205,22 @@ void                AI::pass_values(lua_State *L, std::vector<std::vector<Case>>
   lua_setglobal(L, "map");
 }
 
-#ifdef _WIN32
-std::string path_script = ".\\Ressources\\Script\\";
-#else
-std::string path_script = "./Ressources/Script/";
+void             AI::setLuaPath(lua_State* L, const char* path) const
+{
+  std::string   cur_path;
 
-#endif // _WIN32
-
-int setLuaPath(lua_State* L, const char* path) {
 	lua_getglobal(L, "package");
-	lua_getfield(L, -1, "path"); // get field "path" from table at top of stack (-1)
-	std::string cur_path = lua_tostring(L, -1); // grab path string from top of stack
-	cur_path.append(";"); // do your path magic here
-	cur_path.append(path_script + "?.lua");
-	//cur_path.append(path);
-	lua_pop(L, 1); // get rid of the string on the stack we just pushed on line 5
-	lua_pushstring(L, cur_path.c_str()); // push the new one
-	lua_setfield(L, -2, "path"); // set the field "path" in table at -2 with value at top of stack
-	lua_pop(L, 1); // get rid of package table from top of stack
+	lua_getfield(L, -1, "path");
+	cur_path = lua_tostring(L, -1);
+	cur_path.append(";");
+	cur_path.append(this->path_script + "?.lua");
+	lua_pop(L, 1);
+	lua_pushstring(L, cur_path.c_str());
+	lua_setfield(L, -2, "path");
+	lua_pop(L, 1);
 	lua_getglobal(L, "package");
-	lua_getfield(L, -1, "path"); // get field "path" from table at top of stack (-1)
-	cur_path = lua_tostring(L, -1); // grab path string from top of stack
-	return 0; // all done!
+	lua_getfield(L, -1, "path");
+	cur_path = lua_tostring(L, -1);
 }
 
 void                                AI::do_action()
@@ -236,8 +230,8 @@ void                                AI::do_action()
     {
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
-		setLuaPath(L, "");
-        int r = luaL_loadfile(L, (path_script +  "luascript.lua").c_str());
+		    setLuaPath(L, "");
+        int r = luaL_loadfile(L, (this->path_script +  "luascript.lua").c_str());
         pass_values(L, this->map->getMap());
         if (r == 0)
         {
@@ -250,8 +244,6 @@ void                                AI::do_action()
         {
           (this->*acts[act])();
         }
- //       if (act != UNKNOWN && act != BOMB)
- //         this->gm->MovePl(this->team - 1);
         lua_close(L);
     }
 }

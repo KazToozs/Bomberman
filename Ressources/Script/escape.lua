@@ -1,7 +1,7 @@
 
 local escape = {}
 
-isCellFree = require("isCellFree")
+local isCellFree = require("isCellFree")
 
 function escape.bombAll()
   return (-1)

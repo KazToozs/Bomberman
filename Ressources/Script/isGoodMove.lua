@@ -1,7 +1,7 @@
 
 local isGoodMove = {}
 
-checker = require("check")
+local checker = require("check")
 
 function isGoodMove.inDistanceOfBomb(p_y, p_x)
   if checker.check_right(newMap, 4, p_x, p_y) == 0

@@ -1,10 +1,15 @@
 
 local algo = {}
 
-move = require("move")
-check = require("check")
-esc = require("escape")
-isDeadEnd = require("isDeadEnd")
+local move = require("move")
+local check = require("check")
+local esc = require("escape")
+local isDeadEnd = require("isDeadEnd")
+
+-- move = require("move")
+-- check = require("check")
+-- esc = require("escape")
+-- isDeadEnd = require("isDeadEnd")
 
 ---------------------------
 -- [[ Local variables ]] --
