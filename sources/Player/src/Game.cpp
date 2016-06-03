@@ -48,8 +48,8 @@ Game::Game(const Game &gm) {
 
 Game::~Game() {
 	_kill = true;
+	std::this_thread::sleep_for(std::chrono::microseconds(1000000));
 	if (this->map != NULL) delete this->map;
-	//if (this->th != NULL) delete this->th;
 	this->players.clear();
 }
 

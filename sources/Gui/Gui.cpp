@@ -158,7 +158,6 @@ void Gui::LoadShaders() {
 }
 
 void Gui::MovePlayer(int id) {
-	_Mtx->lock();
 	static unsigned int current_pos[4] = { 0, 0, 0, 0 };
 	IPlayer* player = _Game->get_players()[id];
 	float posx = player->get_pos().x * 2;
@@ -178,7 +177,6 @@ void Gui::MovePlayer(int id) {
 		_PlayerModels[id][i]->setVisible(player->is_alive() && b);
 	}
 	current_pos[id]++;
-	_Mtx->unlock();
 }
 
 void Gui::LoadMaps() {
@@ -218,13 +216,11 @@ void Gui::LoadMaps() {
 }
 
 void Gui::ActualiseMaps() {
-	_Mtx->lock();
 	for (int y = 0; y < _Map->getMap().size(); y++) {
 		for (int x = 0; x < _Map->getMap().size(); x++) {
 			UpdateBlock(x, y, (*_Map)[y][x], _MapsModels[y][x]);
 		}
 	}
-	_Mtx->unlock();
 }
 
 void Gui::UpdateBlock(int x, int y, Case type, irr::scene::ISceneNode*& old) {
@@ -329,28 +325,30 @@ void Gui::DrawWinner() {
 bool Gui::DrawScene() {
 	bool aff = false;
 
+	_Mtx->lock();
+	if (_Game) {
 	_Driver->beginScene(true, true, irr::video::SColor(255, 128, 128, 128));
-	if (!_Game)
-		return (false);
-	if (_Game->check_finish()) {
-		ClearBlock();
-		DrawBackground();
-		DrawWinner();
-		aff = true;
-	} else {
-		DrawBackMaps();
-		DrawFPS();
-		if (this->_Game->get_actualisation()) ActualiseMaps();
-		for (int i = 0; i < _Game->get_players().size(); i++) {
-			MovePlayer(i);
+		if (_Game->check_finish()) {
+			ClearBlock();
+			DrawBackground();
+			DrawWinner();
+			aff = true;
+		} else {
+			DrawBackMaps();
+			DrawFPS();
+			if (this->_Game->get_actualisation()) ActualiseMaps();
+			for (int i = 0; i < _Game->get_players().size(); i++) {
+				MovePlayer(i);
+			}
+		}
+		_Smgr->drawAll();
+		_Driver->endScene();
+		if (aff) {
+			std::this_thread::sleep_for(std::chrono::microseconds(1000000));
+			StopGame();
 		}
 	}
-	_Smgr->drawAll();
-	_Driver->endScene();
-	if (aff) {
-		std::this_thread::sleep_for(std::chrono::microseconds(1000000));
-		StopGame();
-	}
+	_Mtx->unlock();
 	return (true);
 }
 
