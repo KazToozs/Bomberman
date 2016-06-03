@@ -21,13 +21,10 @@ SRC         =	sources/main.cpp	\
 		sources/Menu/BackButton.cpp	\
 		sources/AI/src/AI.cpp
 
-LUA		=\
-		./lib/lua/liblua53.so
+LUA		= ./lib/lua/liblua53.so
 
 SFML	= ./lib/SFML/lib/libsfml-system.so
 SFML	+= ./lib/SFML/lib/libsfml-audio.so
-#SFML	+= ./lib/SFML/lib/libsfml-graphics.so
-#SFML	+= ./lib/SFML/lib/libsfml-window.so
 
 OBJ         =	$(SRC:.cpp=.o)
 
@@ -37,7 +34,7 @@ CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11 -g3
 
 CPP         =	g++
 
-LIBS        =	-lX11 -lXcursor -lpthread -lGL -lGLU -lXxf86vm -lXext -lX11 -Llib/irrlicht/bin/ -lIrrlicht $(SFML) $(LUA)
+LIBS        =	-lX11 -lXcursor -lpthread -Llib/bin/ -lIrrlicht $(SFML) $(LUA)
 
 all:		$(NAME)
 
