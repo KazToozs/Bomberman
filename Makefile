@@ -30,7 +30,7 @@ OBJ         =	$(SRC:.cpp=.o)
 
 INCLUDEPATH +=  -I./includes -I/usr/X11R6/include -I./lib/irrlicht/include -I./includes/LuaBridge -I./lib/SFML/include
 
-CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11 -g3
+CPPFLAGS    =	$(INCLUDEPATH) -O3 -ffast-math -std=c++11
 
 CPP         =	g++
 
